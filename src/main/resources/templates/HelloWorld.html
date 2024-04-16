@@ -6,5 +6,18 @@
 </head>
 <body>
 <h1>Hello World</h1>
+<p th:text="${name}"></p>
+<p th:text="${age}"></p>
+<form action="/add" method="post">
+    <div>
+        <label for="name" class="form-label">이름</label>
+        <input type="text" id="name" name="name" class="form-control">
+    </div>
+    <div>
+        <label for="age" class="form-label">나이</label>
+        <input type="number" id="age" name="age" class="form-control">
+    </div>
+    <input type="submit" name="submit">
+</form>
 </body>
 </html>
