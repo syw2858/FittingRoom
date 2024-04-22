@@ -1,5 +1,6 @@
 package net.nwrn.pf_contest;
 
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -11,18 +12,28 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class TestController {
     private final TestService testService;
+    private final AuthorizationService authorizationService;
 
     @GetMapping("")
-    public String helloWorld (Model model) {
-        TestVO testVO = testService.getRecent();
-        model.addAttribute("name", testVO.getName());
-        model.addAttribute("age", testVO.getAge());
+    public String helloWorld (HttpServletRequest request, Model model) {
+        Long id = authorizationService.authenticate(request);
+        if (id==null) {
+            return "redirect:/login";
+        }
+        UserVO userVO = testService.getUser(id);
+        model.addAttribute("userId", userVO.getUserId());
+        model.addAttribute("password", userVO.getPassword());
+        model.addAttribute("id", userVO.getId());
         return "HelloWorld";
     }
 
     @PostMapping("/add")
-    public String add (@RequestParam("name") String name, @RequestParam("age") Integer age) {
-        testService.add(name,age);
+    public String add (HttpServletRequest request, @RequestParam("userId") String userId, @RequestParam("age") Integer age) {
+        Long id = authorizationService.authenticate(request);
+        if (id==null) {
+            throw new RuntimeException();
+        }
+        testService.add(userId,age);
         return "redirect:/";
     }
 

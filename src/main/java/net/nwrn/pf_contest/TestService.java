@@ -4,12 +4,14 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class TestService {
 
     private final TestRepository testRepository;
+    private final UserRepository userRepository;
 
     public TestVO getRecent() {
         List<TestVO> list = testRepository.findAll();
@@ -22,5 +24,15 @@ public class TestService {
         t.setName(name);
         t.setAge(age);
         testRepository.save(t);
+    }
+
+    public UserVO getUser(Long id) {
+
+        Optional<UserVO> optionalUserVO = userRepository.findById(id);
+        if (optionalUserVO.isEmpty()) {
+            throw new RuntimeException();
+        }
+
+        return optionalUserVO.get();
     }
 }
