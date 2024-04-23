@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequiredArgsConstructor
 public class UserController {
 
-    private final UserService userService;
+    private final UserServiceImpl userServiceImpl;
 
     @GetMapping("/join")
     public String joinPage() {
@@ -20,7 +20,7 @@ public class UserController {
 
     @PostMapping("/join")
     public String join(@RequestParam("userId") String userId, @RequestParam("password") String password) {
-        userService.join(userId, password);
+        userServiceImpl.join(userId, password);
         return "redirect:/";
     }
 
@@ -31,7 +31,7 @@ public class UserController {
 
     @PostMapping("/login")
     public String login(@RequestParam("userId") String userId, @RequestParam("password") String password, HttpServletResponse response) {
-        userService.login(userId, password, response);
+        userServiceImpl.login(userId, password, response);
         return "redirect:/";
     }
 }

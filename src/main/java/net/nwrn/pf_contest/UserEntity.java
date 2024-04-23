@@ -1,14 +1,17 @@
 package net.nwrn.pf_contest;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
-@Setter
 @Entity
 @Table(name="user")
-public class UserVO {
+@AllArgsConstructor
+@NoArgsConstructor
+public class UserEntity {
 
     @Id
     @Column(name="id")

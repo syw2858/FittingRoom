@@ -20,7 +20,7 @@ public class TestController {
         if (id==null) {
             return "redirect:/login";
         }
-        UserVO userVO = testService.getUser(id);
+        UserDTO userVO = testService.getUser(id);
         model.addAttribute("userId", userVO.getUserId());
         model.addAttribute("password", userVO.getPassword());
         model.addAttribute("id", userVO.getId());
