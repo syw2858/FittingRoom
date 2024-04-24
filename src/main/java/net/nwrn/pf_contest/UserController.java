@@ -23,7 +23,8 @@ public class UserController {
     }
 
     @PostMapping("/join")
-    public String join(@RequestParam(required = false, name = "userId") String userId, @RequestParam(required = false, name = "password") String password) {
+    public String join(@RequestParam(required = false, name = "userId") String userId,
+                       @RequestParam(required = false, name = "password") String password) {
         if (userId == null || userId.isEmpty()) {
             throw new ApiException("Join", "userId is null");
         }
@@ -50,9 +51,24 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public String login(@RequestParam("userId") String userId, @RequestParam("password") String password, HttpServletResponse response) {
-        userService.login(userId, password, response);
-        return "redirect:/";
+    public String login(@RequestParam(required = false, name = "userId") String userId,
+                        @RequestParam(required = false, name = "password") String password, HttpServletResponse response) {
+        if(userId == null || userId.isEmpty()) {
+            throw new ApiException("Login", "userId is null");
+        }
+        if (password == null || password.isEmpty()) {
+            throw new ApiException("Login", "password is null");
+        }
+        try {
+            userService.login(userId, password, response);
+            return "redirect:/";
+        } catch(ApiException e) {
+            throw e;
+        } catch(Exception e) {
+            log.error(exceptionService.generateMessage(), e);
+            throw new ApiException("Login", "백엔드에서 알 수 없는 에러가 발생했습니다.");
+        }
+
     }
 
 }
