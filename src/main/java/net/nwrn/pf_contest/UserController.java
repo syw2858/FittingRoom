@@ -34,4 +34,5 @@ public class UserController {
         userServiceImpl.login(userId, password, response);
         return "redirect:/";
     }
+    
 }
