@@ -12,5 +12,4 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
 
     List<UserEntity> findByUserId(String userId);
 
-    UserEntity save(UserDTO userEntity);
 }

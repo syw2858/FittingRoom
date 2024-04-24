@@ -5,6 +5,7 @@
     <title>로그인</title>
 </head>
 <body>
+<p th:text="${errorMessage}"></p>
 <form action="/login" method="post">
     <h1>로그인</h1>
     <div>
@@ -17,5 +18,6 @@
     </div>
    <button type="submit">로그인</button>
 </form>
+
 </body>
 </html>

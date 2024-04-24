@@ -1,15 +1,18 @@
 package net.nwrn.pf_contest.exception;
 
 import lombok.Getter;
+import lombok.Setter;
 import org.springframework.http.HttpStatus;
 
 @Getter
 public class ApiException extends RuntimeException {
-    private final HttpStatus status;
+    private final String url;
 
-    public ApiException(HttpStatus status, String message) {
+
+    public ApiException(String url, String message) {
         super(message);
-        this.status = status;
+        this.url = url;
+
     }
 
     public ApiException() {
@@ -17,7 +20,7 @@ public class ApiException extends RuntimeException {
     }
 
     public ApiException(String message) {
-        this(HttpStatus.INTERNAL_SERVER_ERROR, message);
+        this ("error", message);
     }
 
 }

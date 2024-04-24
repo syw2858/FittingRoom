@@ -24,18 +24,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void join(String userId, String password) {
-        UserEntity userEntity = new UserEntity();
-        try {
-            List<UserEntity> user_exist = userRepository.findByUserId(userId);
-            if(user_exist.isEmpty()) {
-                userDTO.setPassword(password);
-                userRepository.save(userDTO);
-            }
-            throw
 
-        } catch (Exception e) {
-            log.error(exceptionService.generateMessage(), e);
-            throw new ApiException(HttpStatus.INTERNAL_SERVER_ERROR, "중복된 아이디 입니다.");
+        if (!userRepository.findByUserId(userId).isEmpty()) {
+            throw new ApiException("Join", "이미 사용 중인 userId 입니다.");
+        } else {
+            userRepository.save(new UserEntity(null, userId, password));
         }
     }
 
@@ -50,10 +43,8 @@ public class UserServiceImpl implements UserService {
             String one = authorizationService.reverseParseToken(zeroFirst, zeroSecond);
             Cookie cookie = new Cookie("nwrn-token", one);
             response.addCookie(cookie);
-            return;
        }
         return;
-
     }
 
 
