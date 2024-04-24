@@ -69,9 +69,9 @@ public class AuthorizationService {
 
         String userId = parsed[0]; //토큰에서 분리
         String password = parsed[1];
-        List<UserVO> userVOList = userRepository.findByUserIdAndPassword(userId, password); //아이디 비밀번호 찾기
-        if (userVOList.size() > 0) {
-            return userVOList.get(0).getId();
+        List<UserEntity> userEntities = userRepository.findByUserIdAndPassword(userId, password); //아이디 비밀번호 찾기
+        if (userEntities.size() > 0) {
+            return userEntities.get(0).getId();
         }
         return null;
 

@@ -20,10 +20,10 @@ public class TestController {
         if (id==null) {
             return "redirect:/login";
         }
-        UserVO userVO = testService.getUser(id);
-        model.addAttribute("userId", userVO.getUserId());
-        model.addAttribute("password", userVO.getPassword());
-        model.addAttribute("id", userVO.getId());
+        UserEntity userEntity = testService.getUser(id);
+        model.addAttribute("userId", userEntity.getUserId());
+        model.addAttribute("password", userEntity.getPassword());
+        model.addAttribute("id", userEntity.getId());
         return "HelloWorld";
     }
 

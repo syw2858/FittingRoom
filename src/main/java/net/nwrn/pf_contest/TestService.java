@@ -26,9 +26,9 @@ public class TestService {
         testRepository.save(t);
     }
 
-    public UserVO getUser(Long id) {
+    public UserEntity getUser(Long id) {
 
-        Optional<UserVO> optionalUserVO = userRepository.findById(id);
+        Optional<UserEntity> optionalUserVO = userRepository.findById(id);
         if (optionalUserVO.isEmpty()) {
             throw new RuntimeException();
         }
