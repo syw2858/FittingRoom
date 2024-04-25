@@ -6,9 +6,17 @@
 </head>
 <body>
 <h1>Hello World</h1>
+<p th:text="${errorMessage}"></p>
 <p th:text="${userId}"></p>
 <p th:text="${password}"></p>
+<p th:text="${age}"></p>
 <p th:text="${id}"></p>
-
+<form action="/add" method="post">
+    <label for="name">아이디</label>
+    <input type="text" id="name">
+    <label for="age">나이</label>
+    <input type="number" id="age">
+    <button type="submit">제출</button>
+</form>
 </body>
 </html>
