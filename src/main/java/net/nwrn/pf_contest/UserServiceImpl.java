@@ -44,7 +44,7 @@ public class UserServiceImpl implements UserService {
             Cookie cookie = new Cookie("nwrn-token", one);
             response.addCookie(cookie);
        }
-        throw new ApiException("Login", "로그인 정보가 잘못되었습니다");
+        throw new ApiException("Login", "잘못된 인증 정보입니다");
     }
 
 

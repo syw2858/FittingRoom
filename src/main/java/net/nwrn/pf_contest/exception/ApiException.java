@@ -16,7 +16,7 @@ public class ApiException extends RuntimeException {
     }
 
     public ApiException() {
-        this("서버 에러입니다");
+        this("서버 에러");
     }
 
     public ApiException(String message) {

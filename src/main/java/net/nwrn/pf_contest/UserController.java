@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import net.nwrn.pf_contest.exception.ApiException;
 import net.nwrn.pf_contest.exception.ExceptionService;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -46,7 +47,12 @@ public class UserController {
     }
 
     @GetMapping("/login")
-    public String loginPage() {
+    public String loginPage(@RequestParam(required=false, name="errorMessage") String errorMessage, Model model) {
+        if (errorMessage == null || errorMessage.isEmpty()) {
+            model.addAttribute("errorMessage", errorMessage);
+        } else {
+            model.addAttribute("errorMessage", exceptionService.decode(errorMessage));
+        }
         return "Login";
     }
 
@@ -54,19 +60,24 @@ public class UserController {
     public String login(@RequestParam(required = false, name = "userId") String userId,
                         @RequestParam(required = false, name = "password") String password, HttpServletResponse response) {
         if(userId == null || userId.isEmpty()) {
-            throw new ApiException("Login", "userId is null");
+            String message = "아이디가 비었습니다";
+            return "redirect:/login?errorMessage="+exceptionService.encode(message);
         }
         if (password == null || password.isEmpty()) {
-            throw new ApiException("Login", "password is null");
+            String message = "비밀번호가 비었습니다";
+            return "redirect:/login?errorMessage="+exceptionService.encode(message);
         }
         try {
             userService.login(userId, password, response);
             return "redirect:/";
         } catch(ApiException e) {
-            throw e;
+            String message = e.getMessage();
+            return "redirect:/login?errorMessage="+exceptionService.encode(message);
         } catch(Exception e) {
+
+            String message = "백엔드에서 알 수 없는 에러가 발생했습니다.";
             log.error(exceptionService.generateMessage(), e);
-            throw new ApiException("Login", "백엔드에서 알 수 없는 에러가 발생했습니다.");
+            return "redirect:/login?errorMessage="+exceptionService.encode(message);
         }
 
     }
