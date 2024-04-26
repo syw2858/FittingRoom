@@ -1,6 +1,9 @@
 package net.nwrn.pf_contest;
 
 import lombok.RequiredArgsConstructor;
+import net.nwrn.pf_contest.exception.ApiException;
+import net.nwrn.pf_contest.test.dto.HomeModelDTO;
+
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,13 +29,18 @@ public class TestService {
         testRepository.save(t);
     }
 
-    public UserEntity getUser(Long id) {
-
-        Optional<UserEntity> optionalUserVO = userRepository.findById(id);
-        if (optionalUserVO.isEmpty()) {
-            throw new RuntimeException();
+    public HomeModelDTO getUser(Long id) {
+        if (id == null) {
+            return new HomeModelDTO("인증정보가 없습니다", "인증정보가 없습니다", "인증정보가 없습니다");
+        } else {
+            Optional<UserEntity> optionalUserVO = userRepository.findById(id);
+            if (optionalUserVO.isEmpty()) {
+                return new HomeModelDTO("인증정보가 없습니다", "인증정보가 없습니다", "인증정보가 없습니다");
+            } else {
+                return new HomeModelDTO(optionalUserVO.get().getUserId(),
+                                        optionalUserVO.get().getPassword(),
+                                        String.valueOf(optionalUserVO.get().getId()));
+            }
         }
-
-        return optionalUserVO.get();
     }
 }

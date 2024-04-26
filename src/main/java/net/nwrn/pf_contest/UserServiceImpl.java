@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
-@Slf4j
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
@@ -20,15 +19,17 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final AuthorizationService authorizationService;
 
-    private final ExceptionService exceptionService;
-
     @Override
-    public void join(String userId, String password) {
-
+    public void join(String userId, String password, HttpServletResponse response) {
         if (!userRepository.findByUserId(userId).isEmpty()) {
-            throw new ApiException("Join", "이미 사용 중인 userId 입니다.");
+            throw new ApiException("이미 사용 중인 userId 입니다");
+            // cookie x
         } else {
             userRepository.save(new UserEntity(null, userId, password));
+            // cookie o
+            String token = authorizationService.reverseParseToken(userId, password);
+            Cookie cookie = new Cookie("nwrn-token", token);
+            response.addCookie(cookie);
         }
     }
 
@@ -39,13 +40,12 @@ public class UserServiceImpl implements UserService {
 
        List<UserEntity> userEntities = userRepository.findByUserIdAndPassword(userId, password);
 
-        if(userEntities.size() == 1) {
+        if (userEntities.size() == 1) {
             String one = authorizationService.reverseParseToken(zeroFirst, zeroSecond);
             Cookie cookie = new Cookie("nwrn-token", one);
             response.addCookie(cookie);
-       }
-        throw new ApiException("Login", "잘못된 인증 정보입니다");
+        } else {
+            throw new ApiException("잘못된 인증 정보입니다");
+        }
     }
-
-
 }
