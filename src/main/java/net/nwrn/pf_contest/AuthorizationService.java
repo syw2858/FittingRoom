@@ -38,7 +38,7 @@ public class AuthorizationService {
 
         String zeroFirst = userId;
         String zeroSecond = password;
-
+        
         String one = zeroFirst+":"+zeroSecond;
         byte[] two = one.getBytes();
         String three = encoder.encodeToString(two);
@@ -73,6 +73,7 @@ public class AuthorizationService {
         if (userEntities.size() > 0) {
             return userEntities.get(0).getId();
         }
+        
         return null;
 
     }
