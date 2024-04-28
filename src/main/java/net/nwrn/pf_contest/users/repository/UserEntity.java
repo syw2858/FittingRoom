@@ -1,10 +1,9 @@
-package net.nwrn.pf_contest;
+package net.nwrn.pf_contest.users.repository;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Getter
 @Entity

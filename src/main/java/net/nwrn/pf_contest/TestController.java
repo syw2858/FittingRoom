@@ -1,12 +1,11 @@
 package net.nwrn.pf_contest;
 
 import jakarta.servlet.http.HttpServletRequest;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import net.nwrn.pf_contest.exception.ApiException;
 import net.nwrn.pf_contest.exception.ExceptionService;
+import net.nwrn.pf_contest.security.AuthorizationService;
 import net.nwrn.pf_contest.test.dto.HomeModelDTO;
 
 import org.springframework.stereotype.Controller;

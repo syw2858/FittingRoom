@@ -1,16 +1,15 @@
-package net.nwrn.pf_contest;
+package net.nwrn.pf_contest.users.service;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import net.nwrn.pf_contest.security.AuthorizationService;
 import net.nwrn.pf_contest.exception.ApiException;
-import net.nwrn.pf_contest.exception.ExceptionService;
-import org.springframework.http.HttpStatus;
+import net.nwrn.pf_contest.users.repository.UserEntity;
+import net.nwrn.pf_contest.users.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -47,5 +46,12 @@ public class UserServiceImpl implements UserService {
         } else {
             throw new ApiException("잘못된 인증 정보입니다");
         }
+    }
+
+    @Override
+    public void logout(Long id, HttpServletResponse response) {
+        Cookie cookie = new Cookie("nwrn-token", "");
+        cookie.setMaxAge(0);
+        response.addCookie(cookie);
     }
 }
