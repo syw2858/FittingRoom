@@ -28,16 +28,14 @@ public class UserController {
 
         // 이미 가입한 사람은 가입 페이지에 들어올 수 없음
         try {
-            Long id = authorizationService.authenticate(request);
-            if (id != null) {
+            if (!authorizationService.hasNoToken(request))
                 return exceptionService.redirect("/", "이미 가입 완료 되었습니다");
-            } else {
-                if (errorMessage == null)
-                    model.addAttribute("errorMessage", errorMessage);
-                else
-                    model.addAttribute("errorMessage", exceptionService.decode(errorMessage));
-                return "Join";
-            }
+            if (errorMessage == null)
+                model.addAttribute("errorMessage", errorMessage);
+            else
+                model.addAttribute("errorMessage", exceptionService.decode(errorMessage));
+            return "Join";
+
         } catch (ApiException e) {
             return exceptionService.redirect("/", e.getMessage());
         } catch (Exception e) {
@@ -45,8 +43,6 @@ public class UserController {
             return exceptionService.redirect("/", "백엔드에서 알 수 없는 에러가 발생하였습니다");
         }
     }
-
-
 
     @PostMapping("/join")
     public String join(@RequestParam(required = false, name = "userId") String userId,
@@ -69,15 +65,14 @@ public class UserController {
     }
     
     @GetMapping("/login")
-    public String loginPage(@RequestParam(required=false, name="errorMessage") String errorMessage, Model model, HttpServletRequest request) {
+    public String loginPage(@RequestParam(required=false, name="errorMessage") String errorMessage, Model model, HttpServletRequest request, HttpServletResponse response) {
 
         // 이미 로그인 한 사람은 로그인 페이지에 들어올 수 없음
         try {
-            Cookie[] cookies = request.getCookies();
-            if (cookies != null) {
-                for (Cookie cookie : cookies) {
-                    cookie.setMaxAge(0);
-                }
+            if (!authorizationService.hasNoToken(request)) {
+                Cookie cookie = new Cookie("nwrn-token", "");
+                cookie.setMaxAge(0);
+                response.addCookie(cookie);
                 return exceptionService.redirect("/", "이미 로그인 상태입니다");
             } else {
                 if (errorMessage == null)
@@ -119,7 +114,7 @@ public class UserController {
     public String logout(@RequestParam(required = false, name="redirectUrl") String redirectUrl, HttpServletRequest request, HttpServletResponse response) {
         try {
             Long id = authorizationService.authenticate(request);
-            if (id != null) {
+             if (id != null) {
                 userService.logout(id, response);
                 return "redirect:/";
             } else {

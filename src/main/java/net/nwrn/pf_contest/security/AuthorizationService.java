@@ -60,6 +60,16 @@ public class AuthorizationService {
         return null;
     }
 
+    public boolean hasNoToken(HttpServletRequest request) {
+        String token = getToken(request);
+        if (token == null) {
+            return true;
+        }
+        return false;
+    }
+
+
+
     public Long authenticate(HttpServletRequest request) {
         String token = getToken(request);
         if (token == null) {
