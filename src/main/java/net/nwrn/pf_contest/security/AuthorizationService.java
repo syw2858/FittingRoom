@@ -1,13 +1,14 @@
-package net.nwrn.pf_contest;
+package net.nwrn.pf_contest.security;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import net.nwrn.pf_contest.users.repository.UserEntity;
+import net.nwrn.pf_contest.users.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Base64;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -58,6 +59,16 @@ public class AuthorizationService {
         }
         return null;
     }
+
+    public boolean hasNoToken(HttpServletRequest request) {
+        String token = getToken(request);
+        if (token == null) {
+            return true;
+        }
+        return false;
+    }
+
+
 
     public Long authenticate(HttpServletRequest request) {
         String token = getToken(request);

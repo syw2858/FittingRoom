@@ -1,9 +1,10 @@
 package net.nwrn.pf_contest;
 
 import lombok.RequiredArgsConstructor;
-import net.nwrn.pf_contest.exception.ApiException;
 import net.nwrn.pf_contest.test.dto.HomeModelDTO;
 
+import net.nwrn.pf_contest.users.repository.UserEntity;
+import net.nwrn.pf_contest.users.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

@@ -1,4 +1,4 @@
-package net.nwrn.pf_contest;
+package net.nwrn.pf_contest.security;
 
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;

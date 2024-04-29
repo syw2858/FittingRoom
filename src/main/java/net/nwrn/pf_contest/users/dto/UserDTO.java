@@ -1,7 +1,8 @@
-package net.nwrn.pf_contest;
+package net.nwrn.pf_contest.users.dto;
 
 import lombok.Getter;
 import lombok.Setter;
+import net.nwrn.pf_contest.users.repository.UserEntity;
 
 @Getter
 @Setter
