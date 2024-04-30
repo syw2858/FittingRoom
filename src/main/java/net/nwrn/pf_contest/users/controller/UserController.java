@@ -5,6 +5,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import net.nwrn.pf_contest.compose.service.ComposeService;
 import net.nwrn.pf_contest.security.AuthorizationService;
 import net.nwrn.pf_contest.users.service.UserService;
 import net.nwrn.pf_contest.exception.ApiException;
@@ -22,6 +23,8 @@ public class UserController {
     private final UserService userService;
     private final ExceptionService exceptionService;
     private final AuthorizationService authorizationService;
+
+    private final ComposeService composeService;
 
     @GetMapping("/join")
     public String joinPage(Model model, @RequestParam(required = false, name = "errorMessage") String errorMessage, HttpServletRequest request) {
@@ -127,5 +130,9 @@ public class UserController {
             return exceptionService.redirect("/errorPage", "알수 없는 오류");
         }
     }
+
+    @GetMapping("/myfitting")
+    pulbic ComposeDTO getComposeResultList(
+            @RequestParam(required = false) Long composeSetId, @RequestParam String topUrl)
 
 }
