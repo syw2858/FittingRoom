@@ -46,8 +46,8 @@ public class ComposeController {
             else
                 model.addAttribute("errorMessage", exceptionService.decode(errorMessage));
 
-            model.addAttribute("person_image_url", personImageUrl);
-            model.addAttribute("composed_image_url", composedImageUrl);
+            model.addAttribute("personImageUrl", personImageUrl);
+            model.addAttribute("composedImageUrl", composedImageUrl);
 
             // 검색 필터를 지정하지 않았을 경우 : s3에 저장되어 있는 옷들을 페이지네이션 하여 x페이지의 옷 목록 불러오기
             Page<ClothesImageDTO> pageOfClothesImage = composeService.getClothesImageList(category, color, pageNum, 15);
@@ -65,7 +65,7 @@ public class ComposeController {
 
     // 사람 이미지 한 개 합성 재료로 넣기
     @PostMapping("/fittingroom/uploadPersonImage")
-    public String putPersonImage(@RequestPart MultipartFile personImage, @RequestPart Category category, @RequestPart Color color, @RequestPart Integer pageNum) {
+    public String putPersonImage(@RequestParam(required = false, value = "personImage") MultipartFile personImage, @RequestParam(required = false, value = "category") Category category, @RequestParam(required = false, value = "color") Color color, @RequestParam (required = false, value = "pageNum") Integer pageNum) {
 
         try {
 

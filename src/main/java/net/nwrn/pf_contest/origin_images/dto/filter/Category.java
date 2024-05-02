@@ -4,6 +4,7 @@ public enum Category {
     shirt,
     sweatshirt,
     coat,
-    jumper
+    jumper,
+    abcd
 }
 
