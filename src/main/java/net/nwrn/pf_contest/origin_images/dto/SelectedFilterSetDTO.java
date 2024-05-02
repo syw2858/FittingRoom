@@ -7,10 +7,9 @@ import lombok.*;
 @AllArgsConstructor
 @RequiredArgsConstructor
 @NoArgsConstructor
-public class SelectedDataSetDTO {
+public class SelectedFilterSetDTO {
     private Long selectedDataSetSn;
-    private PersonImageDTO personImageDTO;
-    private TopImageDTO topImageDTO;
-    private BottomImageDTO bottomImageDTO;
+//    private PersonImageDTO personImageDTO;
+    private ClothesImageDTO ClothesImageDTO;
 
 }

@@ -24,7 +24,12 @@ repositories {
 dependencies {
 // https://mvnrepository.com/artifact/com.amazonaws/aws-java-sdk-s3
 	implementation 'com.amazonaws:aws-java-sdk-s3:1.12.710'
-
+	implementation platform('software.amazon.awssdk:bom:2.21.1')
+	implementation 'software.amazon.awssdk:s3'
+	implementation 'software.amazon.awssdk:sso'
+	implementation 'software.amazon.awssdk:ssooidc'
+	implementation 'software.amazon.awssdk:s3-transfer-manager:2.25.41'
+	implementation 'software.amazon.awssdk.crt:aws-crt:0.29.18'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.boot:spring-boot-starter-web'

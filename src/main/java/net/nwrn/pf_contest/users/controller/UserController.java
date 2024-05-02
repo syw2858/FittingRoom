@@ -131,8 +131,5 @@ public class UserController {
         }
     }
 
-    @GetMapping("/myfitting")
-    pulbic ComposeDTO getComposeResultList(
-            @RequestParam(required = false) Long composeSetId, @RequestParam String topUrl)
 
 }
