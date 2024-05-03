@@ -1,9 +1,17 @@
 package net.nwrn.pf_contest.origin_images.dto.filter;
 
 public enum Category {
-    shirt,
-    sweatshirt,
-    coat,
-    jumper
+    SHIRT("shirt"),
+    SWEATSHIRT("sweatshirt"),
+    COAT("coat"),
+    JUMPER("jumper"),
+    DEFAULT(null);
+
+    private final String displayValue;
+    private Category(String displayValue) {
+        this.displayValue = displayValue;
+    }
+    public String getDisplayValue() {return displayValue;}
+
 }
 

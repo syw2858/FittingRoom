@@ -1,51 +1,22 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Fitting Room</title>
-    <script src="https://kit.fontawesome.com/9c90c93df1.js" crossorigin="anonymous"></script>
 </head>
 <body>
-<div class="fittingLayout">
-    <form action="/fittingroom" method="post" >
-        <div class="person">
-            <h3 class="personName">원본 이미지</h3>
-            <div class="personImg">
-                <img th:src="@{${personImageUrl}}">
-                <label for="personFile" class="personUp">
-                    <i class="fa-solid fa-upload"></i>
-                    원본 이미지</label>
-                <input type="file" name="personFile" id="personFile" class="personFile">
-                <button type="submit">업로드</button>
-            </div>
-        </div>
-        <div class="clothes">
-            <h3 class="clothesImage">의상 이미지</h3>
-            <form action="/search" method="get">
-                <input type="search" class="search" name="search" id="search" placeholder="검색어를 입력하세요">
-                <button type="submit" class="searchBtn">
-                    <i class="fa-solid fa-magnifying-glass"></i></button>
-                <div th:each="dto : ${pageOfClothesImage.content}">
-                    <p th:src="${dto.clothesImageUrl}"></p>
-                    <p th:text="${dto.clothesImageSn}"></p>
-                    <!-- 필요한 DTO 필드를 표시 -->
-                </div>
-
-            </form>
-            <p>샘플 이미지</p>
-            <label for="clothes" class="clothesUp">
-                <i class="fa-solid fa-upload"></i>
-                업로드</label>
-            <input type="file" name="clothes" id="clothes">
-        </div>
-        <div class="result">
-            <h3 class="resultImage">결과 이미지</h3>
-            <div class="resultImg">
-                <img th:src="@{${composedImageUrl}}">
-            <button type="submit" class="resultBtn">합성하기</button>
-        </div>
-        </div>
-    </form>
+<form action="/fittingroom/uploadPersonImage" method="post" enctype="multipart/form-data">
+    <img th:src="@{${personImageUrl}}">
+    <input type="file" name="personImage" id="personImage">
+    <input type="text" style="display:none" name="pageNum" id="pageNum" value="3">
+    <button type="submit">업로드</button>
+</form>
+<div th:each="dto : ${pageOfClothesImage.content}">
+    <img th:src="@{${dto.clothesImageUrl}}">
+    <p>Category: <span th:text="${dto.clothesCategory.displayValue}"></span></p>
+    <p>Color: <span th:text="${dto.clothesColor.displayValue}"></span></p>
+    <p>ImageSn: <span th:text="${dto.clothesImageSn}"></span></p>
 </div>
 </body>
 </html>

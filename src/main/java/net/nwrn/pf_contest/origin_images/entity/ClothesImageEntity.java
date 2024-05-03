@@ -19,14 +19,19 @@ public class ClothesImageEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long clothesImageSn;
 
-    @Column(name="clothes_image_url")
-    private String clothesImageUrl;
+    
+    @Column(name="clothes_image_url", nullable = false)
+    private String clothesImageUrl = "https://d1hds1xxjs6al7.cloudfront.net/test/default.jpeg";
 
+    @Column(nullable = true)
     @Enumerated(EnumType.STRING)
     private Category category;
 
+    @Column(nullable = true)
     @Enumerated(EnumType.STRING)
     private Color color;
 
 
+    public ClothesImageEntity(Category clothesCategory, Color clothesColor) {
+    }
 }

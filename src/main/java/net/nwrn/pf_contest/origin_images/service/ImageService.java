@@ -1,16 +1,16 @@
 package net.nwrn.pf_contest.origin_images.service;
 
+import net.nwrn.pf_contest.origin_images.dto.filter.Category;
+import net.nwrn.pf_contest.origin_images.dto.filter.Color;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
-
 public interface ImageService {
-    String upload(MultipartFile image, String repo_name, Long sn);
-    List<String> uploadList(List<MultipartFile> images, String repo_name, Long sn, boolean def, String defUrl);
-    void delete(String imageUrl);
-    void deleteAll(List<String> imageUrlList);
-    String[] splitUrl(String imageUrl);
-    List<String> jsonToImageUrlList(String json);
+
+    public String uploadImageToS3AndGetUrl(MultipartFile Image, String repoName, Long ImageSn);
+
+    public Long newClothesImageAndGetId(Category category, Color color);
+
+    public String uploadNewClothesImage(MultipartFile Image, Category category, Color color);
+
+    public String uploadNewPersonImage(MultipartFile Image);
 }
-
-
