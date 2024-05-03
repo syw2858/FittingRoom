@@ -1,4 +1,4 @@
-package net.nwrn.pf_contest.security;
+package net.nwrn.pf_contest.common.security;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;

@@ -2,6 +2,8 @@ package net.nwrn.pf_contest.compose.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import net.nwrn.pf_contest.clothes.entity.ClothesEntity;
+import net.nwrn.pf_contest.clothes.repository.ClothesRepository;
 import net.nwrn.pf_contest.origin_images.dto.filter.Category;
 import net.nwrn.pf_contest.origin_images.dto.filter.Color;
 import net.nwrn.pf_contest.origin_images.dto.res.ComposePageClothesResponseDTO;
@@ -20,7 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 @RequiredArgsConstructor
 public class ComposeServiceImpl implements ComposeService {
 
-    private final ClothesImageRepository clothesImageRepository;
+    private final ClothesRepository clothesRepository;
 
 
     @Override
@@ -35,26 +37,16 @@ public class ComposeServiceImpl implements ComposeService {
 
 
     @Override
-    public Page<ComposePageClothesResponseDTO> getClothesImageList(Category category, Color color, Integer page, Integer size) {
+    public Page<ComposePageClothesResponseDTO> getClothesList(Category category, Color color, Integer page, Integer size) {
 
-//        ClothesResponseImageDTO dtoOne = new ClothesResponseImageDTO(1L, "https://d1hds1xxjs6al7.cloudfront.net/test/default.jpeg", Category.SHIRT, Color.RED);
-//
-//        ClothesResponseImageDTO dtoTwo = new ClothesResponseImageDTO(2L, "https://d1hds1xxjs6al7.cloudfront.net/test/default.jpeg", Category.SHIRT, Color.WHITE);
-//
-//        ClothesResponseImageDTO dtoThree = new ClothesResponseImageDTO(3L, "https://d1hds1xxjs6al7.cloudfront.net/test/default.jpeg", Category.SWEATSHIRT, Color.BLACK);
-//        Page<ClothesResponseImageDTO> res = new PageImpl<>(List.of(dtoOne, dtoTwo, dtoThree));
-//
-//        return res;
-
-        Pageable pageable = PageRequest.of(page, size);
         // 페이지네이션으로 엔터티 가져오기
-        Page<ClothesImageEntity> clothesImageEntityPage = clothesImageRepository.findAll(pageable);
+        Page<ClothesEntity> clothesImageEntityPage = clothesRepository.getClothes(category, color, page, size);
 
         // 엔터티를 DTO로 변환하여 반환
         return clothesImageEntityPage.map(entity -> {
             ComposePageClothesResponseDTO composePageClothesResponseDTO = new ComposePageClothesResponseDTO(
-                    entity.getClothesImageSn(),
-                    entity.getClothesImageUrl(),
+                    entity.getId(),
+                    entity.getImageUrl(),
                     entity.getCategory(),
                     entity.getColor()
             );

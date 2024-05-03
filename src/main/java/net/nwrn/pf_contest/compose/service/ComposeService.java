@@ -12,6 +12,6 @@ public interface ComposeService {
 
 
     // 의류 이미지 리스트 불러오기
-    Page<ComposePageClothesResponseDTO> getClothesImageList(Category category, Color color, Integer page, Integer size);
+    Page<ComposePageClothesResponseDTO> getClothesList(Category category, Color color, Integer page, Integer size);
 
 }

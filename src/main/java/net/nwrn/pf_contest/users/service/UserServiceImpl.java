@@ -3,7 +3,7 @@ package net.nwrn.pf_contest.users.service;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import net.nwrn.pf_contest.security.AuthorizationService;
+import net.nwrn.pf_contest.common.security.AuthorizationService;
 import net.nwrn.pf_contest.exception.ApiException;
 import net.nwrn.pf_contest.users.repository.UserEntity;
 import net.nwrn.pf_contest.users.repository.UserRepository;

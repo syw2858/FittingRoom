@@ -6,7 +6,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.nwrn.pf_contest.compose.service.ComposeService;
-import net.nwrn.pf_contest.security.AuthorizationService;
+import net.nwrn.pf_contest.common.security.AuthorizationService;
 import net.nwrn.pf_contest.users.service.UserService;
 import net.nwrn.pf_contest.exception.ApiException;
 import net.nwrn.pf_contest.exception.ExceptionService;
