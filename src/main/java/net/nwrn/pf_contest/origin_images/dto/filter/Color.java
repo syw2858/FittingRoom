@@ -8,8 +8,7 @@ public enum Color {
     GREEN("Green"),
     ORANGE("Orange"),
     PURPLE("Purple"),
-    WHITE("White"),
-    DEFAULT(null);
+    WHITE("White");
 
     private final String displayValue;
 

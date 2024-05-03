@@ -11,7 +11,7 @@ import net.nwrn.pf_contest.origin_images.dto.filter.Color;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ClothesResponseImageDTO {
+public class ComposePageClothesResponseDTO {
     private Long clothesImageSn;
     private String clothesImageUrl;
     private Category clothesCategory;

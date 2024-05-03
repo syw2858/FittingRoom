@@ -13,9 +13,9 @@ import lombok.NoArgsConstructor;
 public class PersonImageEntity {
 
     @Id
-    @Column(name="person_image_sn")
+    @Column(name="person_image_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long personImageSn;
+    private Long personImageId;
 
     @Column(name="person_image_url")
     private String personImageUrl;

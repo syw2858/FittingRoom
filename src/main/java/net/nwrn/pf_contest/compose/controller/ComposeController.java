@@ -9,7 +9,7 @@ import net.nwrn.pf_contest.exception.ApiException;
 import net.nwrn.pf_contest.exception.ExceptionService;
 import net.nwrn.pf_contest.origin_images.dto.filter.Category;
 import net.nwrn.pf_contest.origin_images.dto.filter.Color;
-import net.nwrn.pf_contest.origin_images.dto.res.ClothesResponseImageDTO;
+import net.nwrn.pf_contest.origin_images.dto.res.ComposePageClothesResponseDTO;
 import net.nwrn.pf_contest.security.AuthorizationService;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -55,7 +55,7 @@ public class ComposeController {
 
             // s3에 저장되어 있는 옷들을 페이지네이션 하여 x페이지의 옷 목록 불러오기
 
-            Page<ClothesResponseImageDTO> pageOfClothesImage = composeService.getClothesImageList(category, color, pageNum, 15);
+            Page<ComposePageClothesResponseDTO> pageOfClothesImage = composeService.getClothesImageList(category, color, pageNum, 15);
             model.addAttribute("pageOfClothesImage", pageOfClothesImage);
 
             return "FittingRoom";

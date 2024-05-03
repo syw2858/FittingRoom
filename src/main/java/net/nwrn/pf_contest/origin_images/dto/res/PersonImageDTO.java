@@ -8,7 +8,7 @@ import lombok.*;
 @NoArgsConstructor
 public class PersonImageDTO {
 
-    private Long personImageSn;
+    private Long personImageId;
     private String personImageUrl;
 
 }

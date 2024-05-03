@@ -4,8 +4,7 @@ public enum Category {
     SHIRT("shirt"),
     SWEATSHIRT("sweatshirt"),
     COAT("coat"),
-    JUMPER("jumper"),
-    DEFAULT(null);
+    JUMPER("jumper");
 
     private final String displayValue;
     private Category(String displayValue) {
