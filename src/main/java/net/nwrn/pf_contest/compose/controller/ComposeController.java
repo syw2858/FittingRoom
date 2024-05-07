@@ -40,8 +40,11 @@ public class ComposeController {
             @RequestParam(required=false, name="composedImageUrl") String composedImageUrl,
             @RequestParam(required=false, name="category") Category category,
             @RequestParam(required=false, name="color") Color color,
-            @RequestParam(defaultValue="0", name="pageNum") Integer pageNum
+            @RequestParam(defaultValue="0", name="pageNum") Integer pageNum,
+            @RequestParam(defaultValue="15", name="size") Integer size
             ) {
+
+        System.out.println("hi");
         try {
 
             if (errorMessage == null)
@@ -55,7 +58,7 @@ public class ComposeController {
 
             // s3에 저장되어 있는 옷들을 페이지네이션 하여 x페이지의 옷 목록 불러오기
 
-            Page<ComposePageClothesResponseDTO> pageOfClothesImage = composeService.getClothesList(category, color, pageNum, 15);
+            Page<ComposePageClothesResponseDTO> pageOfClothesImage = composeService.getClothesList(category, color, pageNum, size);
             model.addAttribute("pageOfClothesImage", pageOfClothesImage);
 
             return "FittingRoom";

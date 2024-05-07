@@ -12,7 +12,7 @@ import net.nwrn.pf_contest.origin_images.dto.filter.Color;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ComposePageClothesResponseDTO {
-    private Long clothesImageSn;
+    private Long clothesId;
     private String clothesImageUrl;
     private Category clothesCategory;
     private Color clothesColor;

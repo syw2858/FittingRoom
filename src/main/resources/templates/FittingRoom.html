@@ -9,14 +9,17 @@
 <form action="/fittingroom/uploadPersonImage" method="post" enctype="multipart/form-data">
     <img th:src="@{${personImageUrl}}">
     <input type="file" name="personImage" id="personImage">
-    <input type="text" style="display:none" name="pageNum" id="pageNum" value="3">
+    <input type="text" style="display:none" name="pageNum" id="pageNum" value="0">
+    <input type="text" name="category" id="category" value="JUMPER">
+    <input type="text" name="color" id="color" value="BLUE">
+    <input type="text" name="size" id="size" value="15">
     <button type="submit">업로드</button>
 </form>
 <div th:each="dto : ${pageOfClothesImage.content}">
     <img th:src="@{${dto.clothesImageUrl}}">
     <p>Category: <span th:text="${dto.clothesCategory.displayValue}"></span></p>
     <p>Color: <span th:text="${dto.clothesColor.displayValue}"></span></p>
-    <p>ImageSn: <span th:text="${dto.clothesImageSn}"></span></p>
+    <p>ImageSn: <span th:text="${dto.clothesId}"></span></p>
 </div>
 </body>
 </html>
