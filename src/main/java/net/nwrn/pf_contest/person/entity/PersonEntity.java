@@ -1,4 +1,4 @@
-package net.nwrn.pf_contest.origin_images.entity;
+package net.nwrn.pf_contest.person.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Table(name="person_image")
 @AllArgsConstructor
 @NoArgsConstructor
-public class PersonImageEntity {
+public class PersonEntity {
 
     @Id
     @Column(name="person_image_id")

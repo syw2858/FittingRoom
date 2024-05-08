@@ -4,20 +4,20 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import net.nwrn.pf_contest.common.security.AuthorizationService;
+import net.nwrn.pf_contest.compose.dto.res.ComposeBottomResponseDTO;
+import net.nwrn.pf_contest.compose.dto.res.ComposeTopResponseDTO;
 import net.nwrn.pf_contest.compose.service.ComposeService;
 import net.nwrn.pf_contest.exception.ApiException;
 import net.nwrn.pf_contest.exception.ExceptionService;
-import net.nwrn.pf_contest.origin_images.dto.filter.Category;
-import net.nwrn.pf_contest.origin_images.dto.filter.Color;
-import net.nwrn.pf_contest.origin_images.dto.res.ComposePageClothesResponseDTO;
-import net.nwrn.pf_contest.common.security.AuthorizationService;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 @Slf4j
 @Controller
@@ -37,31 +37,28 @@ public class ComposeController {
             Model model,
             @RequestParam(required=false, name="errorMessage")String errorMessage,
             @RequestParam(required=false, name="personImageUrl") String personImageUrl,
-            @RequestParam(required=false, name="composedImageUrl") String composedImageUrl,
-            @RequestParam(required=false, name="category") Category category,
-            @RequestParam(required=false, name="color") Color color,
-            @RequestParam(defaultValue="0", name="pageNum") Integer pageNum,
-            @RequestParam(defaultValue="15", name="size") Integer size
+            @RequestParam(required=false, name="composedImageUrl") String composedImageUrl
             ) {
 
-        System.out.println("hi");
         try {
 
             if (errorMessage == null)
                 model.addAttribute("errorMessage", errorMessage);
             else
                 model.addAttribute("errorMessage", exceptionService.decode(errorMessage));
-
-
+            
             model.addAttribute("personImageUrl", personImageUrl);
             model.addAttribute("composedImageUrl", composedImageUrl);
 
-            // s3에 저장되어 있는 옷들을 페이지네이션 하여 x페이지의 옷 목록 불러오기
+            // 상의 이미지 리스트 불러오기
+            List<ComposeTopResponseDTO> topList = composeService.getTopList();
+            model.addAttribute("topList", topList);
 
-            Page<ComposePageClothesResponseDTO> pageOfClothesImage = composeService.getClothesList(category, color, pageNum, size);
-            model.addAttribute("pageOfClothesImage", pageOfClothesImage);
+            // 하의 이미지 리스트 불러오기
+            List<ComposeBottomResponseDTO> bottomList = composeService.getBottomList();
+            model.addAttribute("bottomList", bottomList);
 
-            return "FittingRoom";
+            return "AnotherFittingRoom";
         } catch (ApiException e) {
             return exceptionService.redirect("/errorPage", e.getMessage());
         } catch (Exception e) {
@@ -74,17 +71,14 @@ public class ComposeController {
     // 사람 이미지 한 개 합성 재료로 넣기
     @PostMapping("/fittingroom/uploadPersonImage")
     public String putPersonImage(
-            @RequestParam(required = false, value = "personImage") MultipartFile personImage,
-            @RequestParam(required = false, value = "category") Category category,
-            @RequestParam(required = false, value = "color") Color color,
-            @RequestParam (required = false, value = "pageNum") Integer pageNum
+            @RequestParam(required = false, value = "personImage") MultipartFile personImage
     ) {
 
         try {
 
-            String personImageUrl = composeService.upload(personImage);
+            String personImageUrl = composeService.uploadPerson(personImage);
 
-            return "redirect:/fittingroom?pageNum=" + pageNum + "&personImageUrl=" + personImageUrl + "&category=" + category + "&color=" + color;
+            return "redirect:/fittingroom?personImageUrl="+personImageUrl;
 
         } catch (ApiException e) {
             return exceptionService.redirect("/fittingroom", e.getMessage());

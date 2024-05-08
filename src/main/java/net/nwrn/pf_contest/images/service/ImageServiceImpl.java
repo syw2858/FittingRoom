@@ -41,7 +41,7 @@ public class ImageServiceImpl implements ImageService {
         return generateUrl(path, filename);
     }
 
-    public String uploadImageToS3AndGetUrl(MultipartFile Image, String repoName, Long objectId) {
+    public String uploadClothesImageToS3AndGetUrl(MultipartFile Image, String repoName, Long objectId) {
 
         String path = new StringBuilder().append("/").append(repoName).append("/").append(objectId).toString();
 
@@ -68,5 +68,30 @@ public class ImageServiceImpl implements ImageService {
 
     }
 
+    public String uploadPersonImageToS3AndGetUrl(MultipartFile Image, String repoName) {
 
+        String path = new StringBuilder().append("/").append(repoName).toString();
+
+        byte[] bytes;
+        try {
+            bytes = Image.getBytes();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(bytes);
+        ObjectMetadata metadata = new ObjectMetadata();
+        metadata.setContentLength(bytes.length);
+
+        String filename = URLEncoder.encode(Image.getOriginalFilename());
+
+        try {
+            amazonS3.putObject(new PutObjectRequest(awsBucketName, path+filename, byteArrayInputStream, metadata).withCannedAcl(CannedAccessControlList.PublicRead));
+        } catch (Exception e) {
+            log.error(exceptionService.generateMessage(), e);
+            throw new ApiException("amazonS3에 putObject하는데 오류 발생");
+        }
+
+        return generateUrl(path, filename);
+
+    }
 }
