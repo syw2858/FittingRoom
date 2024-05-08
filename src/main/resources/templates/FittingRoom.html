@@ -4,11 +4,13 @@
     <meta charset="UTF-8">
     <title>Fitting Room</title>
     <link th:href="@{/fittingroom.css}" rel="stylesheet">
+    <script type="text/javascript" th:src="@{/fittingroom.js}"></script>
     <script src="https://kit.fontawesome.com/9c90c93df1.js" crossorigin="anonymous"></script>
 </head>
 <body>
 <div class="fittingLayout">
-    <form action="/fittingroom" method="post">
+    <form action="/fittingroom?personImageUrl=th:text=${personImageUrl}?topList=${topImageUrl}?bottomList=th:text=${bottomImageUrl}"
+          method="post">
         <div class="person">
             <h3>원본 이미지</h3>
             <div th:if="${personImageUrl} != null" class="personImg">
@@ -22,7 +24,7 @@
                         <label for="personFile" class="personUp">
                             <i class="fa-solid fa-user-plus fa-2x"></i><br>원본 이미지</label>
                         <input type="file" name="personFile" id="personFile" class="personFile" th:value="personImageUrl">
-                        <button type="submit" class="personUpBtn" onclick="personUpload()">
+                        <button type="submit" class="personUpBtn">
                             <i class="fa-solid fa-upload"></i>업로드</button>
                     </form>
                 </div>
@@ -40,8 +42,8 @@
                         <tr>
                             <td style="font-size: 16px">상의</td>
                         </tr>
-                        <tr th:each="dto : ${topList}">
-                            <td><img class="clothesImage" th:src="@{${dto.topImageUrl}}"></td>
+                        <tr th:each="dto, start : ${topList}" th:if="${start.index % 4 == 0}">
+                            <td th:each="col : ${#numbers.sequence(0, 3)}"><img class="clothesImage" th:src="@{${dto.topImageUrl}}"></td>
                         </tr>
                     </table>
                 </div>
@@ -50,8 +52,8 @@
                         <tr>
                             <td style="font-size:16px">하의</td>
                         </tr>
-                        <tr th:each="dto : ${bottomList}">
-                            <td><img class="clothesImage" th:src="@{${dto.bottomImageUrl}}"></td>
+                        <tr th:each="dto, start : ${bottomList}" th:if="${start.index % 4 == 0}">
+                            <td th:each="col : ${#numbers.sequence(0, 3)}"><img class="clothesImage" th:src="@{${dto.bottomImageUrl}}"></td>
                         </tr>
                     </table>
                 </div>
@@ -81,10 +83,13 @@
         </div>
         <div class="result">
             <h3>결과 이미지</h3>
-            <div class="resultImage">
+            <div th:if="${composedImageUrl} != null" class="resultImage">
                 <div class="resultImageBig">
                     <img th:src="@{${composedImageUrl}}">
                 </div>
+            </div>
+            <div th:unless="${composedImageUrl} != null" class="resultImage">
+                <div class="resultImageBig"></div>
                 <form action="/fittingroom/resultImage" method="post">
                     <button type="submit" class="resultBtn">합성하기</button>
                 </form>
