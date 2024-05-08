@@ -2,9 +2,11 @@ package net.nwrn.pf_contest.images.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.Setter;
 
 
 @Getter
+@Setter
 @Entity
 @Table(name = "Images")
 public class ImageEntity {

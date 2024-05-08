@@ -52,19 +52,9 @@ public class ComposeServiceImpl implements ComposeService {
 //        System.out.println(personImage.getSize());
 //        return "https://d1hds1xxjs6al7.cloudfront.net/test/default.jpeg";
 
-        if (personImageUrl.equals(null)) {personImageUrl = defaultImageUrl;}
+        if (personImageUrl == null) {personImageUrl = defaultImageUrl;}
 
-        PersonEntity personEntity = new PersonEntity(0L, personImageUrl);
-        Long personImageId = personEntity.getPersonImageId();
-
-        ComposePersonResponseDTO personResponseDTO = new ComposePersonResponseDTO();
-        personResponseDTO.setPersonImageId(personImageId);
-        personResponseDTO.setPersonImageUrl(personImageUrl);
-
-        System.out.println("personImageUrl: " + personImageUrl);
-        System.out.println("Url From DTO : " + personResponseDTO.getPersonImageUrl());
-
-        return personResponseDTO.getPersonImageUrl();
+        return personImageUrl;
     }
 
     public List<ComposeTopResponseDTO> getTopList() {

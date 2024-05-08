@@ -9,7 +9,7 @@
 </head>
 <body>
 <div class="fittingLayout">
-    <form action="/fittingroom?personImageUrl=th:text=${personImageUrl}?topList=${topImageUrl}?bottomList=th:text=${bottomImageUrl}"
+    <form action="/fittingroom/uploadPersonImage"
           method="post">
         <div class="person">
             <h3>원본 이미지</h3>
@@ -21,9 +21,9 @@
             <div th:unless="${personImageUrl} != null" class="personImg">
                 <div class="personImageBig">
                     <form action="/fittingroom/uploadPersonImage" method="post" enctype="multipart/form-data">
-                        <label for="personFile" class="personUp">
+                        <label for="personImage" class="personUp">
                             <i class="fa-solid fa-user-plus fa-2x"></i><br>원본 이미지</label>
-                        <input type="file" name="personFile" id="personFile" class="personFile" th:value="personImageUrl">
+                        <input type="file" name="personImage" id="personImage" class="personImage">
                         <button type="submit" class="personUpBtn">
                             <i class="fa-solid fa-upload"></i>업로드</button>
                     </form>

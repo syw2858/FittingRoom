@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.nwrn.pf_contest.exception.ApiException;
 import net.nwrn.pf_contest.exception.ExceptionService;
+import net.nwrn.pf_contest.images.entity.ImageEntity;
+import net.nwrn.pf_contest.images.repository.ImageRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -15,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.net.URLEncoder;
+import java.util.Base64;
 
 @Slf4j
 @Service
@@ -22,6 +25,7 @@ import java.net.URLEncoder;
 public class ImageServiceImpl implements ImageService {
 
     private final ExceptionService exceptionService;
+    private final ImageRepository imageRepository;
 
     private final AmazonS3 amazonS3;
 
@@ -33,17 +37,17 @@ public class ImageServiceImpl implements ImageService {
 
     private String generateUrl(String path, String filename) {
         return new StringBuilder()
-                .append(cloudfrontDomain).append(path).append("/").append(filename).toString();
+                .append(cloudfrontDomain).append("/").append(path).append(filename).toString();
     }
 
     public String combineUrl(String repoName, Long objectId, String filename) {
-        String path = new StringBuilder().append("/").append(repoName).append("/").append(objectId).toString();
+        String path = new StringBuilder().append(repoName).append("/").append(objectId).append("/").toString();
         return generateUrl(path, filename);
     }
 
     public String uploadClothesImageToS3AndGetUrl(MultipartFile Image, String repoName, Long objectId) {
 
-        String path = new StringBuilder().append("/").append(repoName).append("/").append(objectId).toString();
+        String path = new StringBuilder().append(repoName).append("/").append(objectId).append("/").toString();
 
         byte[] bytes;
         try {
@@ -55,7 +59,7 @@ public class ImageServiceImpl implements ImageService {
         ObjectMetadata metadata = new ObjectMetadata();
         metadata.setContentLength(bytes.length);
 
-        String filename = URLEncoder.encode(Image.getOriginalFilename());
+        String filename = Base64.getEncoder().encodeToString(Image.getOriginalFilename().getBytes());
 
         try {
             amazonS3.putObject(new PutObjectRequest(awsBucketName + path, filename, byteArrayInputStream, metadata).withCannedAcl(CannedAccessControlList.PublicRead));
@@ -70,7 +74,15 @@ public class ImageServiceImpl implements ImageService {
 
     public String uploadPersonImageToS3AndGetUrl(MultipartFile Image, String repoName) {
 
-        String path = new StringBuilder().append("/").append(repoName).toString();
+        String filename = Base64.getEncoder().encodeToString(Image.getOriginalFilename().getBytes());
+
+        ImageEntity imageEntity = new ImageEntity();
+        imageEntity.setFileName(filename);
+        imageEntity.setRepoName("person");
+        imageRepository.save(imageEntity);
+        Long objectId = imageEntity.getId();
+        imageEntity.setObjectId(objectId);
+        String path = new StringBuilder().append(repoName).append("/").append(objectId).append("/").toString();
 
         byte[] bytes;
         try {
@@ -81,8 +93,6 @@ public class ImageServiceImpl implements ImageService {
         ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(bytes);
         ObjectMetadata metadata = new ObjectMetadata();
         metadata.setContentLength(bytes.length);
-
-        String filename = URLEncoder.encode(Image.getOriginalFilename());
 
         try {
             amazonS3.putObject(new PutObjectRequest(awsBucketName, path+filename, byteArrayInputStream, metadata).withCannedAcl(CannedAccessControlList.PublicRead));
