@@ -1,0 +1,36 @@
+@font-face {
+    font-family: 'NotoSerifKR';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_two@1.0/NotoSerifKR.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+body {
+    font-family : 'NotoSerifKR';
+}
+h1 {
+    text-align : center;
+    margin-top : 10vh;
+    margin-bottom : 5vh;
+}
+button {
+    width: 100px;
+    height: 50px;
+    text-align : center;
+    background-color : #f5b7d7;
+    padding: 15px;
+    border : none;
+    border-radius : 10px;
+    font-size : 15px;
+    margin-left : 20px;
+    font-family : 'NotoSerifKR';
+}
+button:hover {
+    color: white;
+    background-color: #ec74b2;
+    cursor: pointer;
+}
+div {
+    float : right;
+    display : inline-block;
+    margin-right : 20vh;
+}

@@ -1,25 +1,96 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Fitting Room</title>
+    <link th:href="@{/fittingroom.css}" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/9c90c93df1.js" crossorigin="anonymous"></script>
 </head>
 <body>
-<form action="/fittingroom/uploadPersonImage" method="post" enctype="multipart/form-data">
-    <img th:src="@{${personImageUrl}}">
-    <input type="file" name="personImage" id="personImage">
-    <input type="text" style="display:none" name="pageNum" id="pageNum" value="0">
-    <input type="text" name="category" id="category" value="JUMPER">
-    <input type="text" name="color" id="color" value="BLUE">
-    <input type="text" name="size" id="size" value="15">
-    <button type="submit">업로드</button>
-</form>
-<div th:each="dto : ${pageOfClothesImage.content}">
-    <img th:src="@{${dto.clothesImageUrl}}">
-    <p>Category: <span th:text="${dto.clothesCategory.displayValue}"></span></p>
-    <p>Color: <span th:text="${dto.clothesColor.displayValue}"></span></p>
-    <p>ImageSn: <span th:text="${dto.clothesId}"></span></p>
+<div class="fittingLayout">
+    <form action="/fittingroom" method="post">
+        <div class="person">
+            <h3>원본 이미지</h3>
+            <div th:if="${personImageUrl} != null" class="personImg">
+                <div class="personImageBig">
+                    <img th:src="@{${personImageUrl}}">
+                </div>
+            </div>
+            <div th:unless="${personImageUrl} != null" class="personImg">
+                <div class="personImageBig">
+                    <form action="/fittingroom/uploadPersonImage" method="post" enctype="multipart/form-data">
+                        <label for="personFile" class="personUp">
+                            <i class="fa-solid fa-user-plus fa-2x"></i><br>원본 이미지</label>
+                        <input type="file" name="personFile" id="personFile" class="personFile" th:value="personImageUrl">
+                        <button type="submit" class="personUpBtn" onclick="personUpload()">
+                            <i class="fa-solid fa-upload"></i>업로드</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="clothes">
+            <h3>의상 이미지</h3>
+            <div class="buttonGroup">
+                <div class="sampleClothes" onclick="showClothes()">샘플</div>
+                <div class="uploadClothes" onclick="uploadClothes()">내 PC</div>
+            </div>
+            <div class="clothesSelect" id="closet">
+                <div class="topClothes">
+                    <table class="clothesTable">
+                        <tr>
+                            <td style="font-size: 16px">상의</td>
+                        </tr>
+                        <tr th:each="dto : ${topList}">
+                            <td><img class="clothesImage" th:src="@{${dto.topImageUrl}}"></td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="bottomClothes">
+                    <table class="clothesTable">
+                        <tr>
+                            <td style="font-size:16px">하의</td>
+                        </tr>
+                        <tr th:each="dto : ${bottomList}">
+                            <td><img class="clothesImage" th:src="@{${dto.bottomImageUrl}}"></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="clothesUpload" id="clothesUpload">
+                <div class="topClothesUpload">
+                    <form action="/fittingroom/selectClothes" method="post" enctype="multipart/form-data">
+                        <label for="topClothes" class="closetUp">
+                            <i class="fa-solid fa-shirt fa-2x"></i><br>
+                            상의</label>
+                        <input type="file" name="clothes" id="topClothes">
+                        <button type="submit" class="clothesUp">
+                            <i class="fa-solid fa-upload"></i>업로드</button>
+                    </form>
+                </div>
+                <div class="bottomClothesUpload">
+                    <form action="/fittingroom/selectClothes" method="post" enctype="multipart/form-data">
+                        <label for="bottomClothes" class="closetUp">
+                            <i class="fa-solid fa-shirt fa-2x"></i><br>
+                            하의</label>
+                        <input type="file" name="clothes" id="bottomClothes">
+                        <button type="submit" class="clothesUp">
+                            <i class="fa-solid fa-upload"></i>업로드</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="result">
+            <h3>결과 이미지</h3>
+            <div class="resultImage">
+                <div class="resultImageBig">
+                    <img th:src="@{${composedImageUrl}}">
+                </div>
+                <form action="/fittingroom/resultImage" method="post">
+                    <button type="submit" class="resultBtn">합성하기</button>
+                </form>
+            </div>
+        </div>
+    </form>
 </div>
 </body>
 </html>

@@ -2,22 +2,24 @@ package net.nwrn.pf_contest.compose.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import net.nwrn.pf_contest.clothes.entity.ClothesEntity;
-import net.nwrn.pf_contest.clothes.repository.ClothesRepository;
+import net.nwrn.pf_contest.clothes.entity.BottomEntity;
+import net.nwrn.pf_contest.clothes.entity.TopEntity;
+import net.nwrn.pf_contest.clothes.repository.BottomRepository;
+import net.nwrn.pf_contest.clothes.repository.TopRepository;
+import net.nwrn.pf_contest.compose.dto.res.ComposeBottomResponseDTO;
+import net.nwrn.pf_contest.compose.dto.res.ComposePersonResponseDTO;
+import net.nwrn.pf_contest.compose.dto.res.ComposeTopResponseDTO;
 import net.nwrn.pf_contest.exception.ApiException;
 import net.nwrn.pf_contest.images.entity.ImageEntity;
 import net.nwrn.pf_contest.images.repository.ImageRepository;
 import net.nwrn.pf_contest.images.service.ImageService;
-import net.nwrn.pf_contest.origin_images.dto.filter.Category;
-import net.nwrn.pf_contest.origin_images.dto.filter.Color;
-import net.nwrn.pf_contest.origin_images.dto.res.ComposePageClothesResponseDTO;
-import net.nwrn.pf_contest.origin_images.entity.PersonImageEntity;
+import net.nwrn.pf_contest.person.entity.PersonEntity;
+import net.nwrn.pf_contest.person.repository.PersonRepository;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,7 +29,9 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ComposeServiceImpl implements ComposeService {
 
-    private final ClothesRepository clothesRepository;
+    private final TopRepository topRepository;
+    private final BottomRepository bottomRepository;
+    private final PersonRepository personRepository;
     private final ImageRepository imageRepository;
     private final ImageService imageService;
 
@@ -41,56 +45,143 @@ public class ComposeServiceImpl implements ComposeService {
     private String defaultImageUrl;
 
     @Override
-    public String upload(MultipartFile personImage) {
+    public String uploadPerson(MultipartFile personImage) {
 
-        PersonImageEntity personImageEntity = new PersonImageEntity();
+        String personImageUrl = imageService.uploadPersonImageToS3AndGetUrl(personImage, "person");
 
-        System.out.println(personImage.getSize());
-        return "https://d1hds1xxjs6al7.cloudfront.net/test/default.jpeg";
+//        System.out.println(personImage.getSize());
+//        return "https://d1hds1xxjs6al7.cloudfront.net/test/default.jpeg";
 
+        if (personImageUrl.equals(null)) {personImageUrl = defaultImageUrl;}
+
+        PersonEntity personEntity = new PersonEntity(0L, personImageUrl);
+        Long personImageId = personEntity.getPersonImageId();
+
+        ComposePersonResponseDTO personResponseDTO = new ComposePersonResponseDTO();
+        personResponseDTO.setPersonImageId(personImageId);
+        personResponseDTO.setPersonImageUrl(personImageUrl);
+
+        System.out.println("personImageUrl: " + personImageUrl);
+        System.out.println("Url From DTO : " + personResponseDTO.getPersonImageUrl());
+
+        return personResponseDTO.getPersonImageUrl();
     }
 
-    @Override
-    public Page<ComposePageClothesResponseDTO> getClothesList(Category category, Color color, Integer page, Integer size) {
+    public List<ComposeTopResponseDTO> getTopList() {
+        List<TopEntity> topEntityList = topRepository.findAll();
+        List<ComposeTopResponseDTO> topContentList = new ArrayList<>();
 
+        for (TopEntity topEntity : topEntityList) {
+            Long topId = topEntity.getTopId();
+            String topUrl = topEntity.getTopUrl();
+            Timestamp topRegisterDt = topEntity.getTopRegisterDt();
 
-        // 페이지네이션으로 엔터티 가져오기
-        Page<ClothesEntity> clothesEntityPage = clothesRepository.getClothes(category, color, page, size);
+            List<ImageEntity> imageEntityList = imageRepository.findByRepoNameAndObjectId("top", topId);
 
-//        Page<ComposePageClothesResponseDTO> pageClothesResponseDTOs = new PageImpl<>(
-//                new ArrayList<>(), clothesEntityPage.getPageable(), clothesEntityPage.getTotalElements()
-//        );
-
-        List<ComposePageClothesResponseDTO> content = new ArrayList<>();
-
-
-        for (ClothesEntity clothesEntity : clothesEntityPage) {
-
-            String url;
-            Long clothesId = clothesEntity.getId();
-            List<ImageEntity> imageEntityList = imageRepository.findByRepoNameAndObjectId("clothes", clothesId);
-            if (imageEntityList.isEmpty()) url = defaultImageUrl;
-
-            else if (imageEntityList.size() >=2 ) throw new ApiException("데이터베이스 오류입니다.");
-
+            if (imageEntityList.isEmpty()) {
+                topUrl = defaultImageUrl;
+            }
+            else if (imageEntityList.size() >= 2) {
+                throw new ApiException("데이터베이스 오류입니다.");
+            }
             else {
                 ImageEntity imageEntity = imageEntityList.get(0);
                 String repoName = imageEntity.getRepoName();
                 Long objectId = imageEntity.getObjectId();
                 String fileName = imageEntity.getFileName();
-                url = imageService.combineUrl(repoName, objectId, fileName);
+                topUrl = imageService.combineUrl(repoName, objectId, fileName);
             }
 
-            ComposePageClothesResponseDTO clothesResponseDTO = new ComposePageClothesResponseDTO();
-            clothesResponseDTO.setClothesColor(clothesEntity.getColor());
-            clothesResponseDTO.setClothesCategory(clothesEntity.getCategory());
-            clothesResponseDTO.setClothesId(clothesId);
-            clothesResponseDTO.setClothesImageUrl(url);
+            ComposeTopResponseDTO topResponseDTO = new ComposeTopResponseDTO();
+            topResponseDTO.setTopId(topId);
+            topResponseDTO.setTopImageUrl(topUrl);
+            topResponseDTO.setTopRegisterDt(topRegisterDt);
 
-            content.add(clothesResponseDTO);
+            topContentList.add(topResponseDTO);
         }
 
-        return new PageImpl<>(content, clothesEntityPage.getPageable(), clothesEntityPage.getTotalElements()) ;
-
+        return topContentList;
     }
+
+    public List<ComposeBottomResponseDTO> getBottomList() {
+        List<BottomEntity> bottomEntityList = bottomRepository.findAll();
+        List<ComposeBottomResponseDTO> bottomContentList = new ArrayList<>();
+
+        for (BottomEntity bottomEntity : bottomEntityList) {
+            Long bottomId = bottomEntity.getBottomId();
+            String bottomUrl = bottomEntity.getBottomUrl();
+            Timestamp bottomRegisterDt = bottomEntity.getBottomRegisterDt();
+
+            List<ImageEntity> imageEntityList = imageRepository.findByRepoNameAndObjectId("bottom", bottomId);
+
+            if (imageEntityList.isEmpty()) {
+                bottomUrl = defaultImageUrl;
+            }
+            else if (imageEntityList.size() >= 2) {
+                throw new ApiException("데이터베이스 오류입니다.");
+            }
+            else {
+                ImageEntity imageEntity = imageEntityList.get(0);
+                String repoName = imageEntity.getRepoName();
+                Long objectId = imageEntity.getObjectId();
+                String fileName = imageEntity.getFileName();
+                bottomUrl = imageService.combineUrl(repoName, objectId, fileName);
+            }
+
+            ComposeBottomResponseDTO bottomResponseDTO = new ComposeBottomResponseDTO();
+            bottomResponseDTO.setBottomId(bottomId);
+            bottomResponseDTO.setBottomImageUrl(bottomUrl);
+            bottomResponseDTO.setBottomRegisterDt(bottomRegisterDt);
+
+            bottomContentList.add(bottomResponseDTO);
+        }
+
+        return bottomContentList;
+    }
+
+
+
+//    @Override
+//    public Page<ComposePageClothesResponseDTO> getClothesList(Category category, Color color, Integer page, Integer size) {
+//
+//
+//        // 페이지네이션으로 엔터티 가져오기
+//        Page<ClothesEntity> clothesEntityPage = clothesRepository.getClothes(category, color, page, size);
+//
+////        Page<ComposePageClothesResponseDTO> pageClothesResponseDTOs = new PageImpl<>(
+////                new ArrayList<>(), clothesEntityPage.getPageable(), clothesEntityPage.getTotalElements()
+////        );
+//
+//        List<ComposePageClothesResponseDTO> content = new ArrayList<>();
+//
+//
+//        for (ClothesEntity clothesEntity : clothesEntityPage) {
+//
+//            String url;
+//            Long clothesId = clothesEntity.getId();
+//            List<ImageEntity> imageEntityList = imageRepository.findByRepoNameAndObjectId("clothes", clothesId);
+//            if (imageEntityList.isEmpty()) url = defaultImageUrl;
+//
+//            else if (imageEntityList.size() >=2 ) throw new ApiException("데이터베이스 오류입니다.");
+//
+//            else {
+//                ImageEntity imageEntity = imageEntityList.get(0);
+//                String repoName = imageEntity.getRepoName();
+//                Long objectId = imageEntity.getObjectId();
+//                String fileName = imageEntity.getFileName();
+//                url = imageService.combineUrl(repoName, objectId, fileName);
+//            }
+//
+//            ComposePageClothesResponseDTO clothesResponseDTO = new ComposePageClothesResponseDTO();
+//            clothesResponseDTO.setClothesColor(clothesEntity.getColor());
+//            clothesResponseDTO.setClothesCategory(clothesEntity.getCategory());
+//            clothesResponseDTO.setClothesId(clothesId);
+//            clothesResponseDTO.setClothesImageUrl(url);
+//
+//            content.add(clothesResponseDTO);
+//        }
+//
+//        return new PageImpl<>(content, clothesEntityPage.getPageable(), clothesEntityPage.getTotalElements()) ;
+//
+//    }
 }

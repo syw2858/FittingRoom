@@ -35,6 +35,4 @@ public class ExceptionServiceImpl implements ExceptionService {
         String encoded = encode(message);
         return "redirect:" + url + "?errorMessage=" + encoded;
     }
-
-
 }

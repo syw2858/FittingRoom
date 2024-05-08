@@ -64,4 +64,9 @@ public class TestController {
             return exceptionService.redirect("/", e.getMessage());
         }
     }
+
+    @GetMapping("/home")
+    public String home () {
+        return "Home";
+    }
 }

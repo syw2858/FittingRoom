@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Another Fitting Room</title>
+</head>
+<body>
+<form action="/fittingroom/uploadPersonImage" method="post" enctype="multipart/form-data">
+    <img th:src="${personImageUrl}">
+    <input type="file" name="personImage" id="personImage">
+    <button type="submit">Upload</button>
+</form>
+<div th:each="dto : ${topList}">
+    <img th:src="@{${dto.topImageUrl}}">
+    <!-- Add more details if needed -->
+</div>
+<div th:each="dto : ${bottomList}">
+    <img th:src="@{${dto.bottomImageUrl}}">
+    <!-- Add more details if needed -->
+</div>
+</body>
+</html>

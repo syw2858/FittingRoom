@@ -1,4 +1,4 @@
-package net.nwrn.pf_contest.origin_images.dto.res;
+package net.nwrn.pf_contest.compose.dto.res;
 
 import lombok.*;
 
@@ -6,7 +6,7 @@ import lombok.*;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class PersonImageDTO {
+public class ComposePersonResponseDTO {
 
     private Long personImageId;
     private String personImageUrl;
