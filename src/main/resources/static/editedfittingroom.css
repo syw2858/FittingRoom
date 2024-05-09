@@ -7,21 +7,16 @@
 
 body {
     font-family : 'NotoSerifKR';
+    margin: 0;
 }
 
 .fittingLayout {
-    display: inline-block;
-    width: 1420px;
-    height: 882px;
     margin-top: 99px;
-    margin-left: 200px;
 }
 
 .person {
-    float: left;
-    width: 520px;
+    width: 30%;
     height: 818px;
-    margin-right: 16px;
 }
 
 h3 {
@@ -31,13 +26,21 @@ h3 {
 }
 
 .personImageBig {
-    width: 500px;
+    position: relative;
     height: 770px;
     justify-content: center;
     text-align: center;
     align-items: center;
     border: dotted 2px #d3d3d3;
     border-radius: 16px;
+    overflow: hidden;
+    display: flex;
+}
+
+.personImageBig img {
+    max-width: 100%;
+    max-height: 100%;
+    display: block;
 }
 
 .personUp {
@@ -86,14 +89,11 @@ input[type=file] {
 }
 
 .clothes {
-    float: left;
-    width: 344px;
+    width: 30%;
     height: 706px;
-    margin-right: 16px;
 }
 
 .buttonGroup {
-    width: 340px;
     height: 50px;
     display: flex;
     margin-bottom: 20px;
@@ -103,7 +103,7 @@ input[type=file] {
 }
 
 .sampleClothes {
-    width: 170px;
+    width: 250px;
     height: 50px;
     text-align: center;
     line-height: 50px;
@@ -114,7 +114,7 @@ input[type=file] {
 }
 
 .uploadClothes {
-    width: 170px;
+    width: 250px;
     height: 50px;
     display: inline-block;
     text-align: center;
@@ -129,9 +129,9 @@ input[type=file] {
 }
 
 .topClothes {
-    width: 344px;
     height: 256px;
     margin-bottom: 50px;
+    display: flex;
 }
 
 .clothesTable {
@@ -139,47 +139,89 @@ input[type=file] {
 }
 
 .clothesImage {
-    width: 80px;
-    height: 80px;
+    width: 100%;
+    height: 100%;
     margin: 2px;
     border: 1px #d3d3d3;
     border-radius: 16px;
 }
 
 .bottomClothes {
-    width: 344px;
+    width: 100%;
     height: 256px;
     margin-bottom: 8px;
     margin-top: 8px;
 }
 
+.topClothesUploadButtonArea {
+    display: flex;
+    align-items: center;
+    width: min-content;
+    height: 440px;
+    border: dotted 2px #d3d3d3;
+    border-radius: 16px;
+    margin-bottom: 10px;
+    overflow: hidden;
+}
+
 .topClothesUpload {
-    width: 344px;
-    height: 344px;
+    position: relative;
+    width: 440px;
+    height: 440px;
     justify-content: center;
     text-align: center;
     align-items: center;
     border: dotted 2px #d3d3d3;
     border-radius: 16px;
     margin-bottom: 10px;
+    overflow: hidden;
+    display: flex;
 }
 
-.bottomClothesUpload {
-    width: 344px;
-    height: 344px;
+.topClothesUpload img {
+    max-width: 100%;
+    max-height: 100%;
+    display: block;
+}
+
+.bottomClothesUploadButtonArea {
+    width: min-content;
+    height: 440px;
     justify-content: center;
     text-align: center;
     align-items: center;
     border: dotted 2px #d3d3d3;
     border-radius: 16px;
+    margin-bottom: 10px;
+    overflow: hidden;
+    display: flex;
+}
+
+.bottomClothesUpload {
+    position: relative;
+    width: 440px;
+    height: 440px;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    border: dotted 2px #d3d3d3;
+    border-radius: 16px;
+    overflow: hidden;
+    display: flex;
+}
+
+.bottomClothesUpload img {
+    max-width: 100%;
+    max-height: 100%;
+    display: block;
 }
 
 .closetUp {
     display: block;
-    margin-top: 170px;
-    margin-bottom: 10px;
+    text-align: center;
     font-size: 15px;
     color: #8d8d8d;
+    word-break: keep-all;
 }
 
 .closetUp:hover {
@@ -207,14 +249,22 @@ input[type=file] {
     cursor: pointer;
 }
 
+.clothesSelect {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 .result {
-    float: right;
-    width: 520px;
+    width: 30%;
     height: 882px;
 }
 
+.resultImage {
+    text-align: center;
+}
+
 .resultImageBig {
-    width: 510px;
     height: 770px;
     justify-content: center;
     text-align: center;
@@ -224,7 +274,6 @@ input[type=file] {
 }
 
 .resultBtn {
-    width: 520px;
     height: 48px;
     line-height: 48px;
     background-color: black;
@@ -239,4 +288,17 @@ input[type=file] {
     color: black;
     cursor: pointer;
     border: none;
+}
+
+
+#uploadForm {
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+
+/**/
+.display-none {
+    display: none;
 }

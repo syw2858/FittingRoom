@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Fitting Room</title>
+  <link th:href="@{/editedfittingroom.css}" rel="stylesheet">
+  <script type="text/javascript" th:src="@{/editedfittingroom.js}"></script>
+  <script src="https://kit.fontawesome.com/9c90c93df1.js" crossorigin="anonymous"></script>
+</head>
+<body>
+<div class="fittingLayout">
+  <form id="uploadForm" action="/fittingroom/uploadPersonImage" method="post"
+        enctype="multipart/form-data">
+
+    <div class="person">
+      <h3>원본 이미지</h3>
+      <div class="personImg">
+        <div class="personImageBig">
+          <img id="personImagePreview" th:src="@{${personImageUrl}}">
+        </div>
+        <input type="file" name="personImage" id="personImage" class="personImage"
+               style="display: none;">
+        <button type="button" class="personUpBtn"
+                onclick="document.getElementById('personImage').click();">
+          <i class="fa-solid fa-user-plus fa-2x"></i><br>이미지 업로드
+        </button>
+      </div>
+    </div>
+
+    <div class="clothes">
+      <h3>의상 이미지</h3>
+      <div class="buttonGroup">
+        <div class="sampleClothes" onclick="showClothes()">샘플</div>
+        <div class="uploadClothes" onclick="uploadClothes()">내 PC</div>
+      </div>
+      <div class="clothesSelect" id="closet">
+        <div>
+          <div class="topClothes">
+            <div class="clothesTable">
+              <div style="font-size: 16px">상의</div>
+
+              <div>
+                <div style="display: flex; justify-content: space-between; height: 20%; margin-bottom: 10%">
+                  <img th:src="${topList[0].topImageUrl}" style="width: 20%;" />
+                  <img th:src="${topList[1].topImageUrl}" style="width: 20%;" />
+                  <img th:src="${topList[2].topImageUrl}" style="width: 20%;" />
+                  <img th:src="${topList[3].topImageUrl}" style="width: 20%;" />
+                </div>
+                <div style="display: flex; justify-content: space-between; height: 20%; margin-bottom: 10%">
+                  <img th:src="${topList[4].topImageUrl}" style="width: 20%;" />
+                  <img th:src="${topList[5].topImageUrl}" style="width: 20%;" />
+                  <img th:src="${topList[6].topImageUrl}" style="width: 20%;" />
+                  <img th:src="${topList[7].topImageUrl}" style="width: 20%;" />
+                </div>
+                <div style="display: flex; justify-content: space-between; height: 20%">
+                  <img th:src="${topList[8].topImageUrl}" style="width: 20%;" />
+                  <img th:src="${topList[9].topImageUrl}" style="width: 20%;" />
+                  <img th:src="${topList[9].topImageUrl}" style="width: 20%;" />
+                  <img th:src="${topList[9].topImageUrl}" style="width: 20%;" />
+                </div>
+              </div>
+
+            </div>
+          </div>
+          <div class="bottomClothes">
+            <table class="clothesTable">
+              <tr>
+                <td style="font-size:16px">하의</td>
+              </tr>
+              <tr th:each="dto, start : ${bottomList}" th:if="${start.index % 4 == 0}">
+                <td th:each="col : ${#numbers.sequence(0, 3)}"><img class="clothesImage"
+                                                                    th:src="@{${dto.bottomImageUrl}}">
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="clothesUpload display-none" id="clothesUpload">
+
+
+        <div style="display: flex">
+
+          <div class="topClothesUploadButtonArea">
+            <label for="topClothesInput" class="closetUp">
+              <i class="fa-solid fa-tshirt fa-2x"></i><br>
+              상의 업로드</label>
+            <input type="file" id="topClothesInput" name="topClothesInput" style="display: none;">
+          </div>
+
+          <div class="topClothesUpload">
+            <img id="topClothesPreview" src="#" alt="상의 미리보기">
+          </div>
+        </div>
+
+        <div style="display: flex">
+          <div class="bottomClothesUploadButtonArea">
+            <label for="bottomClothesInput" class="closetUp">
+              <i class="fa-solid fa-tshirt fa-2x"></i><br>
+              하의 업로드</label>
+            <input type="file" id="bottomClothesInput" name="bottomClothesInput"
+                   style="display: none;">
+          </div>
+          <div class="bottomClothesUpload">
+            <img id="bottomClothesPreview" src="#" alt="하의 미리보기">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="result">
+      <h3>결과 이미지</h3>
+      <div th:if="${composedImageUrl} != null" class="resultImage">
+        <div class="resultImageBig">
+          <img th:src="@{${composedImageUrl}}">
+        </div>
+      </div>
+      <div th:unless="${composedImageUrl} != null" class="resultImage">
+        <div class="resultImageBig"></div>
+        <form action="/fittingroom/resultImage" method="post">
+          <button type="submit" class="resultBtn">합성하기</button>
+        </form>
+      </div>
+    </div>
+
+  </form>
+</div>
+<script>
+  document.getElementById("personImage").addEventListener("change", function () {
+    var reader = new FileReader();
+    reader.onload = function (e) {
+      document.getElementById("personImagePreview").src = e.target.result;
+    };
+    reader.readAsDataURL(this.files[0]);
+  });
+  // 이미지 업로드 후 미리보기 기능 추가
+  document.getElementById("topClothesInput").addEventListener("change", function () {
+    var reader = new FileReader();
+    reader.onload = function (e) {
+      document.getElementById("topClothesPreview").src = e.target.result;
+    };
+    reader.readAsDataURL(this.files[0]);
+  });
+
+  document.getElementById("bottomClothesInput").addEventListener("change", function () {
+    var reader = new FileReader();
+    reader.onload = function (e) {
+      document.getElementById("bottomClothesPreview").src = e.target.result;
+    };
+    reader.readAsDataURL(this.files[0]);
+  });
+</script>
+</body>
+</html>

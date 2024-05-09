@@ -1,12 +1,11 @@
 server:
   port: 8080
 spring:
+  config:
+    import: classpath:aws.yaml
   application:
     name: pf_contest
   datasource:
-    url: jdbc:postgresql://sb-dev.cwuxhr16nyvh.ap-northeast-2.rds.amazonaws.com:5432/pf-contest?stringtype=unspecified
-    username: nwrn
-    password: nwrnadmin2019
     driver-class-name: org.postgresql.Driver
   jpa:
     database: postgresql
@@ -16,4 +15,3 @@ spring:
     properties:
       hibernate:
         default_schema: public
-

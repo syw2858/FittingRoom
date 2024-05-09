@@ -58,7 +58,7 @@ public class ComposeController {
             List<ComposeBottomResponseDTO> bottomList = composeService.getBottomList();
             model.addAttribute("bottomList", bottomList);
 
-            return "FittingRoom";
+            return "EditedFittingRoom";
         } catch (ApiException e) {
             return exceptionService.redirect("/errorPage", e.getMessage());
         } catch (Exception e) {
