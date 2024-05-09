@@ -18,18 +18,3 @@ spring:
       hibernate:
         default_schema: public
 
-cloud:
-  aws:
-    credentials:
-      accessKey: AKIARF7TWOPSDZQ4UM52
-      secretKey: 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
-    region:
-      static: ap-northeast-2
-
-properties:
-  awsBucketName: simgo123
-  cloudfrontDomain: https://d1hds1xxjs6al7.cloudfront.net
-  defaultImageUrl: https://d1hds1xxjs6al7.cloudfront.net/default.jpeg
-  defaultProfileImageUrl: https://d1hds1xxjs6al7.cloudfront.net/default.jpeg
-  tosspayments:
-    secretKey: test_sk_nRQoOaPz8L9lyWZOpNG3y47BMw6v
