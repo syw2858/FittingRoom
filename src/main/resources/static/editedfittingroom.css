@@ -90,7 +90,7 @@ input[type=file] {
 
 .clothes {
     width: 30%;
-    height: 706px;
+    height: 882px;
 }
 
 .buttonGroup {
@@ -103,20 +103,22 @@ input[type=file] {
 }
 
 .sampleClothes {
-    width: 250px;
+    /*width: 250px;*/
+    width: 100%;
     height: 50px;
     text-align: center;
     line-height: 50px;
-    display: inline-block;
+    /*display: flex;*/
     border-radius: 25px;
     color: white;
     background-color: black;
 }
 
 .uploadClothes {
-    width: 250px;
+    /*width: 250px;*/
+    width: 100%;
     height: 50px;
-    display: inline-block;
+    /*display: flex;*/
     text-align: center;
     line-height: 50px;
     border-radius: 25px;
@@ -153,27 +155,42 @@ input[type=file] {
     margin-top: 8px;
 }
 
+.topDiv {
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+}
+
+.bottomDiv {
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+}
+
+
 .topClothesUploadButtonArea {
     display: flex;
     align-items: center;
-    width: min-content;
-    height: 440px;
+    justify-content: center;
+    /*width: min-content;*/
+    width: 15%;
+    height: 350px;
     border: dotted 2px #d3d3d3;
     border-radius: 16px;
-    margin-bottom: 10px;
+    /*margin-bottom: 10px;*/
     overflow: hidden;
 }
 
 .topClothesUpload {
     position: relative;
-    width: 440px;
-    height: 440px;
+    width: 85%;
+    height: 350px;
     justify-content: center;
     text-align: center;
     align-items: center;
     border: dotted 2px #d3d3d3;
     border-radius: 16px;
-    margin-bottom: 10px;
+    /*margin-bottom: 10px;*/
     overflow: hidden;
     display: flex;
 }
@@ -185,22 +202,22 @@ input[type=file] {
 }
 
 .bottomClothesUploadButtonArea {
-    width: min-content;
-    height: 440px;
+    width: 15%;
+    height: 350px;
     justify-content: center;
     text-align: center;
     align-items: center;
     border: dotted 2px #d3d3d3;
     border-radius: 16px;
-    margin-bottom: 10px;
+    /*margin-bottom: 10px;*/
     overflow: hidden;
     display: flex;
 }
 
 .bottomClothesUpload {
     position: relative;
-    width: 440px;
-    height: 440px;
+    width: 85%;
+    height: 350px;
     justify-content: center;
     text-align: center;
     align-items: center;
@@ -229,16 +246,20 @@ input[type=file] {
     color: #000000;
 }
 
-.clothesUp {
-    display: block;
-    width: 120px;
-    height: 48px;
+.clothesUpload {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    max-width: 100%;
+    height: 750px;
     line-height: 48px;
     font-size: 16px;
     margin: 0 auto;
     background-color: #ffffff;
     border: solid 1px;
     border-radius: 8px;
+    justify-content: center;
+    align-content: stretch;
     text-align: center;
     color: black;
     font-family : 'NotoSerifKR';
