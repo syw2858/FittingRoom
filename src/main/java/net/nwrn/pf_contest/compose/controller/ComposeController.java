@@ -62,7 +62,7 @@ public class ComposeController {
             List<ComposeBottomResponseDTO> bottomList = composeService.getBottomList();
             model.addAttribute("bottomList", bottomList);
 
-            return "EditedFittingRoom";
+            return "FittingRoom";
         } catch (ApiException e) {
             return exceptionService.redirect("/errorPage", e.getMessage());
         } catch (Exception e) {
@@ -84,7 +84,7 @@ public class ComposeController {
 
             String personImageUrl = composeService.uploadPerson(personImage);
 
-            return "redirect:/fittingroom?personImageUrl="+personImageUrl+"?topImageUrl="+topImageUrl+"&bottomImageUrl="+bottomImageUrl;
+            return "redirect:/fittingroom?personImageUrl="+personImageUrl+"&topImageUrl="+topImageUrl+"&bottomImageUrl="+bottomImageUrl;
 
         } catch (ApiException e) {
             return exceptionService.redirect("/fittingroom", e.getMessage());
@@ -98,8 +98,8 @@ public class ComposeController {
     // 상의 이미지 합성 재료로 넣기
     @PostMapping("/fittingroom/uploadTopImage")
     public String putTopImage(
-            @RequestParam(required = false, value = "personImage") String personImageUrl,
-            @RequestParam(required = false, value = "topImageUrl") MultipartFile topImage,
+            @RequestParam(required = false, value = "personImageUrl") String personImageUrl,
+            @RequestParam(required = false, value = "topImage") MultipartFile topImage,
             @RequestParam(required = false, value = "bottomImageUrl") String bottomImageUrl
     ) {
 
@@ -107,7 +107,7 @@ public class ComposeController {
 
             String topImageUrl = composeService.uploadTop(topImage);
 
-            return "redirect:/fittingroom?topImageUrl="+topImageUrl+"?personImageUrl="+personImageUrl+"&bottomImageUrl="+bottomImageUrl;
+            return "redirect:/fittingroom?topImageUrl="+topImageUrl+"&personImageUrl="+personImageUrl+"&bottomImageUrl="+bottomImageUrl;
 
         } catch (ApiException e) {
             return exceptionService.redirect("/fittingroom", e.getMessage());
@@ -116,5 +116,28 @@ public class ComposeController {
             return exceptionService.redirect("/fittingroom", "알 수 없는 오류");
         }
     }
+
+    // 하의 이미지 합성 재료로 넣기
+    @PostMapping("/fittingroom/uploadBottomImage")
+    public String putBottomImage(
+            @RequestParam(required = false, value = "personImageUrl") String personImageUrl,
+            @RequestParam(required = false, value = "topImageUrl") String topImageUrl,
+            @RequestParam(required = false, value = "bottomImage") MultipartFile bottomImage
+    ) {
+
+        try {
+
+            String bottomImageUrl = composeService.uploadBottom(bottomImage);
+
+            return "redirect:/fittingroom?topImageUrl="+topImageUrl+"&personImageUrl="+personImageUrl+"&bottomImageUrl="+bottomImageUrl;
+
+        } catch (ApiException e) {
+            return exceptionService.redirect("/fittingroom", e.getMessage());
+        } catch (Exception e) {
+            log.error(exceptionService.generateMessage(), e);
+            return exceptionService.redirect("/fittingroom", "알 수 없는 오류");
+        }
+    }
+
 
 }

@@ -6,7 +6,9 @@ import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import net.nwrn.pf_contest.clothes.entity.BottomEntity;
 import net.nwrn.pf_contest.clothes.entity.TopEntity;
+import net.nwrn.pf_contest.clothes.repository.BottomRepository;
 import net.nwrn.pf_contest.clothes.repository.TopRepository;
 import net.nwrn.pf_contest.exception.ApiException;
 import net.nwrn.pf_contest.exception.ExceptionService;
@@ -18,7 +20,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.util.*;
+import java.util.Base64;
+
+import static net.nwrn.pf_contest.clothes.entity.QBottomEntity.bottomEntity;
 
 @Slf4j
 @Service
@@ -28,6 +32,7 @@ public class ImageServiceImpl implements ImageService {
     private final ExceptionService exceptionService;
     private final ImageRepository imageRepository;
     private final TopRepository topRepository;
+    private final BottomRepository bottomRepository;
 
     private final AmazonS3 amazonS3;
 
@@ -83,6 +88,44 @@ public class ImageServiceImpl implements ImageService {
 
         return generateUrl(path, filename);
     }
+
+    public String uploadBottomImageToS3AndGetUrl(MultipartFile Image) {
+
+        String filename = Base64.getEncoder().encodeToString(Image.getOriginalFilename().getBytes());
+
+        BottomEntity bottomEntity = new BottomEntity();
+        bottomRepository.save(bottomEntity);
+
+        ImageEntity imageEntity = new ImageEntity();
+        imageEntity.setFileName(filename);
+        imageEntity.setRepoName("bottom");
+        imageRepository.save(imageEntity);
+        Long objectId = bottomEntity.getBottomId();
+        imageEntity.setObjectId(objectId);
+
+        String path = new StringBuilder().append("top").append("/").append(objectId).append("/").toString();
+
+        byte[] bytes;
+        try {
+            bytes = Image.getBytes();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(bytes);
+        ObjectMetadata metadata = new ObjectMetadata();
+        metadata.setContentLength(bytes.length);
+
+        try {
+            amazonS3.putObject(new PutObjectRequest(awsBucketName + path, filename, byteArrayInputStream, metadata).withCannedAcl(CannedAccessControlList.PublicRead));
+        } catch (Exception e) {
+            log.error(exceptionService.generateMessage(), e);
+            throw new ApiException("amazonS3에 putObject하는데 오류 발생");
+        }
+
+        return generateUrl(path, filename);
+    }
+
+
 
 //
 //    public String finishMakingTopEntityAndReturnUrl(MultipartFile file, String repoName) {

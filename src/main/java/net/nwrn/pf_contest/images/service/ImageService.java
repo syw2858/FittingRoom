@@ -8,5 +8,7 @@ public interface ImageService {
 
     public String uploadTopImageToS3AndGetUrl(MultipartFile Image);
 
+    public String uploadBottomImageToS3AndGetUrl(MultipartFile Image);
+
     public String uploadPersonImageToS3AndGetUrl(MultipartFile Image, String repoName);
 }
