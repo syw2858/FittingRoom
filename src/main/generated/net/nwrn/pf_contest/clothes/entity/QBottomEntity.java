@@ -23,8 +23,6 @@ public class QBottomEntity extends EntityPathBase<BottomEntity> {
 
     public final DateTimePath<java.sql.Timestamp> bottomRegisterDt = createDateTime("bottomRegisterDt", java.sql.Timestamp.class);
 
-    public final StringPath bottomUrl = createString("bottomUrl");
-
     public QBottomEntity(String variable) {
         super(BottomEntity.class, forVariable(variable));
     }

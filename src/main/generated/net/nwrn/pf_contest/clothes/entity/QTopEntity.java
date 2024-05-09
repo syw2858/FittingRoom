@@ -23,8 +23,6 @@ public class QTopEntity extends EntityPathBase<TopEntity> {
 
     public final DateTimePath<java.sql.Timestamp> topRegisterDt = createDateTime("topRegisterDt", java.sql.Timestamp.class);
 
-    public final StringPath topUrl = createString("topUrl");
-
     public QTopEntity(String variable) {
         super(TopEntity.class, forVariable(variable));
     }

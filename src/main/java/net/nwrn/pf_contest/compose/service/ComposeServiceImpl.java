@@ -7,13 +7,10 @@ import net.nwrn.pf_contest.clothes.entity.TopEntity;
 import net.nwrn.pf_contest.clothes.repository.BottomRepository;
 import net.nwrn.pf_contest.clothes.repository.TopRepository;
 import net.nwrn.pf_contest.compose.dto.res.ComposeBottomResponseDTO;
-import net.nwrn.pf_contest.compose.dto.res.ComposePersonResponseDTO;
 import net.nwrn.pf_contest.compose.dto.res.ComposeTopResponseDTO;
-import net.nwrn.pf_contest.exception.ApiException;
 import net.nwrn.pf_contest.images.entity.ImageEntity;
 import net.nwrn.pf_contest.images.repository.ImageRepository;
 import net.nwrn.pf_contest.images.service.ImageService;
-import net.nwrn.pf_contest.person.entity.PersonEntity;
 import net.nwrn.pf_contest.person.repository.PersonRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -52,10 +49,18 @@ public class ComposeServiceImpl implements ComposeService {
 //        System.out.println(personImage.getSize());
 //        return "https://d1hds1xxjs6al7.cloudfront.net/test/default.jpeg";
 
-        if (personImageUrl == null) {personImageUrl = defaultImageUrl;}
+
 
         return personImageUrl;
     }
+
+    @Override
+    public String uploadTop(MultipartFile topImage) {
+        String topImageUrl = imageService.uploadTopImageToS3AndGetUrl(topImage);
+
+        return topImageUrl;
+    }
+
 
     public List<ComposeTopResponseDTO> getTopList() {
         List<TopEntity> topEntityList = topRepository.findAll();
@@ -63,16 +68,12 @@ public class ComposeServiceImpl implements ComposeService {
 
         for (TopEntity topEntity : topEntityList) {
             Long topId = topEntity.getTopId();
-            String topUrl = topEntity.getTopUrl();
-            Timestamp topRegisterDt = topEntity.getTopRegisterDt();
-
             List<ImageEntity> imageEntityList = imageRepository.findByRepoNameAndObjectId("top", topId);
+            String topUrl;
+            Timestamp topRegisterDt = topEntity.getTopRegisterDt();
 
             if (imageEntityList.isEmpty()) {
                 topUrl = defaultImageUrl;
-            }
-            else if (imageEntityList.size() >= 2) {
-                throw new ApiException("데이터베이스 오류입니다.");
             }
             else {
                 ImageEntity imageEntity = imageEntityList.get(0);
@@ -99,16 +100,12 @@ public class ComposeServiceImpl implements ComposeService {
 
         for (BottomEntity bottomEntity : bottomEntityList) {
             Long bottomId = bottomEntity.getBottomId();
-            String bottomUrl = bottomEntity.getBottomUrl();
-            Timestamp bottomRegisterDt = bottomEntity.getBottomRegisterDt();
-
             List<ImageEntity> imageEntityList = imageRepository.findByRepoNameAndObjectId("bottom", bottomId);
+            String bottomUrl;
+            Timestamp bottomRegisterDt = bottomEntity.getBottomRegisterDt();
 
             if (imageEntityList.isEmpty()) {
                 bottomUrl = defaultImageUrl;
-            }
-            else if (imageEntityList.size() >= 2) {
-                throw new ApiException("데이터베이스 오류입니다.");
             }
             else {
                 ImageEntity imageEntity = imageEntityList.get(0);

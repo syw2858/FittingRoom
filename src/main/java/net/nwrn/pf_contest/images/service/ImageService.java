@@ -6,7 +6,7 @@ public interface ImageService {
 
     public String combineUrl(String repoName, Long objectId, String filename);
 
-    public String uploadClothesImageToS3AndGetUrl(MultipartFile Image, String repoName, Long objectId);
+    public String uploadTopImageToS3AndGetUrl(MultipartFile Image);
 
     public String uploadPersonImageToS3AndGetUrl(MultipartFile Image, String repoName);
 }

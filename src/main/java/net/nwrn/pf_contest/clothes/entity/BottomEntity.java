@@ -20,8 +20,8 @@ public class BottomEntity {
     @Column(name = "bottom_id")
     private Long bottomId;
 
-    @Column(name="bottom_url")
-    private String bottomUrl;
+//    @Column(name="bottom_url")
+//    private String bottomUrl;
 
     @Column(name="bottom_register_dt", nullable = false)
     private Timestamp bottomRegisterDt;

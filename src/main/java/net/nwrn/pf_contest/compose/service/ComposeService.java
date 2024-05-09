@@ -11,8 +11,8 @@ public interface ComposeService {
     // 사람 이미지 파일 업로드
     String uploadPerson(MultipartFile personImage);
 
-//    // 상의 이미지 파일 업로드
-//    String uploadTop(MultipartFile topImage);
+    // 상의 이미지 파일 업로드
+    String uploadTop(MultipartFile topImage);
 //
 //    // 하의 이미지 파일 업로드
 //    String uploadBottom(MultipartFile bottomImage);
