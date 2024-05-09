@@ -82,9 +82,23 @@ public class ComposeController {
 
         try {
 
+            StringBuilder sb = new StringBuilder();
+
+
             String personImageUrl = composeService.uploadPerson(personImage);
 
-            return "redirect:/fittingroom?personImageUrl="+personImageUrl+"&topImageUrl="+topImageUrl+"&bottomImageUrl="+bottomImageUrl;
+            sb.append("redirect:/fittingroom?personImageUrl=");
+            sb.append(personImageUrl);
+            if(topImageUrl != null) {
+                sb.append("&topImageUrl=");
+                sb.append(topImageUrl);
+            }
+            if(bottomImageUrl != null) {
+                sb.append("&bottomImageUrl=");
+                sb.append(bottomImageUrl);
+            }
+
+            return sb.toString();
 
         } catch (ApiException e) {
             return exceptionService.redirect("/fittingroom", e.getMessage());
@@ -107,7 +121,19 @@ public class ComposeController {
 
             String topImageUrl = composeService.uploadTop(topImage);
 
-            return "redirect:/fittingroom?topImageUrl="+topImageUrl+"&personImageUrl="+personImageUrl+"&bottomImageUrl="+bottomImageUrl;
+            StringBuilder sb = new StringBuilder();
+            sb.append("redirect:/fittingroom?topImageUrl=");
+            sb.append(topImageUrl);
+            if(personImageUrl != null) {
+                sb.append("&personImageUrl=");
+                sb.append(personImageUrl);
+            }
+            if(bottomImageUrl != null) {
+                sb.append("&bottomImageUrl=");
+                sb.append(bottomImageUrl);
+            }
+
+            return sb.toString();
 
         } catch (ApiException e) {
             return exceptionService.redirect("/fittingroom", e.getMessage());
@@ -127,9 +153,22 @@ public class ComposeController {
 
         try {
 
-            String bottomImageUrl = composeService.uploadBottom(bottomImage);
+            StringBuilder sb = new StringBuilder();
 
-            return "redirect:/fittingroom?topImageUrl="+topImageUrl+"&personImageUrl="+personImageUrl+"&bottomImageUrl="+bottomImageUrl;
+            String bottomImageUrl = composeService.uploadBottom(bottomImage);
+            sb.append("redirect:/fittingroom?bottomImageUrl=");
+            sb.append(bottomImageUrl);
+            if(personImageUrl != null) {
+                sb.append("&personImageUrl=");
+                sb.append(personImageUrl);
+            }
+            if(topImageUrl != null) {
+                sb.append("&topImageUrl=");
+                sb.append(topImageUrl);
+            }
+
+            return sb.toString();
+
 
         } catch (ApiException e) {
             return exceptionService.redirect("/fittingroom", e.getMessage());

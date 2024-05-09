@@ -48,7 +48,7 @@ public class ComposeServiceImpl implements ComposeService {
 
 //        System.out.println(personImage.getSize());
 //        return "https://d1hds1xxjs6al7.cloudfront.net/test/default.jpeg";
-        
+
         return personImageUrl;
     }
 

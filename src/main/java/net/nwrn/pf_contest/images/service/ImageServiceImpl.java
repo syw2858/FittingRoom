@@ -22,8 +22,6 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.Base64;
 
-import static net.nwrn.pf_contest.clothes.entity.QBottomEntity.bottomEntity;
-
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -103,7 +101,7 @@ public class ImageServiceImpl implements ImageService {
         Long objectId = bottomEntity.getBottomId();
         imageEntity.setObjectId(objectId);
 
-        String path = new StringBuilder().append("top").append("/").append(objectId).append("/").toString();
+        String path = new StringBuilder().append("bottom").append("/").append(objectId).append("/").toString();
 
         byte[] bytes;
         try {
@@ -125,29 +123,6 @@ public class ImageServiceImpl implements ImageService {
         return generateUrl(path, filename);
     }
 
-
-
-//
-//    public String finishMakingTopEntityAndReturnUrl(MultipartFile file, String repoName) {
-//        Map<Long, String> urlMap = this.uploadTopImageToS3AndGetUrlMap(file, repoName);
-//        if (urlMap.isEmpty()) {
-//            throw new ApiException("TopEntity에서 Id를 가져와 object Id에 넣지 못해, url을 생성하지 못했습니다.");
-//        } else {
-//            Iterator<Map.Entry<Long, String>> iterator = urlMap.entrySet().iterator();
-//            Map.Entry<Long, String> entry = iterator.next();
-//            Long objectId = entry.getKey();
-//            String urlToSave = entry.getValue();
-//            try {
-//                topRepository.findById(objectId).ifPresent(topEntity -> {
-//                    topEntity.setTopUrl(urlToSave);
-//                });
-//            } catch (Exception e) {
-//                log.error(exceptionService.generateMessage(), e);
-//                throw new ApiException("topRepository에서 Id로 엔터티를 불러와 url을 저장하는데 실패하였습니다.");
-//            }
-//            return urlToSave;
-//        }
-//    }
 
     public String uploadPersonImageToS3AndGetUrl(MultipartFile Image, String repoName) {
 
