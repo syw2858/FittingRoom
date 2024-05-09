@@ -36,8 +36,15 @@ h3 {
     justify-content: center;
     text-align: center;
     align-items: center;
-    border: dotted 2px #d3d3d3;
+    border: dotted 3px #d3d3d3;
     border-radius: 16px;
+}
+
+.personImage {
+    width: 500px;
+    height: 770px;
+    border-radius: 16px;
+    border: none;
 }
 
 .personUp {
@@ -122,12 +129,6 @@ input[type=file] {
     border-radius: 25px;
 }
 
-.uploadClothes:active, .uploadClothes:focus {
-    cursor: pointer;
-    color: white;
-    background-color: black;
-}
-
 .topClothes {
     width: 344px;
     height: 256px;
@@ -144,6 +145,7 @@ input[type=file] {
     margin: 2px;
     border: 1px #d3d3d3;
     border-radius: 16px;
+    cursor: pointer;
 }
 
 .bottomClothes {
@@ -159,7 +161,7 @@ input[type=file] {
     justify-content: center;
     text-align: center;
     align-items: center;
-    border: dotted 2px #d3d3d3;
+    border: dotted 3px #d3d3d3;
     border-radius: 16px;
     margin-bottom: 10px;
 }
@@ -170,13 +172,13 @@ input[type=file] {
     justify-content: center;
     text-align: center;
     align-items: center;
-    border: dotted 2px #d3d3d3;
+    border: dotted 3px #d3d3d3;
     border-radius: 16px;
 }
 
 .closetUp {
     display: block;
-    margin-top: 170px;
+    margin-top: 140px;
     margin-bottom: 10px;
     font-size: 15px;
     color: #8d8d8d;
@@ -220,23 +222,37 @@ input[type=file] {
     text-align: center;
     align-items: center;
     border: dotted 3px #d3d3d3;
-    border-radius: 10px;
+    border-radius: 16px;
+}
+
+.resultImage {
+    width: 510px;
+    height: 770px;
+    border-radius: 16px;
+    border: none;
 }
 
 .resultBtn {
     width: 520px;
     height: 48px;
     line-height: 48px;
-    background-color: black;
-    color: white;
+    margin-top: 10px;
+    background-color: #8D8D8D;
+    color: #ffffff;
     font-family : 'NotoSerifKR';
+    border: none;
     border-radius: 12px;
     font-size: 16px;
 }
 
 .resultBtn:hover {
-    background-color: white;
-    color: black;
+    background-color: #ffffff;
+    color: #8D8D8D;
     cursor: pointer;
+<<<<<<< HEAD
     border: none;
 }
+=======
+    border: 1px solid #8D8D8D;
+}
+>>>>>>> upstream/240509-yw
