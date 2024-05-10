@@ -17,4 +17,3 @@ spring:
     properties:
       hibernate:
         default_schema: public
-

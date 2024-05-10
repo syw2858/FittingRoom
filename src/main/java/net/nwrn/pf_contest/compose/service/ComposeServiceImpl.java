@@ -18,6 +18,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 
@@ -98,6 +100,14 @@ public class ComposeServiceImpl implements ComposeService {
             topContentList.add(topResponseDTO);
         }
 
+        Collections.sort(topContentList, new Comparator<ComposeTopResponseDTO>() {
+
+            @Override
+            public int compare(ComposeTopResponseDTO t0, ComposeTopResponseDTO t1) {
+                return t1.getTopRegisterDt().compareTo(t0.getTopRegisterDt());
+            }
+        });
+
         return topContentList;
     }
 
@@ -129,6 +139,14 @@ public class ComposeServiceImpl implements ComposeService {
 
             bottomContentList.add(bottomResponseDTO);
         }
+
+        Collections.sort(bottomContentList, new Comparator<ComposeBottomResponseDTO>() {
+
+            @Override
+            public int compare(ComposeBottomResponseDTO t0, ComposeBottomResponseDTO t1) {
+                return t1.getBottomRegisterDt().compareTo(t0.getBottomRegisterDt());
+            }
+        });
 
         return bottomContentList;
     }

@@ -153,7 +153,7 @@ public class ComposeController {
 //
 //            if(personImageUrl != null) {
 //                sb.append("&personImageUrl=");
-//                sb.append(topImageUrl);
+//                sb.append(personImageUrl);
 //            }
 //            if(bottomImageUrl != null) {
 //                sb.append("&bottomImageUrl=");
