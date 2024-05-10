@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -63,6 +64,7 @@ public class ComposeController {
             model.addAttribute("bottomList", bottomList);
 
             return "FittingRoom2";
+
         } catch (ApiException e) {
             return exceptionService.redirect("/errorPage", e.getMessage());
         } catch (Exception e) {
@@ -75,30 +77,41 @@ public class ComposeController {
     // 사람 이미지 한 개 합성 재료로 넣기
     @PostMapping("/fittingroom/uploadPersonImage")
     public String putPersonImage(
+            Model model,
             @RequestParam(required = false, value = "personImage") MultipartFile personImage,
             @RequestParam(required = false, value = "topImageUrl") String topImageUrl,
-            @RequestParam(required = false, value = "bottomImageUrl") String bottomImageUrl
+            @RequestParam(required = false, value = "bottomImageUrl") String bottomImageUrl,
+            RedirectAttributes redirectAttributes
     ) {
 
         try {
 
-            StringBuilder sb = new StringBuilder();
-
-
             String personImageUrl = composeService.uploadPerson(personImage);
 
-            sb.append("redirect:/fittingroom?personImageUrl=");
-            sb.append(personImageUrl);
-            if(topImageUrl != null) {
-                sb.append("&topImageUrl=");
-                sb.append(topImageUrl);
-            }
-            if(bottomImageUrl != null) {
-                sb.append("&bottomImageUrl=");
-                sb.append(bottomImageUrl);
-            }
+            model.addAttribute("personImageUrl", personImageUrl);
+            model.addAttribute("topImageUrl", topImageUrl);
+            model.addAttribute("bottomImageUrl", bottomImageUrl);
 
-            return sb.toString();
+            // RedirectAttributes를 사용하여 데이터 보존
+            redirectAttributes.addAttribute("personImageUrl", personImageUrl);
+            redirectAttributes.addAttribute("topImageUrl", model.getAttribute(topImageUrl));
+            redirectAttributes.addAttribute("bottomImageUrl", model.getAttribute(bottomImageUrl));
+
+            return "redirect:/fittingroom"; // 리다이렉션
+
+//            StringBuilder sb = new StringBuilder();
+//            sb.append("redirect:/fittingroom?personImageUrl=");
+//            sb.append(personImageUrl);
+//            if(topImageUrl != null) {
+//                sb.append("&topImageUrl=");
+//                sb.append(topImageUrl);
+//            }
+//            if(bottomImageUrl != null) {
+//                sb.append("&bottomImageUrl=");
+//                sb.append(bottomImageUrl);
+//            }
+//
+//            return sb.toString();
 
         } catch (ApiException e) {
             return exceptionService.redirect("/fittingroom", e.getMessage());
@@ -112,28 +125,42 @@ public class ComposeController {
     // 상의 이미지 합성 재료로 넣기
     @PostMapping("/fittingroom/uploadTopImage")
     public String putTopImage(
+            Model model,
             @RequestParam(required = false, value = "personImageUrl") String personImageUrl,
             @RequestParam(required = false, value = "topImage") MultipartFile topImage,
-            @RequestParam(required = false, value = "bottomImageUrl") String bottomImageUrl
+            @RequestParam(required = false, value = "bottomImageUrl") String bottomImageUrl,
+            RedirectAttributes redirectAttributes
     ) {
 
         try {
 
             String topImageUrl = composeService.uploadTop(topImage);
 
-            StringBuilder sb = new StringBuilder();
-            sb.append("redirect:/fittingroom?topImageUrl=");
-            sb.append(topImageUrl);
-            if(personImageUrl != null) {
-                sb.append("&personImageUrl=");
-                sb.append(personImageUrl);
-            }
-            if(bottomImageUrl != null) {
-                sb.append("&bottomImageUrl=");
-                sb.append(bottomImageUrl);
-            }
+            model.addAttribute("personImageUrl", personImageUrl);
+            model.addAttribute("topImageUrl", topImageUrl);
+            model.addAttribute("bottomImageUrl", bottomImageUrl);
 
-            return sb.toString();
+            // RedirectAttributes를 사용하여 데이터 보존
+            redirectAttributes.addAttribute("personImageUrl", model.getAttribute(personImageUrl));
+            redirectAttributes.addAttribute("topImageUrl", topImageUrl);
+            redirectAttributes.addAttribute("bottomImageUrl", model.getAttribute(bottomImageUrl));
+
+            return "redirect:/fittingroom"; // 리다이렉션
+
+//            StringBuilder sb = new StringBuilder();
+//            sb.append("redirect:/fittingroom?topImageUrl=");
+//            sb.append(topImageUrl);
+//
+//            if(personImageUrl != null) {
+//                sb.append("&personImageUrl=");
+//                sb.append(topImageUrl);
+//            }
+//            if(bottomImageUrl != null) {
+//                sb.append("&bottomImageUrl=");
+//                sb.append(bottomImageUrl);
+//            }
+//
+//            return sb.toString();
 
         } catch (ApiException e) {
             return exceptionService.redirect("/fittingroom", e.getMessage());
@@ -146,28 +173,42 @@ public class ComposeController {
     // 하의 이미지 합성 재료로 넣기
     @PostMapping("/fittingroom/uploadBottomImage")
     public String putBottomImage(
+            Model model,
             @RequestParam(required = false, value = "personImageUrl") String personImageUrl,
             @RequestParam(required = false, value = "topImageUrl") String topImageUrl,
-            @RequestParam(required = false, value = "bottomImage") MultipartFile bottomImage
+            @RequestParam(required = false, value = "bottomImage") MultipartFile bottomImage,
+            RedirectAttributes redirectAttributes
     ) {
 
         try {
 
             String bottomImageUrl = composeService.uploadBottom(bottomImage);
 
-            StringBuilder sb = new StringBuilder();
-            sb.append("redirect:/fittingroom?bottomImageUrl=");
-            sb.append(bottomImageUrl);
-            if(personImageUrl != null) {
-                sb.append("&personImageUrl=");
-                sb.append(personImageUrl);
-            }
-            if(topImageUrl != null) {
-                sb.append("&topImageUrl=");
-                sb.append(topImageUrl);
-            }
+            model.addAttribute("personImageUrl", personImageUrl);
+            model.addAttribute("topImageUrl", topImageUrl);
+            model.addAttribute("bottomImageUrl", bottomImageUrl);
 
-            return sb.toString();
+            // RedirectAttributes를 사용하여 데이터 보존
+            redirectAttributes.addAttribute("personImageUrl", model.getAttribute(personImageUrl));
+            redirectAttributes.addAttribute("topImageUrl", model.getAttribute(topImageUrl));
+            redirectAttributes.addAttribute("bottomImageUrl", bottomImageUrl);
+
+            return "redirect:/fittingroom"; // 리다이렉션
+
+//            StringBuilder sb = new StringBuilder();
+//            sb.append("redirect:/fittingroom?bottomImageUrl=");
+//            sb.append(bottomImageUrl);
+//
+//            if(personImageUrl != null) {
+//                sb.append("&personImageUrl=");
+//                sb.append(personImageUrl);
+//            }
+//            if(topImageUrl != null) {
+//                sb.append("&topImageUrl=");
+//                sb.append(topImageUrl);
+//            }
+//
+//            return sb.toString();
 
         } catch (ApiException e) {
             return exceptionService.redirect("/fittingroom", e.getMessage());

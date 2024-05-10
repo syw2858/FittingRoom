@@ -37,30 +37,21 @@
             <div class="sampleClothes" onclick="showClothes()">샘플</div>
             <div class="uploadClothes" onclick="uploadClothes()">내 PC</div>
         </div>
-        <div class="clothesSelect" id="closet">
-            <div class="topClothes">
-                <table class="clothesTable">
-                    <tr>
-                        <td style="font-size: 16px">상의</td>
-                    </tr>
-                    <tr th:each="dto, start : ${topList}" th:if="${start.index % 4 == 0}">
-                        <td th:each="col : ${#numbers.sequence(0, 3)}">
-                            <img class="clothesImage" th:src="@{${dto.topImageUrl}}"  onclick="clothesSelect()"></td>
-                    </tr>
-                </table>
+        <div class="clothesSelect" id="closet" style="display: flex; flex-wrap: wrap; justify-content: space-around; align-content: space-around;">
+            <div class="topClothes" style="flex-basis: 22%; display: flex; flex-wrap: wrap; justify-content: space-around; align-content: space-around;">
+                <h3 style="width: 100%;">상의</h3>
+                <div th:each="dto : ${topList}" style="width: 22%;">
+                    <img class="clothesImage" th:src="@{${dto.topImageUrl}}" onclick="clothesSelect()" style="width: 100%;">
+                </div>
             </div>
-            <div class="bottomClothes">
-                <table class="clothesTable">
-                    <tr>
-                        <td style="font-size:16px">하의</td>
-                    </tr>
-                    <tr th:each="dto, start : ${bottomList}" th:if="${start.index % 4 == 0}">
-                        <td th:each="col : ${#numbers.sequence(0, 3)}">
-                            <img class="clothesImage" th:src="@{${dto.bottomImageUrl}}"  onclick="clothesSelect()"></td>
-                    </tr>
-                </table>
+            <div class="bottomClothes" style="flex-basis: 22%; display: flex; flex-wrap: wrap; justify-content: space-around; align-content: space-around;">
+                <h3 style="width: 100%;">하의</h3>
+                <div th:each="dto : ${bottomList}" style="width: 22%;">
+                    <img class="clothesImage" th:src="@{${dto.bottomImageUrl}}" onclick="clothesSelect()" style="width: 100%;">
+                </div>
             </div>
         </div>
+
         <div class="clothesUpload" id="clothesUpload">
             <div class="topClothesImg"  th:if="${topImageUrl} != null">
                 <div class="topClothesUpload">
