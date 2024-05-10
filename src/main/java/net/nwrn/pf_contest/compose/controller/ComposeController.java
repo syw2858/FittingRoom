@@ -62,7 +62,7 @@ public class ComposeController {
             List<ComposeBottomResponseDTO> bottomList = composeService.getBottomList();
             model.addAttribute("bottomList", bottomList);
 
-            return "FittingRoom";
+            return "FittingRoom2";
         } catch (ApiException e) {
             return exceptionService.redirect("/errorPage", e.getMessage());
         } catch (Exception e) {
@@ -153,9 +153,9 @@ public class ComposeController {
 
         try {
 
-            StringBuilder sb = new StringBuilder();
-
             String bottomImageUrl = composeService.uploadBottom(bottomImage);
+
+            StringBuilder sb = new StringBuilder();
             sb.append("redirect:/fittingroom?bottomImageUrl=");
             sb.append(bottomImageUrl);
             if(personImageUrl != null) {
@@ -169,7 +169,6 @@ public class ComposeController {
 
             return sb.toString();
 
-
         } catch (ApiException e) {
             return exceptionService.redirect("/fittingroom", e.getMessage());
         } catch (Exception e) {
@@ -177,6 +176,5 @@ public class ComposeController {
             return exceptionService.redirect("/fittingroom", "알 수 없는 오류");
         }
     }
-
 
 }

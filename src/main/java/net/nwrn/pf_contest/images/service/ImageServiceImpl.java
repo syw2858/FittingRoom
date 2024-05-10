@@ -51,6 +51,42 @@ public class ImageServiceImpl implements ImageService {
     }
 
 
+//    public String uploadTopImageToS3AndGetUrl(MultipartFile Image) {
+//
+//        String filename = Base64.getEncoder().encodeToString(Image.getOriginalFilename().getBytes());
+//
+//        TopEntity topEntity = new TopEntity();
+//        topRepository.save(topEntity);
+//
+//        ImageEntity imageEntity = new ImageEntity();
+//        imageEntity.setFileName(filename);
+//        imageEntity.setRepoName("top");
+//        imageRepository.save(imageEntity);
+//        Long objectId = topEntity.getTopId();
+//        imageEntity.setObjectId(objectId);
+//
+//        String path = new StringBuilder().append("top").append("/").append(objectId).append("/").toString();
+//
+//        byte[] bytes;
+//        try {
+//            bytes = Image.getBytes();
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
+//        ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(bytes);
+//        ObjectMetadata metadata = new ObjectMetadata();
+//        metadata.setContentLength(bytes.length);
+//
+//        try {
+//            amazonS3.putObject(new PutObjectRequest(awsBucketName + path, filename, byteArrayInputStream, metadata).withCannedAcl(CannedAccessControlList.PublicRead));
+//        } catch (Exception e) {
+//            log.error(exceptionService.generateMessage(), e);
+//            throw new ApiException("amazonS3에 putObject하는데 오류 발생");
+//        }
+//
+//        return generateUrl(path, filename);
+//    }
+
     public String uploadTopImageToS3AndGetUrl(MultipartFile Image) {
 
         String filename = Base64.getEncoder().encodeToString(Image.getOriginalFilename().getBytes());
@@ -61,9 +97,9 @@ public class ImageServiceImpl implements ImageService {
         ImageEntity imageEntity = new ImageEntity();
         imageEntity.setFileName(filename);
         imageEntity.setRepoName("top");
-        imageRepository.save(imageEntity);
         Long objectId = topEntity.getTopId();
         imageEntity.setObjectId(objectId);
+        imageRepository.save(imageEntity);
 
         String path = new StringBuilder().append("top").append("/").append(objectId).append("/").toString();
 
@@ -78,7 +114,7 @@ public class ImageServiceImpl implements ImageService {
         metadata.setContentLength(bytes.length);
 
         try {
-            amazonS3.putObject(new PutObjectRequest(awsBucketName + path, filename, byteArrayInputStream, metadata).withCannedAcl(CannedAccessControlList.PublicRead));
+            amazonS3.putObject(new PutObjectRequest(awsBucketName, path+filename, byteArrayInputStream, metadata).withCannedAcl(CannedAccessControlList.PublicRead));
         } catch (Exception e) {
             log.error(exceptionService.generateMessage(), e);
             throw new ApiException("amazonS3에 putObject하는데 오류 발생");
@@ -86,6 +122,8 @@ public class ImageServiceImpl implements ImageService {
 
         return generateUrl(path, filename);
     }
+
+
 
     public String uploadBottomImageToS3AndGetUrl(MultipartFile Image) {
 
@@ -97,9 +135,9 @@ public class ImageServiceImpl implements ImageService {
         ImageEntity imageEntity = new ImageEntity();
         imageEntity.setFileName(filename);
         imageEntity.setRepoName("bottom");
-        imageRepository.save(imageEntity);
         Long objectId = bottomEntity.getBottomId();
         imageEntity.setObjectId(objectId);
+        imageRepository.save(imageEntity);
 
         String path = new StringBuilder().append("bottom").append("/").append(objectId).append("/").toString();
 
@@ -114,13 +152,14 @@ public class ImageServiceImpl implements ImageService {
         metadata.setContentLength(bytes.length);
 
         try {
-            amazonS3.putObject(new PutObjectRequest(awsBucketName + path, filename, byteArrayInputStream, metadata).withCannedAcl(CannedAccessControlList.PublicRead));
+            amazonS3.putObject(new PutObjectRequest(awsBucketName, path+filename, byteArrayInputStream, metadata).withCannedAcl(CannedAccessControlList.PublicRead));
         } catch (Exception e) {
             log.error(exceptionService.generateMessage(), e);
             throw new ApiException("amazonS3에 putObject하는데 오류 발생");
         }
 
         return generateUrl(path, filename);
+
     }
 
 

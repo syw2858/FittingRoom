@@ -264,10 +264,6 @@ input[type=file] {
     background-color: #ffffff;
     color: #8D8D8D;
     cursor: pointer;
-<<<<<<< HEAD
-    border: none;
-}
-=======
+    /*border: none;*/
     border: 1px solid #8D8D8D;
 }
->>>>>>> upstream/240509-yw

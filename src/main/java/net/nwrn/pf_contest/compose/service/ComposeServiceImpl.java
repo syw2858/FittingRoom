@@ -133,49 +133,4 @@ public class ComposeServiceImpl implements ComposeService {
         return bottomContentList;
     }
 
-
-
-//    @Override
-//    public Page<ComposePageClothesResponseDTO> getClothesList(Category category, Color color, Integer page, Integer size) {
-//
-//
-//        // 페이지네이션으로 엔터티 가져오기
-//        Page<ClothesEntity> clothesEntityPage = clothesRepository.getClothes(category, color, page, size);
-//
-////        Page<ComposePageClothesResponseDTO> pageClothesResponseDTOs = new PageImpl<>(
-////                new ArrayList<>(), clothesEntityPage.getPageable(), clothesEntityPage.getTotalElements()
-////        );
-//
-//        List<ComposePageClothesResponseDTO> content = new ArrayList<>();
-//
-//
-//        for (ClothesEntity clothesEntity : clothesEntityPage) {
-//
-//            String url;
-//            Long clothesId = clothesEntity.getId();
-//            List<ImageEntity> imageEntityList = imageRepository.findByRepoNameAndObjectId("clothes", clothesId);
-//            if (imageEntityList.isEmpty()) url = defaultImageUrl;
-//
-//            else if (imageEntityList.size() >=2 ) throw new ApiException("데이터베이스 오류입니다.");
-//
-//            else {
-//                ImageEntity imageEntity = imageEntityList.get(0);
-//                String repoName = imageEntity.getRepoName();
-//                Long objectId = imageEntity.getObjectId();
-//                String fileName = imageEntity.getFileName();
-//                url = imageService.combineUrl(repoName, objectId, fileName);
-//            }
-//
-//            ComposePageClothesResponseDTO clothesResponseDTO = new ComposePageClothesResponseDTO();
-//            clothesResponseDTO.setClothesColor(clothesEntity.getColor());
-//            clothesResponseDTO.setClothesCategory(clothesEntity.getCategory());
-//            clothesResponseDTO.setClothesId(clothesId);
-//            clothesResponseDTO.setClothesImageUrl(url);
-//
-//            content.add(clothesResponseDTO);
-//        }
-//
-//        return new PageImpl<>(content, clothesEntityPage.getPageable(), clothesEntityPage.getTotalElements()) ;
-//
-//    }
 }
