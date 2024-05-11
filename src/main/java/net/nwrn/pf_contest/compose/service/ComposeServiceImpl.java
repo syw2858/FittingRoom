@@ -108,7 +108,9 @@ public class ComposeServiceImpl implements ComposeService {
             }
         });
 
-        return topContentList;
+        List<ComposeTopResponseDTO> top12 = topContentList.subList(0, 12);
+
+        return top12;
     }
 
     public List<ComposeBottomResponseDTO> getBottomList() {
@@ -148,7 +150,9 @@ public class ComposeServiceImpl implements ComposeService {
             }
         });
 
-        return bottomContentList;
+        List<ComposeBottomResponseDTO> bottom12 = bottomContentList.subList(0, 12);
+
+        return bottom12;
     }
 
 }
