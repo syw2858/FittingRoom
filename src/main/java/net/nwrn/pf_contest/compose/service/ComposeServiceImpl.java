@@ -18,6 +18,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 
@@ -98,7 +100,20 @@ public class ComposeServiceImpl implements ComposeService {
             topContentList.add(topResponseDTO);
         }
 
-        return topContentList;
+        Collections.sort(topContentList, new Comparator<ComposeTopResponseDTO>() {
+
+            @Override
+            public int compare(ComposeTopResponseDTO t0, ComposeTopResponseDTO t1) {
+                return t1.getTopRegisterDt().compareTo(t0.getTopRegisterDt());
+            }
+        });
+
+        if (topContentList.size() >= 12) {
+            List<ComposeTopResponseDTO> top12 = topContentList.subList(0, 12);
+            return top12;
+        } else {
+            return topContentList;
+        }
     }
 
     public List<ComposeBottomResponseDTO> getBottomList() {
@@ -130,52 +145,20 @@ public class ComposeServiceImpl implements ComposeService {
             bottomContentList.add(bottomResponseDTO);
         }
 
-        return bottomContentList;
+        Collections.sort(bottomContentList, new Comparator<ComposeBottomResponseDTO>() {
+
+            @Override
+            public int compare(ComposeBottomResponseDTO t0, ComposeBottomResponseDTO t1) {
+                return t1.getBottomRegisterDt().compareTo(t0.getBottomRegisterDt());
+            }
+        });
+
+        if (bottomContentList.size() >= 12) {
+            List<ComposeBottomResponseDTO> bottom12 = bottomContentList.subList(0, 12);
+            return bottom12;
+        } else {
+            return bottomContentList;
+        }
     }
 
-
-
-//    @Override
-//    public Page<ComposePageClothesResponseDTO> getClothesList(Category category, Color color, Integer page, Integer size) {
-//
-//
-//        // 페이지네이션으로 엔터티 가져오기
-//        Page<ClothesEntity> clothesEntityPage = clothesRepository.getClothes(category, color, page, size);
-//
-////        Page<ComposePageClothesResponseDTO> pageClothesResponseDTOs = new PageImpl<>(
-////                new ArrayList<>(), clothesEntityPage.getPageable(), clothesEntityPage.getTotalElements()
-////        );
-//
-//        List<ComposePageClothesResponseDTO> content = new ArrayList<>();
-//
-//
-//        for (ClothesEntity clothesEntity : clothesEntityPage) {
-//
-//            String url;
-//            Long clothesId = clothesEntity.getId();
-//            List<ImageEntity> imageEntityList = imageRepository.findByRepoNameAndObjectId("clothes", clothesId);
-//            if (imageEntityList.isEmpty()) url = defaultImageUrl;
-//
-//            else if (imageEntityList.size() >=2 ) throw new ApiException("데이터베이스 오류입니다.");
-//
-//            else {
-//                ImageEntity imageEntity = imageEntityList.get(0);
-//                String repoName = imageEntity.getRepoName();
-//                Long objectId = imageEntity.getObjectId();
-//                String fileName = imageEntity.getFileName();
-//                url = imageService.combineUrl(repoName, objectId, fileName);
-//            }
-//
-//            ComposePageClothesResponseDTO clothesResponseDTO = new ComposePageClothesResponseDTO();
-//            clothesResponseDTO.setClothesColor(clothesEntity.getColor());
-//            clothesResponseDTO.setClothesCategory(clothesEntity.getCategory());
-//            clothesResponseDTO.setClothesId(clothesId);
-//            clothesResponseDTO.setClothesImageUrl(url);
-//
-//            content.add(clothesResponseDTO);
-//        }
-//
-//        return new PageImpl<>(content, clothesEntityPage.getPageable(), clothesEntityPage.getTotalElements()) ;
-//
-//    }
 }
