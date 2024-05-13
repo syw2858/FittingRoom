@@ -39,7 +39,8 @@ public class ComposeController {
             @RequestParam(required=false, name="personImageUrl") String personImageUrl,
             @RequestParam(required=false, name="composedImageUrl") String composedImageUrl,
             @RequestParam(required=false, name="topImageUrl") String topImageUrl,
-            @RequestParam(required=false, name="bottomImageUrl") String bottomImageUrl
+            @RequestParam(required=false, name="bottomImageUrl") String bottomImageUrl,
+            @RequestParam(required=false, name="isSample") Boolean isSample
             ) {
 
         try {
@@ -53,6 +54,7 @@ public class ComposeController {
             model.addAttribute("composedImageUrl", composedImageUrl);
             model.addAttribute("topImageUrl", topImageUrl);
             model.addAttribute("bottomImageUrl", bottomImageUrl);
+            model.addAttribute("isSample", isSample);
 
             // 상의 이미지 리스트 불러오기
             List<ComposeTopResponseDTO> topList = composeService.getTopList();

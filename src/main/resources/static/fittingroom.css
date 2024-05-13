@@ -132,7 +132,7 @@ input[type=file] {
 .topClothes {
     width: 344px;
     height: 256px;
-    margin-bottom: 50px;
+    margin-bottom: 70px;
 }
 
 .clothesTable {
@@ -264,10 +264,6 @@ input[type=file] {
     background-color: #ffffff;
     color: #8D8D8D;
     cursor: pointer;
-<<<<<<< HEAD
     border: none;
 }
-=======
-    border: 1px solid #8D8D8D;
-}
->>>>>>> upstream/240509-yw
+
