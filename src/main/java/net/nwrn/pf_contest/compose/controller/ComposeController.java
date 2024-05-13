@@ -49,11 +49,18 @@ public class ComposeController {
                 model.addAttribute("errorMessage", errorMessage);
             else
                 model.addAttribute("errorMessage", exceptionService.decode(errorMessage));
-            
-            model.addAttribute("personImageUrl", personImageUrl);
-            model.addAttribute("composedImageUrl", composedImageUrl);
-            model.addAttribute("topImageUrl", topImageUrl);
-            model.addAttribute("bottomImageUrl", bottomImageUrl);
+
+            if (personImageUrl != null)
+                model.addAttribute("personImageUrl", personImageUrl);
+
+            if (composedImageUrl != null)
+                model.addAttribute("composedImageUrl", composedImageUrl);
+
+            if (topImageUrl != null)
+                model.addAttribute("topImageUrl", topImageUrl);
+
+            if (bottomImageUrl != null)
+                model.addAttribute("bottomImageUrl", bottomImageUrl);
 
             // 상의 이미지 리스트 불러오기
             List<ComposeTopResponseDTO> topList = composeService.getTopList();
@@ -77,10 +84,9 @@ public class ComposeController {
     // 사람 이미지 한 개 합성 재료로 넣기
     @PostMapping("/fittingroom/uploadPersonImage")
     public String putPersonImage(
-            Model model,
-            @RequestParam(required = false, value = "personImage") MultipartFile personImage,
-            @RequestParam(required = false, value = "topImageUrl") String topImageUrl,
-            @RequestParam(required = false, value = "bottomImageUrl") String bottomImageUrl,
+            @RequestParam(required = false, name = "personImage") MultipartFile personImage,
+            @RequestParam(required = false, name = "topImageUrl") String topImageUrl,
+            @RequestParam(required = false, name = "bottomImageUrl") String bottomImageUrl,
             RedirectAttributes redirectAttributes
     ) {
 
@@ -88,14 +94,13 @@ public class ComposeController {
 
             String personImageUrl = composeService.uploadPerson(personImage);
 
-            model.addAttribute("personImageUrl", personImageUrl);
-            model.addAttribute("topImageUrl", topImageUrl);
-            model.addAttribute("bottomImageUrl", bottomImageUrl);
-
             // RedirectAttributes를 사용하여 데이터 보존
             redirectAttributes.addAttribute("personImageUrl", personImageUrl);
-            redirectAttributes.addAttribute("topImageUrl", model.getAttribute(topImageUrl));
-            redirectAttributes.addAttribute("bottomImageUrl", model.getAttribute(bottomImageUrl));
+
+            if (topImageUrl != null)
+                redirectAttributes.addAttribute("topImageUrl", topImageUrl);
+            if (bottomImageUrl != null)
+                redirectAttributes.addAttribute("bottomImageUrl", bottomImageUrl);
 
             return "redirect:/fittingroom"; // 리다이렉션
 
@@ -125,10 +130,9 @@ public class ComposeController {
     // 상의 이미지 합성 재료로 넣기
     @PostMapping("/fittingroom/uploadTopImage")
     public String putTopImage(
-            Model model,
-            @RequestParam(required = false, value = "personImageUrl") String personImageUrl,
-            @RequestParam(required = false, value = "topImage") MultipartFile topImage,
-            @RequestParam(required = false, value = "bottomImageUrl") String bottomImageUrl,
+            @RequestParam(required = false, name = "personImageUrl") String personImageUrl,
+            @RequestParam(required = false, name = "topImage") MultipartFile topImage,
+            @RequestParam(required = false, name = "bottomImageUrl") String bottomImageUrl,
             RedirectAttributes redirectAttributes
     ) {
 
@@ -136,14 +140,15 @@ public class ComposeController {
 
             String topImageUrl = composeService.uploadTop(topImage);
 
-            model.addAttribute("personImageUrl", personImageUrl);
-            model.addAttribute("topImageUrl", topImageUrl);
-            model.addAttribute("bottomImageUrl", bottomImageUrl);
+            redirectAttributes.addAttribute("topImageUrl", topImageUrl);
 
             // RedirectAttributes를 사용하여 데이터 보존
-            redirectAttributes.addAttribute("personImageUrl", model.getAttribute(personImageUrl));
-            redirectAttributes.addAttribute("topImageUrl", topImageUrl);
-            redirectAttributes.addAttribute("bottomImageUrl", model.getAttribute(bottomImageUrl));
+            if (personImageUrl != null) {
+                redirectAttributes.addAttribute("personImageUrl", personImageUrl);
+            }
+            if (bottomImageUrl != null)
+                redirectAttributes.addAttribute("topImageUrl", bottomImageUrl);
+
 
             return "redirect:/fittingroom"; // 리다이렉션
 
@@ -173,10 +178,10 @@ public class ComposeController {
     // 하의 이미지 합성 재료로 넣기
     @PostMapping("/fittingroom/uploadBottomImage")
     public String putBottomImage(
-            Model model,
-            @RequestParam(required = false, value = "personImageUrl") String personImageUrl,
-            @RequestParam(required = false, value = "topImageUrl") String topImageUrl,
-            @RequestParam(required = false, value = "bottomImage") MultipartFile bottomImage,
+
+            @RequestParam(required = false, name = "personImageUrl") String personImageUrl,
+            @RequestParam(required = false, name = "topImageUrl") String topImageUrl,
+            @RequestParam(required = false, name = "bottomImage") MultipartFile bottomImage,
             RedirectAttributes redirectAttributes
     ) {
 
@@ -184,13 +189,14 @@ public class ComposeController {
 
             String bottomImageUrl = composeService.uploadBottom(bottomImage);
 
-            model.addAttribute("personImageUrl", personImageUrl);
-            model.addAttribute("topImageUrl", topImageUrl);
-            model.addAttribute("bottomImageUrl", bottomImageUrl);
-
             // RedirectAttributes를 사용하여 데이터 보존
-            redirectAttributes.addAttribute("personImageUrl", model.getAttribute(personImageUrl));
-            redirectAttributes.addAttribute("topImageUrl", model.getAttribute(topImageUrl));
+
+            if (personImageUrl != null) {
+                redirectAttributes.addAttribute("personImageUrl", personImageUrl);
+            }
+            if (topImageUrl != null) {
+                redirectAttributes.addAttribute("topImageUrl", topImageUrl);
+            }
             redirectAttributes.addAttribute("bottomImageUrl", bottomImageUrl);
 
             return "redirect:/fittingroom"; // 리다이렉션
