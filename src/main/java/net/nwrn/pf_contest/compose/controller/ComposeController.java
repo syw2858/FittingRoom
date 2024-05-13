@@ -51,6 +51,9 @@ public class ComposeController {
             else
                 model.addAttribute("errorMessage", exceptionService.decode(errorMessage));
 
+            if(isSample != null)
+                model.addAttribute("isSample", isSample);
+
             if (personImageUrl != null)
                 model.addAttribute("personImageUrl", personImageUrl);
 
@@ -71,7 +74,7 @@ public class ComposeController {
             List<ComposeBottomResponseDTO> bottomList = composeService.getBottomList();
             model.addAttribute("bottomList", bottomList);
 
-            return "FittingRoom2";
+            return "FittingRoom";
 
         } catch (ApiException e) {
             return exceptionService.redirect("/errorPage", e.getMessage());
@@ -85,6 +88,7 @@ public class ComposeController {
     // 사람 이미지 한 개 합성 재료로 넣기
     @PostMapping("/fittingroom/uploadPersonImage")
     public String putPersonImage(
+            @RequestParam(required=false, name="isSample") Boolean isSample,
             @RequestParam(required = false, name = "personImage") MultipartFile personImage,
             @RequestParam(required = false, name = "topImageUrl") String topImageUrl,
             @RequestParam(required = false, name = "bottomImageUrl") String bottomImageUrl,
@@ -97,7 +101,8 @@ public class ComposeController {
 
             // RedirectAttributes를 사용하여 데이터 보존
             redirectAttributes.addAttribute("personImageUrl", personImageUrl);
-
+            if (isSample != null)
+                redirectAttributes.addAttribute("isSample", isSample);
             if (topImageUrl != null)
                 redirectAttributes.addAttribute("topImageUrl", topImageUrl);
             if (bottomImageUrl != null)
@@ -131,6 +136,7 @@ public class ComposeController {
     // 상의 이미지 합성 재료로 넣기
     @PostMapping("/fittingroom/uploadTopImage")
     public String putTopImage(
+            @RequestParam(required=false, name="isSample") Boolean isSample,
             @RequestParam(required = false, name = "personImageUrl") String personImageUrl,
             @RequestParam(required = false, name = "topImage") MultipartFile topImage,
             @RequestParam(required = false, name = "bottomImageUrl") String bottomImageUrl,
@@ -143,12 +149,14 @@ public class ComposeController {
 
             redirectAttributes.addAttribute("topImageUrl", topImageUrl);
 
+            if (isSample != null)
+                redirectAttributes.addAttribute("isSample", isSample);
             // RedirectAttributes를 사용하여 데이터 보존
             if (personImageUrl != null) {
                 redirectAttributes.addAttribute("personImageUrl", personImageUrl);
             }
             if (bottomImageUrl != null)
-                redirectAttributes.addAttribute("topImageUrl", bottomImageUrl);
+                redirectAttributes.addAttribute("bottomImageUrl", bottomImageUrl);
 
 
             return "redirect:/fittingroom"; // 리다이렉션
@@ -179,7 +187,7 @@ public class ComposeController {
     // 하의 이미지 합성 재료로 넣기
     @PostMapping("/fittingroom/uploadBottomImage")
     public String putBottomImage(
-
+            @RequestParam(required=false, name="isSample") Boolean isSample,
             @RequestParam(required = false, name = "personImageUrl") String personImageUrl,
             @RequestParam(required = false, name = "topImageUrl") String topImageUrl,
             @RequestParam(required = false, name = "bottomImage") MultipartFile bottomImage,
@@ -191,6 +199,8 @@ public class ComposeController {
             String bottomImageUrl = composeService.uploadBottom(bottomImage);
 
             // RedirectAttributes를 사용하여 데이터 보존
+            if (isSample != null)
+                redirectAttributes.addAttribute("isSample", isSample);
 
             if (personImageUrl != null) {
                 redirectAttributes.addAttribute("personImageUrl", personImageUrl);

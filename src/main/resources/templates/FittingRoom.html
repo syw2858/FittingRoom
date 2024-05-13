@@ -27,9 +27,9 @@
                     <label for="personImage" class="personUp">
                         <i class="fa-solid fa-user-plus fa-2x"></i><br>원본 이미지</label>
                     <input type="file" name="personImage" id="personImage" class="personImage">
-                    <input th:if="${topImageUrl} != null" type="hidden" name="topImageUrl" value="${topImageUrl}">
-                    <input th:if="${bottomImageUrl} != null" type="hidden" name="bottomImageUrl" value="${bottomImageUrl}">
-                    <input type="hidden" name="isSample" value="${isSample}">
+                    <input th:if="${topImageUrl} != null" type="hidden" name="topImageUrl" th:value="${topImageUrl}">
+                    <input th:if="${bottomImageUrl} != null" type="hidden" name="bottomImageUrl" th:value="${bottomImageUrl}">
+                    <input type="hidden" name="isSample" class="isSample" th:value="${isSample}">
                     <button type="submit" class="personUpBtn">
                         <i class="fa-solid fa-upload"></i>업로드</button>
                 </form>
@@ -127,37 +127,39 @@
             <div class="topClothesImg" th:unless="${topImageUrl} != null">
                 <div class="topClothesUpload">
                     <form action="/fittingroom/uploadTopImage" method="post" enctype="multipart/form-data">
-                        <label for="topClothes" class="closetUp">
+                        <label for="topImage" class="closetUp">
                             <i class="fa-solid fa-shirt fa-2x"></i><br>
                             상의</label>
-                        <input type="file" name="clothes" id="topClothes">
-                        <input th:if="${personImageUrl} != null" type="hidden" name="personImageUrl" value="${personImageUrl}">
-                        <input th:if="${bottomImageUrl} != null" type="hidden" name="bottomImageUrl" value="${bottomImageUrl}">
-                        <input type="hidden" name="isSample" value="${isSample}">
+                        <input type="file" name="topImage" id="topImage">
+                        <input th:if="${personImageUrl} != null" type="hidden" name="personImageUrl" th:value="${personImageUrl}">
+                        <input th:if="${bottomImageUrl} != null" type="hidden" name="bottomImageUrl" th:value="${bottomImageUrl}">
+                        <input type="hidden" name="isSample" class="isSample" th:value="${isSample}">
                         <button type="submit" class="clothesUp">
                             <i class="fa-solid fa-upload"></i>업로드</button>
                     </form>
                 </div>
             </div>
-            <div class="bottomClothesImg">
-            <div class="bottomClothesUpload" th:if="${bottomImageUrl} != null">
-                <img th:src="${bottomImageUrl}">
+            <div class="bottomClothesImg"
+                 th:if="${bottomImageUrl} != null">
+                    <div class="bottomClothesUpload">
+                        <img th:src="${bottomImageUrl}" class="bottomClothesImage">
+                    </div>
             </div>
-        </div>
-            <div class="bottomClothesImg">
-                <div class="bottomClothesUpload">
-                    <form action="/fittingroom/uploadBottomImage" method="post" enctype="multipart/form-data">
-                        <label for="bottomClothes" class="closetUp">
-                            <i class="fa-solid fa-shirt fa-2x"></i><br>
-                            하의</label>
-                        <input type="file" name="clothes" id="bottomClothes">
-                        <input th:if="${personImageUrl} != null" type="hidden" name="personImageUrl" value="${personImageUrl}">
-                        <input th:if="${topImageUrl} != null" type="hidden" name="topImageUrl" value="${topImageUrl}">
-                        <input type="hidden" name="isSample" value="${isSample}">
-                        <button type="submit" class="clothesUp">
-                            <i class="fa-solid fa-upload"></i>업로드</button>
-                    </form>
-                </div>
+            <div class="bottomClothesImg"
+                th:unless="${bottomImageUrl} != null">
+                    <div class="bottomClothesUpload">
+                        <form action="/fittingroom/uploadBottomImage" method="post" enctype="multipart/form-data">
+                            <label for="bottomImage" class="closetUp">
+                                <i class="fa-solid fa-shirt fa-2x"></i><br>
+                                하의</label>
+                            <input type="file" name="bottomImage" id="bottomImage">
+                            <input th:if="${personImageUrl} != null" type="hidden" name="personImageUrl" th:value="${personImageUrl}">
+                            <input th:if="${topImageUrl} != null" type="hidden" name="topImageUrl" th:value="${topImageUrl}">
+                            <input type="hidden" name="isSample" class="isSample" th:value="${isSample}">
+                            <button type="submit" class="clothesUp">
+                                <i class="fa-solid fa-upload"></i>업로드</button>
+                        </form>
+                    </div>
             </div>
         </div>
     </div>
