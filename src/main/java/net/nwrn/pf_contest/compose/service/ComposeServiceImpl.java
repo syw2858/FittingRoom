@@ -108,9 +108,12 @@ public class ComposeServiceImpl implements ComposeService {
             }
         });
 
-        List<ComposeTopResponseDTO> top12 = topContentList.subList(0, 12);
-
-        return top12;
+        if (topContentList.size() >= 12) {
+            List<ComposeTopResponseDTO> top12 = topContentList.subList(0, 12);
+            return top12;
+        } else {
+            return topContentList;
+        }
     }
 
     public List<ComposeBottomResponseDTO> getBottomList() {
@@ -150,9 +153,12 @@ public class ComposeServiceImpl implements ComposeService {
             }
         });
 
-        List<ComposeBottomResponseDTO> bottom12 = bottomContentList.subList(0, 12);
-
-        return bottom12;
+        if (bottomContentList.size() >= 12) {
+            List<ComposeBottomResponseDTO> bottom12 = bottomContentList.subList(0, 12);
+            return bottom12;
+        } else {
+            return bottomContentList;
+        }
     }
 
 }
