@@ -148,6 +148,10 @@ input[type=file] {
     cursor: pointer;
 }
 
+.clothesImage:active {
+    opacity: 0.5;
+}
+
 .bottomClothes {
     width: 344px;
     height: 256px;

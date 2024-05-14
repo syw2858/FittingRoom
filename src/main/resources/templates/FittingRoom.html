@@ -27,7 +27,7 @@
                     <label for="personImage" class="personUp">
                         <i class="fa-solid fa-user-plus fa-2x"></i><br>원본 이미지</label>
                     <input type="file" name="personImage" id="personImage" class="personImage">
-                    <input th:if="${topImageUrl} != null" type="hidden" name="topImageUrl" th:value="${topImageUrl}">
+                    <input th:if="${topImageUrl} != null" type="hidden" name="topImageUrl" class="topImageUrl" th:value="${topImageUrl}">
                     <input th:if="${bottomImageUrl} != null" type="hidden" name="bottomImageUrl" th:value="${bottomImageUrl}">
                     <input type="hidden" name="isSample" class="isSample" th:value="${isSample}">
                     <button type="submit" class="personUpBtn">
@@ -49,33 +49,33 @@
                         <td style="font-size: 16px">상의</td>
                     </tr>
                     <tr>
-                        <td th:if="${#lists.size(topList)} >= 1">
+                        <td th:if="${#lists.size(topList)} >= 1" onclick="topClothesSelect('@{${topList[0].topImageUrl}}')">
                             <img class="clothesImage" th:src="@{${topList[0].topImageUrl}}"></td>
-                        <td th:if="${#lists.size(topList)} >= 2">
+                        <td th:if="${#lists.size(topList)} >= 2" onclick="topClothesSelect('@{${topList[1].topImageUrl}}')">
                             <img class="clothesImage" th:src="@{${topList[1].topImageUrl}}"></td>
-                        <td th:if="${#lists.size(topList)} >= 3">
+                        <td th:if="${#lists.size(topList)} >= 3" onclick="topClothesSelect('@{${topList[2].topImageUrl}}')">
                             <img class="clothesImage" th:src="@{${topList[2].topImageUrl}}"></td>
-                        <td th:if="${#lists.size(topList)} >= 4">
+                        <td th:if="${#lists.size(topList)} >= 4" onclick="topClothesSelect('@{${topList[3].topImageUrl}}')">
                             <img class="clothesImage" th:src="@{${topList[3].topImageUrl}}"></td>
                     </tr>
                     <tr>
-                        <td th:if="${#lists.size(topList)} >= 5">
+                        <td th:if="${#lists.size(topList)} >= 5" onclick="topClothesSelect('@{${topList[4].topImageUrl}}')">
                             <img class="clothesImage" th:src="@{${topList[4].topImageUrl}}"></td>
-                        <td th:if="${#lists.size(topList)} >= 6">
+                        <td th:if="${#lists.size(topList)} >= 6" onclick="topClothesSelect('@{${topList[5].topImageUrl}}')">
                             <img class="clothesImage" th:src="@{${topList[5].topImageUrl}}"></td>
-                        <td th:if="${#lists.size(topList)} >= 7">
+                        <td th:if="${#lists.size(topList)} >= 7" onclick="topClothesSelect('@{${topList[6].topImageUrl}}')">
                             <img class="clothesImage" th:src="@{${topList[6].topImageUrl}}"></td>
-                        <td th:if="${#lists.size(topList)} >= 8">
+                        <td th:if="${#lists.size(topList)} >= 8" onclick="topClothesSelect('@{${topList[7].topImageUrl}}')">
                             <img class="clothesImage" th:src="@{${topList[7].topImageUrl}}"></td>
                     </tr>
                     <tr>
-                        <td th:if="${#lists.size(topList)} >= 9">
+                        <td th:if="${#lists.size(topList)} >= 9" onclick="topClothesSelect('@{${topList[8].topImageUrl}}')">
                             <img class="clothesImage" th:src="@{${topList[8].topImageUrl}}"></td>
-                        <td th:if="${#lists.size(topList)} >= 10">
+                        <td th:if="${#lists.size(topList)} >= 10" onclick="topClothesSelect('@{${topList[9].topImageUrl}}')">
                             <img class="clothesImage" th:src="@{${topList[9].topImageUrl}}"></td>
-                        <td th:if="${#lists.size(topList)} >= 11">
+                        <td th:if="${#lists.size(topList)} >= 11" onclick="topClothesSelect('@{${topList[10].topImageUrl}}')">
                             <img class="clothesImage" th:src="@{${topList[10].topImageUrl}}"></td>
-                        <td th:if="${#lists.size(topList)} >= 12">
+                        <td th:if="${#lists.size(topList)} >= 12" onclick="topClothesSelect('@{${topList[11].topImageUrl}}')">
                             <img class="clothesImage" th:src="@{${topList[11].topImageUrl}}"></td>
                     </tr>
                 </table>
@@ -141,25 +141,25 @@
             </div>
             <div class="bottomClothesImg"
                  th:if="${bottomImageUrl} != null">
-                    <div class="bottomClothesUpload">
-                        <img th:src="${bottomImageUrl}" class="bottomClothesImage">
-                    </div>
+                <div class="bottomClothesUpload">
+                    <img th:src="${bottomImageUrl}" class="bottomClothesImage">
+                </div>
             </div>
             <div class="bottomClothesImg"
-                th:unless="${bottomImageUrl} != null">
-                    <div class="bottomClothesUpload">
-                        <form action="/fittingroom/uploadBottomImage" method="post" enctype="multipart/form-data">
-                            <label for="bottomImage" class="closetUp">
-                                <i class="fa-solid fa-shirt fa-2x"></i><br>
-                                하의</label>
-                            <input type="file" name="bottomImage" id="bottomImage">
-                            <input th:if="${personImageUrl} != null" type="hidden" name="personImageUrl" th:value="${personImageUrl}">
-                            <input th:if="${topImageUrl} != null" type="hidden" name="topImageUrl" th:value="${topImageUrl}">
-                            <input type="hidden" name="isSample" class="isSample" th:value="${isSample}">
-                            <button type="submit" class="clothesUp">
-                                <i class="fa-solid fa-upload"></i>업로드</button>
-                        </form>
-                    </div>
+                 th:unless="${bottomImageUrl} != null">
+                <div class="bottomClothesUpload">
+                    <form action="/fittingroom/uploadBottomImage" method="post" enctype="multipart/form-data">
+                        <label for="bottomImage" class="closetUp">
+                            <i class="fa-solid fa-shirt fa-2x"></i><br>
+                            하의</label>
+                        <input type="file" name="bottomImage" id="bottomImage">
+                        <input th:if="${personImageUrl} != null" type="hidden" name="personImageUrl" th:value="${personImageUrl}">
+                        <input th:if="${topImageUrl} != null" type="hidden" name="topImageUrl" class="topImageUrl" th:value="${topImageUrl}">
+                        <input type="hidden" name="isSample" class="isSample" th:value="${isSample}">
+                        <button type="submit" class="clothesUp">
+                            <i class="fa-solid fa-upload"></i>업로드</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
@@ -173,7 +173,7 @@
         <div th:unless="${composedImageUrl} != null" class="resultImage">
             <div class="resultImageBig"></div>
             <form action="/fittingroom/resultImage" method="post">
-               <button type="submit" class="resultBtn">합성하기</button>
+                <button type="submit" class="resultBtn">합성하기</button>
             </form>
         </div>
     </div>

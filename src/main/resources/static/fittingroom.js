@@ -15,7 +15,6 @@ window.onload = function() {
         document.querySelector(".uploadClothes").style.backgroundColor = "black";
         document.querySelector(".uploadClothes").style.color = "white";
     }
-
 }
 
 function showClothes() {
@@ -44,6 +43,10 @@ function uploadClothes() {
     }
 }
 
-function clothesSelect() {
-    document.querySelector(".clothesImage").style.opacity = "0.5";
+function topClothesSelect(topImageUrl) {
+    var topClothesList = document.getElementsByClassName("topImageUrl");
+    for (var i = 0; i < topClothesList.length; i++) {
+        topClothesList[i].value = topImageUrl;
+    }
+    topImageUrl.style.opacity="0.5";
 }
