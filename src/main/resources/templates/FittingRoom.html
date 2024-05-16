@@ -6,11 +6,14 @@
     <link th:href="@{/fittingroom.css}" rel="stylesheet">
     <script type="text/javascript" th:src="@{/fittingroom.js}"></script>
     <script src="https://kit.fontawesome.com/9c90c93df1.js" crossorigin="anonymous"></script>
+    <script>
+        let sampleTopImageUrl = null;
+        let sampleBottomImageUrl = null;
+    </script>
 </head>
 <body>
 <div style="display:none">
-    <input type="text" name="isSample" class="isSample" th:if="${isSample} == true or ${isSample} == null" th:value="true">
-    <input type="text" name="isSample" class="isSample" th:if="${isSample} == false" th:value="false">
+    <input type="text" name="isSample" class="isSample" th:value="${isSample}">
 </div>
 <div class="fittingLayout">
     <p th:text="${errorMessage}"></p>
@@ -44,75 +47,75 @@
         </div>
         <div class="clothesSelect" id="closet">
             <div class="topClothes">
-                <table class="clothesTable">
+                <table class="clothesTable" id="sampleTopClothes">
                     <tr>
                         <td style="font-size: 16px">상의</td>
                     </tr>
                     <tr>
-                        <td th:if="${#lists.size(topList)} >= 1" onclick="topClothesSelect('@{${topList[0].topImageUrl}}')">
+                        <td th:if="${#lists.size(topList)} >= 1" onclick="topClothesSelect(0);">
                             <img class="clothesImage" th:src="@{${topList[0].topImageUrl}}"></td>
-                        <td th:if="${#lists.size(topList)} >= 2" onclick="topClothesSelect('@{${topList[1].topImageUrl}}')">
+                        <td th:if="${#lists.size(topList)} >= 2" onclick="topClothesSelect(1);">
                             <img class="clothesImage" th:src="@{${topList[1].topImageUrl}}"></td>
-                        <td th:if="${#lists.size(topList)} >= 3" onclick="topClothesSelect('@{${topList[2].topImageUrl}}')">
+                        <td th:if="${#lists.size(topList)} >= 3" onclick="topClothesSelect(2);">
                             <img class="clothesImage" th:src="@{${topList[2].topImageUrl}}"></td>
-                        <td th:if="${#lists.size(topList)} >= 4" onclick="topClothesSelect('@{${topList[3].topImageUrl}}')">
+                        <td th:if="${#lists.size(topList)} >= 4" onclick="topClothesSelect(3);">
                             <img class="clothesImage" th:src="@{${topList[3].topImageUrl}}"></td>
                     </tr>
                     <tr>
-                        <td th:if="${#lists.size(topList)} >= 5" onclick="topClothesSelect('@{${topList[4].topImageUrl}}')">
+                        <td th:if="${#lists.size(topList)} >= 5" onclick="topClothesSelect(4);">
                             <img class="clothesImage" th:src="@{${topList[4].topImageUrl}}"></td>
-                        <td th:if="${#lists.size(topList)} >= 6" onclick="topClothesSelect('@{${topList[5].topImageUrl}}')">
+                        <td th:if="${#lists.size(topList)} >= 6" onclick="topClothesSelect(5);">
                             <img class="clothesImage" th:src="@{${topList[5].topImageUrl}}"></td>
-                        <td th:if="${#lists.size(topList)} >= 7" onclick="topClothesSelect('@{${topList[6].topImageUrl}}')">
+                        <td th:if="${#lists.size(topList)} >= 7" onclick="topClothesSelect(6);">
                             <img class="clothesImage" th:src="@{${topList[6].topImageUrl}}"></td>
-                        <td th:if="${#lists.size(topList)} >= 8" onclick="topClothesSelect('@{${topList[7].topImageUrl}}')">
+                        <td th:if="${#lists.size(topList)} >= 8" onclick="topClothesSelect(7);">
                             <img class="clothesImage" th:src="@{${topList[7].topImageUrl}}"></td>
                     </tr>
                     <tr>
-                        <td th:if="${#lists.size(topList)} >= 9" onclick="topClothesSelect('@{${topList[8].topImageUrl}}')">
+                        <td th:if="${#lists.size(topList)} >= 9" onclick="topClothesSelect(8);">
                             <img class="clothesImage" th:src="@{${topList[8].topImageUrl}}"></td>
-                        <td th:if="${#lists.size(topList)} >= 10" onclick="topClothesSelect('@{${topList[9].topImageUrl}}')">
+                        <td th:if="${#lists.size(topList)} >= 10" onclick="topClothesSelect(9);">
                             <img class="clothesImage" th:src="@{${topList[9].topImageUrl}}"></td>
-                        <td th:if="${#lists.size(topList)} >= 11" onclick="topClothesSelect('@{${topList[10].topImageUrl}}')">
+                        <td th:if="${#lists.size(topList)} >= 11" onclick="topClothesSelect(10);">
                             <img class="clothesImage" th:src="@{${topList[10].topImageUrl}}"></td>
-                        <td th:if="${#lists.size(topList)} >= 12" onclick="topClothesSelect('@{${topList[11].topImageUrl}}')">
+                        <td th:if="${#lists.size(topList)} >= 12" onclick="topClothesSelect(11);">
                             <img class="clothesImage" th:src="@{${topList[11].topImageUrl}}"></td>
                     </tr>
                 </table>
             </div>
             <div class="bottomClothes">
-                <table class="clothesTable">
+                <table class="clothesTable" id="sampleBottomClothes">
                     <tr>
                         <td style="font-size:16px">하의</td>
                     </tr>
                     <tr>
-                        <td th:if="${#lists.size(bottomList)} >= 1">
+                        <td th:if="${#lists.size(bottomList)} >= 1" onclick="bottomClothesSelect(0);">
                             <img class="clothesImage" th:src="@{${bottomList[0].bottomImageUrl}}"></td>
-                        <td th:if="${#lists.size(bottomList)} >= 2">
+                        <td th:if="${#lists.size(bottomList)} >= 2" onclick="bottomClothesSelect(1);">
                             <img class="clothesImage" th:src="@{${bottomList[1].bottomImageUrl}}"></td>
-                        <td th:if="${#lists.size(bottomList)} >= 3">
+                        <td th:if="${#lists.size(bottomList)} >= 3" onclick="bottomClothesSelect(2);">
                             <img class="clothesImage" th:src="@{${bottomList[2].bottomImageUrl}}"></td>
-                        <td th:if="${#lists.size(bottomList)} >= 4">
+                        <td th:if="${#lists.size(bottomList)} >= 4" onclick="bottomClothesSelect(3);">
                             <img class="clothesImage" th:src="@{${bottomList[3].bottomImageUrl}}"></td>
                     </tr>
                     <tr>
-                        <td th:if="${#lists.size(bottomList)} >= 5">
+                        <td th:if="${#lists.size(bottomList)} >= 5" onclick="bottomClothesSelect(4);">
                             <img class="clothesImage" th:src="@{${bottomList[4].bottomImageUrl}}"></td>
-                        <td th:if="${#lists.size(bottomList)} >= 6">
+                        <td th:if="${#lists.size(bottomList)} >= 6" onclick="bottomClothesSelect(5);">
                             <img class="clothesImage" th:src="@{${bottomList[5].bottomImageUrl}}"></td>
-                        <td th:if="${#lists.size(bottomList)} >= 7">
+                        <td th:if="${#lists.size(bottomList)} >= 7" onclick="bottomClothesSelect(6);">
                             <img class="clothesImage" th:src="@{${bottomList[6].bottomImageUrl}}"></td>
-                        <td th:if="${#lists.size(bottomList)} >= 8">
+                        <td th:if="${#lists.size(bottomList)} >= 8" onclick="bottomClothesSelect(7);">
                             <img class="clothesImage" th:src="@{${bottomList[7].bottomImageUrl}}"></td>
                     </tr>
                     <tr>
-                        <td th:if="${#lists.size(bottomList)} >= 9">
+                        <td th:if="${#lists.size(bottomList)} >= 9" onclick="bottomClothesSelect(8);">
                             <img class="clothesImage" th:src="@{${bottomList[8].bottomImageUrl}}"></td>
-                        <td th:if="${#lists.size(bottomList)} >= 10">
+                        <td th:if="${#lists.size(bottomList)} >= 10" onclick="bottomClothesSelect(9);">
                             <img class="clothesImage" th:src="@{${bottomList[9].bottomImageUrl}}"></td>
-                        <td th:if="${#lists.size(bottomList)} >= 11">
+                        <td th:if="${#lists.size(bottomList)} >= 11" onclick="bottomClothesSelect(10);">
                             <img class="clothesImage" th:src="@{${bottomList[10].bottomImageUrl}}"></td>
-                        <td th:if="${#lists.size(bottomList)} >= 12">
+                        <td th:if="${#lists.size(bottomList)} >= 12" onclick="bottomClothesSelect(11);">
                             <img class="clothesImage" th:src="@{${bottomList[11].bottomImageUrl}}"></td>
                     </tr>
                 </table>
@@ -172,7 +175,13 @@
         </div>
         <div th:unless="${composedImageUrl} != null" class="resultImage">
             <div class="resultImageBig"></div>
-            <form action="/fittingroom/resultImage" method="post">
+            <form action="/fittingroom/compose" method="post">
+                <input type="hidden" name="personImageUrl" th:value="${personImageUrl}">
+                <input type="hidden" name="topImageUrl" th:if="${topImageUrl} != null" th:value="${topImageUrl}">
+                <input type="hidden" name="bottomImageUrl" th:if="${bottomImageUrl} != null" th:value="${bottomImageUrl}">
+                <input type="hidden" name="sampleTopImageUrl" id="composeSampleTopImageUrl" >
+                <input type="hidden" name="sampleBottomImageUrl" id="composeSampleBottomImageUrl">
+                <input type="hidden" name="isSample" class="isSample" id="composeIsSample" th:value="${isSample}">
                 <button type="submit" class="resultBtn">합성하기</button>
             </form>
         </div>

@@ -1,5 +1,5 @@
 window.onload = function() {
-    if (document.querySelector(".isSample").value == "true") {
+    if (document.querySelector(".isSample").value == "true" || document.querySelector(".isSample").value == "") {
         document.getElementById("closet").style.display="block";
         document.getElementById("clothesUpload").style.display="none";
         document.querySelector(".sampleClothes").style.backgroundColor = "black";
@@ -17,6 +17,10 @@ window.onload = function() {
     }
 }
 
+// function personImageUpload() {
+//     document.getElementById("personImage").onsubmit;
+// }
+
 function showClothes() {
     document.getElementById("closet").style.display = "block";
     document.getElementById("clothesUpload").style.display = "none";
@@ -28,6 +32,7 @@ function showClothes() {
     for(var i = 0; i < inputIsSampleList.length; i++) {
         inputIsSampleList[i].value=true;
     }
+    document.getElementById("composeIsSample").value=true;
 }
 
 function uploadClothes() {
@@ -41,12 +46,21 @@ function uploadClothes() {
     for(var i = 0; i < inputIsSampleList.length; i++) {
         inputIsSampleList[i].value=false;
     }
+    document.getElementById("composeIsSample").value=false;
 }
 
-function topClothesSelect(topImageUrl) {
-    var topClothesList = document.getElementsByClassName("topImageUrl");
-    for (var i = 0; i < topClothesList.length; i++) {
-        topClothesList[i].value = topImageUrl;
-    }
-    topImageUrl.style.opacity="0.5";
+function topClothesSelect(i) {
+    var table = document.querySelector("#sampleTopClothes");
+    var topClothes = table.querySelectorAll('img');
+
+    sampleTopImageUrl = topClothes[i].src;
+    document.getElementById("composeSampleTopImageUrl").value = topClothes[i].src;
+}
+
+function bottomClothesSelect(i) {
+    var table = document.querySelector("#sampleBottomClothes");
+    var bottomClothes = table.querySelectorAll('img');
+
+    sampleBottomImageUrl = bottomClothes[i].src;
+    document.getElementById("composeSampleBottomImageUrl").value = bottomClothes[i].src;
 }
