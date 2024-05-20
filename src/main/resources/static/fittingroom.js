@@ -17,9 +17,9 @@ window.onload = function() {
     }
 }
 
-// function personImageUpload() {
-//     document.getElementById("personImage").onsubmit;
-// }
+function personImageUpload() {
+    document.getElementById("personImageUpload").submit();
+}
 
 function showClothes() {
     document.getElementById("closet").style.display = "block";
@@ -51,16 +51,54 @@ function uploadClothes() {
 
 function topClothesSelect(i) {
     var table = document.querySelector("#sampleTopClothes");
-    var topClothes = table.querySelectorAll('img');
+    var topClothes = table.querySelectorAll('.clothesImage');
+    var checks = table.querySelectorAll(".checkClothesImage");
 
     sampleTopImageUrl = topClothes[i].src;
     document.getElementById("composeSampleTopImageUrl").value = topClothes[i].src;
+    checks.forEach(function(check) {
+        var isImageChecked = check.getAttribute('data-checked');
+        if (isImageChecked === 'true') {
+            check.style.display = 'none';
+            check.setAttribute('data-checked', 'false');
+        } else {
+            var topClothesLocation = topClothes[i].getBoundingClientRect();
+            check.style.top = window.scrollY + topClothesLocation.top + 'px';
+            check.style.left = topClothesLocation.left + 'px';
+            check.style.display = 'block';
+            check.style.opacity = "0.3";
+            check.setAttribute('data-checked', 'true');
+        }
+    });
 }
 
 function bottomClothesSelect(i) {
     var table = document.querySelector("#sampleBottomClothes");
-    var bottomClothes = table.querySelectorAll('img');
+    var bottomClothes = table.querySelectorAll('.clothesImage');
+    var checks = table.querySelectorAll(".checkClothesImage");
 
     sampleBottomImageUrl = bottomClothes[i].src;
     document.getElementById("composeSampleBottomImageUrl").value = bottomClothes[i].src;
+    checks.forEach(function(check) {
+        var isImageChecked = check.getAttribute('data-checked');
+        if (isImageChecked === 'true') {
+            check.style.display = 'none';
+            check.setAttribute('data-checked', 'false');
+        } else {
+            var bottomClothesLocation = bottomClothes[i].getBoundingClientRect();
+            check.style.top = window.scrollY + bottomClothesLocation.top + 'px';
+            check.style.left = bottomClothesLocation.left + 'px';
+            check.style.display = 'block';
+            check.style.opacity = "0.3";
+            check.setAttribute('data-checked', 'true');
+        }
+    });
+}
+
+function uploadTopClothes() {
+    document.getElementById("uploadTopClothes").submit();
+}
+
+function uploadBottomClothes() {
+    document.getElementById("uploadBottomClothes").submit();
 }

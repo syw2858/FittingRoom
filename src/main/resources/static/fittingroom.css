@@ -55,11 +55,6 @@ h3 {
     color: #8d8d8d;
 }
 
-.personUp:hover {
-    cursor: pointer;
-    color: #000000;
-}
-
 .personUpBtn {
     display: block;
     width: 120px;
@@ -148,8 +143,11 @@ input[type=file] {
     cursor: pointer;
 }
 
-.clothesImage:active {
-    opacity: 0.5;
+.checkClothesImage {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: none;
 }
 
 .bottomClothes {
@@ -201,11 +199,6 @@ input[type=file] {
     margin-bottom: 10px;
     font-size: 15px;
     color: #8d8d8d;
-}
-
-.closetUp:hover {
-    cursor: pointer;
-    color: #000000;
 }
 
 .clothesUp {

@@ -26,15 +26,16 @@
         </div>
         <div th:unless="${personImageUrl} != null" class="personImg">
             <div class="personImageBig">
-                <form action="/fittingroom/uploadPersonImage" method="post" enctype="multipart/form-data">
-                    <label for="personImage" class="personUp">
-                        <i class="fa-solid fa-user-plus fa-2x"></i><br>원본 이미지</label>
-                    <input type="file" name="personImage" id="personImage" class="personImage">
+                <form action="/fittingroom/uploadPersonImage" method="post" enctype="multipart/form-data" id="personImageUpload">
+                    <p class="personUp">
+                        <i class="fa-solid fa-user-plus fa-2x"></i><br>원본 이미지</p>
+                    <label for="personImage" class="personUpBtn">
+                        <i class="fa-solid fa-upload"></i>업로드
+                    </label>
+                    <input type="file" name="personImage" id="personImage" class="personImage" onchange="personImageUpload()">
                     <input th:if="${topImageUrl} != null" type="hidden" name="topImageUrl" class="topImageUrl" th:value="${topImageUrl}">
                     <input th:if="${bottomImageUrl} != null" type="hidden" name="bottomImageUrl" th:value="${bottomImageUrl}">
                     <input type="hidden" name="isSample" class="isSample" th:value="${isSample}">
-                    <button type="submit" class="personUpBtn">
-                        <i class="fa-solid fa-upload"></i>업로드</button>
                 </form>
             </div>
         </div>
@@ -53,33 +54,57 @@
                     </tr>
                     <tr>
                         <td th:if="${#lists.size(topList)} >= 1" onclick="topClothesSelect(0);">
-                            <img class="clothesImage" th:src="@{${topList[0].topImageUrl}}"></td>
+                            <img class="clothesImage" th:src="@{${topList[0].topImageUrl}}">
+                            <img class="checkClothesImage" src="image/checkbox.png">
+                        </td>
                         <td th:if="${#lists.size(topList)} >= 2" onclick="topClothesSelect(1);">
-                            <img class="clothesImage" th:src="@{${topList[1].topImageUrl}}"></td>
+                            <img class="clothesImage" th:src="@{${topList[1].topImageUrl}}">
+                            <img class="checkClothesImage" src="image/checkbox.png">
+                        </td>
                         <td th:if="${#lists.size(topList)} >= 3" onclick="topClothesSelect(2);">
-                            <img class="clothesImage" th:src="@{${topList[2].topImageUrl}}"></td>
+                            <img class="clothesImage" th:src="@{${topList[2].topImageUrl}}">
+                            <img class="checkClothesImage" src="image/checkbox.png">
+                        </td>
                         <td th:if="${#lists.size(topList)} >= 4" onclick="topClothesSelect(3);">
-                            <img class="clothesImage" th:src="@{${topList[3].topImageUrl}}"></td>
+                            <img class="clothesImage" th:src="@{${topList[3].topImageUrl}}">
+                            <img class="checkClothesImage" src="image/checkbox.png">
+                        </td>
                     </tr>
                     <tr>
                         <td th:if="${#lists.size(topList)} >= 5" onclick="topClothesSelect(4);">
-                            <img class="clothesImage" th:src="@{${topList[4].topImageUrl}}"></td>
+                            <img class="clothesImage" th:src="@{${topList[4].topImageUrl}}">
+                            <img class="checkClothesImage" src="image/checkbox.png">
+                        </td>
                         <td th:if="${#lists.size(topList)} >= 6" onclick="topClothesSelect(5);">
-                            <img class="clothesImage" th:src="@{${topList[5].topImageUrl}}"></td>
+                            <img class="clothesImage" th:src="@{${topList[5].topImageUrl}}">
+                            <img class="checkClothesImage" src="image/checkbox.png">
+                        </td>
                         <td th:if="${#lists.size(topList)} >= 7" onclick="topClothesSelect(6);">
-                            <img class="clothesImage" th:src="@{${topList[6].topImageUrl}}"></td>
+                            <img class="clothesImage" th:src="@{${topList[6].topImageUrl}}">
+                            <img class="checkClothesImage" src="image/checkbox.png">
+                        </td>
                         <td th:if="${#lists.size(topList)} >= 8" onclick="topClothesSelect(7);">
-                            <img class="clothesImage" th:src="@{${topList[7].topImageUrl}}"></td>
+                            <img class="clothesImage" th:src="@{${topList[7].topImageUrl}}">
+                            <img class="checkClothesImage" src="image/checkbox.png">
+                        </td>
                     </tr>
                     <tr>
                         <td th:if="${#lists.size(topList)} >= 9" onclick="topClothesSelect(8);">
-                            <img class="clothesImage" th:src="@{${topList[8].topImageUrl}}"></td>
+                            <img class="clothesImage" th:src="@{${topList[8].topImageUrl}}">
+                            <img class="checkClothesImage" src="image/checkbox.png">
+                        </td>
                         <td th:if="${#lists.size(topList)} >= 10" onclick="topClothesSelect(9);">
-                            <img class="clothesImage" th:src="@{${topList[9].topImageUrl}}"></td>
+                            <img class="clothesImage" th:src="@{${topList[9].topImageUrl}}">
+                            <img class="checkClothesImage" src="image/checkbox.png">
+                        </td>
                         <td th:if="${#lists.size(topList)} >= 11" onclick="topClothesSelect(10);">
-                            <img class="clothesImage" th:src="@{${topList[10].topImageUrl}}"></td>
+                            <img class="clothesImage" th:src="@{${topList[10].topImageUrl}}">
+                            <img class="checkClothesImage" src="image/checkbox.png">
+                        </td>
                         <td th:if="${#lists.size(topList)} >= 12" onclick="topClothesSelect(11);">
-                            <img class="clothesImage" th:src="@{${topList[11].topImageUrl}}"></td>
+                            <img class="clothesImage" th:src="@{${topList[11].topImageUrl}}">
+                            <img class="checkClothesImage" src="image/checkbox.png">
+                        </td>
                     </tr>
                 </table>
             </div>
@@ -90,33 +115,57 @@
                     </tr>
                     <tr>
                         <td th:if="${#lists.size(bottomList)} >= 1" onclick="bottomClothesSelect(0);">
-                            <img class="clothesImage" th:src="@{${bottomList[0].bottomImageUrl}}"></td>
+                            <img class="clothesImage" th:src="@{${bottomList[0].bottomImageUrl}}">
+                            <img class="checkClothesImage" src="image/checkbox.png">
+                        </td>
                         <td th:if="${#lists.size(bottomList)} >= 2" onclick="bottomClothesSelect(1);">
-                            <img class="clothesImage" th:src="@{${bottomList[1].bottomImageUrl}}"></td>
+                            <img class="clothesImage" th:src="@{${bottomList[1].bottomImageUrl}}">
+                            <img class="checkClothesImage" src="image/checkbox.png">
+                        </td>
                         <td th:if="${#lists.size(bottomList)} >= 3" onclick="bottomClothesSelect(2);">
-                            <img class="clothesImage" th:src="@{${bottomList[2].bottomImageUrl}}"></td>
+                            <img class="clothesImage" th:src="@{${bottomList[2].bottomImageUrl}}">
+                            <img class="checkClothesImage" src="image/checkbox.png">
+                        </td>
                         <td th:if="${#lists.size(bottomList)} >= 4" onclick="bottomClothesSelect(3);">
-                            <img class="clothesImage" th:src="@{${bottomList[3].bottomImageUrl}}"></td>
+                            <img class="clothesImage" th:src="@{${bottomList[3].bottomImageUrl}}">
+                            <img class="checkClothesImage" src="image/checkbox.png">
+                        </td>
                     </tr>
                     <tr>
                         <td th:if="${#lists.size(bottomList)} >= 5" onclick="bottomClothesSelect(4);">
-                            <img class="clothesImage" th:src="@{${bottomList[4].bottomImageUrl}}"></td>
+                            <img class="clothesImage" th:src="@{${bottomList[4].bottomImageUrl}}">
+                            <img class="checkClothesImage" src="image/checkbox.png">
+                        </td>
                         <td th:if="${#lists.size(bottomList)} >= 6" onclick="bottomClothesSelect(5);">
-                            <img class="clothesImage" th:src="@{${bottomList[5].bottomImageUrl}}"></td>
+                            <img class="clothesImage" th:src="@{${bottomList[5].bottomImageUrl}}">
+                            <img class="checkClothesImage" src="image/checkbox.png">
+                        </td>
                         <td th:if="${#lists.size(bottomList)} >= 7" onclick="bottomClothesSelect(6);">
-                            <img class="clothesImage" th:src="@{${bottomList[6].bottomImageUrl}}"></td>
+                            <img class="clothesImage" th:src="@{${bottomList[6].bottomImageUrl}}">
+                            <img class="checkClothesImage" src="image/checkbox.png">
+                        </td>
                         <td th:if="${#lists.size(bottomList)} >= 8" onclick="bottomClothesSelect(7);">
-                            <img class="clothesImage" th:src="@{${bottomList[7].bottomImageUrl}}"></td>
+                            <img class="clothesImage" th:src="@{${bottomList[7].bottomImageUrl}}">
+                            <img class="checkClothesImage" src="image/checkbox.png">
+                        </td>
                     </tr>
                     <tr>
                         <td th:if="${#lists.size(bottomList)} >= 9" onclick="bottomClothesSelect(8);">
-                            <img class="clothesImage" th:src="@{${bottomList[8].bottomImageUrl}}"></td>
+                            <img class="clothesImage" th:src="@{${bottomList[8].bottomImageUrl}}">
+                            <img class="checkClothesImage" src="image/checkbox.png">
+                        </td>
                         <td th:if="${#lists.size(bottomList)} >= 10" onclick="bottomClothesSelect(9);">
-                            <img class="clothesImage" th:src="@{${bottomList[9].bottomImageUrl}}"></td>
+                            <img class="clothesImage" th:src="@{${bottomList[9].bottomImageUrl}}">
+                            <img class="checkClothesImage" src="image/checkbox.png">
+                        </td>
                         <td th:if="${#lists.size(bottomList)} >= 11" onclick="bottomClothesSelect(10);">
-                            <img class="clothesImage" th:src="@{${bottomList[10].bottomImageUrl}}"></td>
+                            <img class="clothesImage" th:src="@{${bottomList[10].bottomImageUrl}}">
+                            <img class="checkClothesImage" src="image/checkbox.png">
+                        </td>
                         <td th:if="${#lists.size(bottomList)} >= 12" onclick="bottomClothesSelect(11);">
-                            <img class="clothesImage" th:src="@{${bottomList[11].bottomImageUrl}}"></td>
+                            <img class="clothesImage" th:src="@{${bottomList[11].bottomImageUrl}}">
+                            <img class="checkClothesImage" src="image/checkbox.png">
+                        </td>
                     </tr>
                 </table>
             </div>
@@ -129,16 +178,16 @@
             </div>
             <div class="topClothesImg" th:unless="${topImageUrl} != null">
                 <div class="topClothesUpload">
-                    <form action="/fittingroom/uploadTopImage" method="post" enctype="multipart/form-data">
-                        <label for="topImage" class="closetUp">
-                            <i class="fa-solid fa-shirt fa-2x"></i><br>
-                            상의</label>
-                        <input type="file" name="topImage" id="topImage">
+                    <form action="/fittingroom/uploadTopImage" method="post" enctype="multipart/form-data" id="uploadTopClothes">
+                        <p class="closetUp">
+                            <i class="fa-solid fa-shirt fa-2x"></i><br>상의</p>
+                        <label for="topImage" class="clothesUp">
+                            <i class="fa-solid fa-upload"></i>업로드
+                        </label>
+                        <input type="file" name="topImage" id="topImage" onchange="uploadTopClothes()">
                         <input th:if="${personImageUrl} != null" type="hidden" name="personImageUrl" th:value="${personImageUrl}">
                         <input th:if="${bottomImageUrl} != null" type="hidden" name="bottomImageUrl" th:value="${bottomImageUrl}">
                         <input type="hidden" name="isSample" class="isSample" th:value="${isSample}">
-                        <button type="submit" class="clothesUp">
-                            <i class="fa-solid fa-upload"></i>업로드</button>
                     </form>
                 </div>
             </div>
@@ -151,16 +200,16 @@
             <div class="bottomClothesImg"
                  th:unless="${bottomImageUrl} != null">
                 <div class="bottomClothesUpload">
-                    <form action="/fittingroom/uploadBottomImage" method="post" enctype="multipart/form-data">
-                        <label for="bottomImage" class="closetUp">
-                            <i class="fa-solid fa-shirt fa-2x"></i><br>
-                            하의</label>
-                        <input type="file" name="bottomImage" id="bottomImage">
+                    <form action="/fittingroom/uploadBottomImage" method="post" enctype="multipart/form-data" id="uploadBottomClothes">
+                        <p class="closetUp">
+                            <i class="fa-solid fa-shirt fa-2x"></i><br>하의</p>
+                        <label for="bottomImage" class="clothesUp">
+                            <i class="fa-solid fa-upload"></i>업로드
+                        </label>
+                        <input type="file" name="bottomImage" id="bottomImage" onchange="uploadBottomClothes()">
                         <input th:if="${personImageUrl} != null" type="hidden" name="personImageUrl" th:value="${personImageUrl}">
                         <input th:if="${topImageUrl} != null" type="hidden" name="topImageUrl" class="topImageUrl" th:value="${topImageUrl}">
                         <input type="hidden" name="isSample" class="isSample" th:value="${isSample}">
-                        <button type="submit" class="clothesUp">
-                            <i class="fa-solid fa-upload"></i>업로드</button>
                     </form>
                 </div>
             </div>
