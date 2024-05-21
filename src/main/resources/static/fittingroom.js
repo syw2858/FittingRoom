@@ -19,6 +19,16 @@ window.onload = function() {
 
 function personImageUpload() {
     document.getElementById("personImageUpload").submit();
+    personImageUrl = document.getElementById("personImageUrl").value;
+}
+
+function deletePersonImage() {
+    var url = new URL(window.location.href);
+
+    url.searchParams.delete("personImageUrl");
+    window.history.replaceState(null, '', url.toString());
+    document.getElementsByClassName("personImage")[0].src="";
+    window.location.reload();
 }
 
 function showClothes() {
@@ -72,6 +82,15 @@ function topClothesSelect(i) {
     });
 }
 
+function deleteTopClothesImage() {
+    var url = new URL(window.location.href);
+
+    url.searchParams.delete("topImageUrl");
+    window.history.replaceState(null, '', url.toString());
+    document.getElementsByClassName("topClothesImage")[0].src="";
+    window.location.reload();
+}
+
 function bottomClothesSelect(i) {
     var table = document.querySelector("#sampleBottomClothes");
     var bottomClothes = table.querySelectorAll('.clothesImage');
@@ -95,10 +114,52 @@ function bottomClothesSelect(i) {
     });
 }
 
+function deleteBottomClothesImage() {
+    var url = new URL(window.location.href);
+
+    url.searchParams.delete("bottomImageUrl");
+    window.history.replaceState(null, '', url.toString());
+    document.getElementsByClassName("bottomClothesImage")[0].src="";
+    window.location.reload();
+}
+
 function uploadTopClothes() {
     document.getElementById("uploadTopClothes").submit();
+    topImageUrl = document.getElementById("topImageUrl").value;
 }
 
 function uploadBottomClothes() {
     document.getElementById("uploadBottomClothes").submit();
+    bottomImageUrl = document.getElementById("bottomImageUrl").value;
+}
+
+function checkAllImage() {
+    var button = document.getElementById("composeBtn");
+    var isSample = document.querySelector("isSample").value;
+    if (personImageUrl == null) {
+        button.disabled=true;
+    } else {
+        button.disabled=false;
+    }
+    if (isSample == "true" || isSample == "") {
+        if (sampleTopImageUrl == null) {
+            if (sampleBottomImageUrl == null) {
+                button.disabled=true;
+            } else {
+                button.disabled=false;
+            }
+        } else {
+            button.disabled=false;
+        }
+    } else {
+        if (topImageUrl == null) {
+            if (bottomImageUrl == null) {
+                button.disabled=true;
+            } else {
+                button.disabled=false;
+            }
+        } else {
+            button.disabled=false;
+        }
+    }
 }

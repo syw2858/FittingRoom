@@ -9,11 +9,17 @@
     <script>
         let sampleTopImageUrl = null;
         let sampleBottomImageUrl = null;
+        let personImageUrl = null;
+        let topImageUrl = null;
+        let bottomImageUrl = null;
     </script>
 </head>
 <body>
 <div style="display:none">
     <input type="text" name="isSample" class="isSample" th:value="${isSample}">
+    <input type="text" name="personImageUrl" class="personImageUrl" id="personImageUrl" th:value="${personImageUrl}">
+    <input type="text" name="topImageUrl" class="topImageUrl" id="topImageUrl" th:value="${topImageUrl}">
+    <input type="text" name="bottomImageUrl" class="bottomImageUrl" id="bottomImageUrl" th:value="${bottomImageUrl}">
 </div>
 <div class="fittingLayout">
     <p th:text="${errorMessage}"></p>
@@ -21,6 +27,7 @@
         <h3>원본 이미지</h3>
         <div th:if="${personImageUrl} != null" class="personImg">
             <div class="personImageBig">
+                    <button type="submit" class="deletePersonImage" onclick="deletePersonImage()"><i class="fa-regular fa-circle-xmark"></i></button>
                 <img th:src="@{${personImageUrl}}" class="personImage">
             </div>
         </div>
@@ -28,7 +35,7 @@
             <div class="personImageBig">
                 <form action="/fittingroom/uploadPersonImage" method="post" enctype="multipart/form-data" id="personImageUpload">
                     <p class="personUp">
-                        <i class="fa-solid fa-user-plus fa-2x"></i><br>원본 이미지</p>
+                        <i class="fa-solid fa-user-plus fa-3x"></i><br>원본 이미지</p>
                     <label for="personImage" class="personUpBtn">
                         <i class="fa-solid fa-upload"></i>업로드
                     </label>
@@ -173,6 +180,7 @@
         <div class="clothesUpload" id="clothesUpload">
             <div class="topClothesImg"  th:if="${topImageUrl} != null">
                 <div class="topClothesUpload">
+                        <button type="submit" class="deleteTopClothesImage" onclick="deleteTopClothesImage()"><i class="fa-regular fa-circle-xmark"></i></button>
                     <img th:src="${topImageUrl}" class="topClothesImage">
                 </div>
             </div>
@@ -194,6 +202,7 @@
             <div class="bottomClothesImg"
                  th:if="${bottomImageUrl} != null">
                 <div class="bottomClothesUpload">
+                        <button type="submit" class="deleteBottomClothesImage" onclick="deleteBottomClothesImage()"><i class="fa-regular fa-circle-xmark"></i></button>
                     <img th:src="${bottomImageUrl}" class="bottomClothesImage">
                 </div>
             </div>
@@ -231,7 +240,7 @@
                 <input type="hidden" name="sampleTopImageUrl" id="composeSampleTopImageUrl" >
                 <input type="hidden" name="sampleBottomImageUrl" id="composeSampleBottomImageUrl">
                 <input type="hidden" name="isSample" class="isSample" id="composeIsSample" th:value="${isSample}">
-                <button type="submit" class="resultBtn">합성하기</button>
+                <button type="submit" class="resultBtn" id="composeBtn" onchange="checkAllImage()">합성하기</button>
             </form>
         </div>
     </div>
