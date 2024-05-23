@@ -64,22 +64,29 @@ function topClothesSelect(i) {
     var topClothes = table.querySelectorAll('.clothesImage');
     var checks = table.querySelectorAll(".checkClothesImage");
 
-    sampleTopImageUrl = topClothes[i].src;
-    document.getElementById("composeSampleTopImageUrl").value = topClothes[i].src;
-    checks.forEach(function(check) {
-        var isImageChecked = check.getAttribute('data-checked');
-        if (isImageChecked === 'true') {
-            check.style.display = 'none';
-            check.setAttribute('data-checked', 'false');
-        } else {
-            var topClothesLocation = topClothes[i].getBoundingClientRect();
-            check.style.top = window.scrollY + topClothesLocation.top + 'px';
-            check.style.left = topClothesLocation.left + 'px';
-            check.style.display = 'block';
-            check.style.opacity = "0.3";
-            check.setAttribute('data-checked', 'true');
+    if (sampleTopImageIndex === i) {
+        sampleTopImageIndex = null;
+        sampleTopImageUrl = null;
+        document.getElementById("composeSampleTopImageUrl").value="";
+        for (var j=0; j<=11; j++) {
+            checks[j].style.display="none";
         }
-    });
+    } else {
+            sampleTopImageIndex = i;
+            sampleTopImageUrl = topClothes[i].src;
+            document.getElementById("composeSampleTopImageUrl").value = topClothes[i].src;
+            for (var j=0; j<=11; j++) {
+                if (i === j) {
+                    var topClothesLocation = topClothes[i].getBoundingClientRect();
+                    checks[j].style.top = window.scrollY + topClothesLocation.top + 'px';
+                    checks[j].style.left = topClothesLocation.left + 'px';
+                    checks[j].style.display = 'block';
+                    checks[j].style.opacity = "0.5";
+                } else {
+                    checks[j].style.display="none";
+                }
+        }
+    }
 }
 
 function deleteTopClothesImage() {
@@ -96,22 +103,29 @@ function bottomClothesSelect(i) {
     var bottomClothes = table.querySelectorAll('.clothesImage');
     var checks = table.querySelectorAll(".checkClothesImage");
 
-    sampleBottomImageUrl = bottomClothes[i].src;
-    document.getElementById("composeSampleBottomImageUrl").value = bottomClothes[i].src;
-    checks.forEach(function(check) {
-        var isImageChecked = check.getAttribute('data-checked');
-        if (isImageChecked === 'true') {
-            check.style.display = 'none';
-            check.setAttribute('data-checked', 'false');
-        } else {
-            var bottomClothesLocation = bottomClothes[i].getBoundingClientRect();
-            check.style.top = window.scrollY + bottomClothesLocation.top + 'px';
-            check.style.left = bottomClothesLocation.left + 'px';
-            check.style.display = 'block';
-            check.style.opacity = "0.3";
-            check.setAttribute('data-checked', 'true');
+    if (sampleBottomImageIndex === i) {
+        sampleBottomImageIndex = null;
+        sampleBottomImageUrl = null;
+        document.getElementById("composeSampleBottomImageUrl").value="";
+        for (var j=0; j<=11; j++) {
+            checks[j].style.display="none";
         }
-    });
+    } else {
+        sampleBottomImageIndex = i;
+        sampleBottomImageUrl = bottomClothes[i].src;
+        document.getElementById("composeSampleBottomImageUrl").value = bottomClothes[i].src;
+        for (var j=0; j<=11; j++) {
+            if (i === j) {
+                var bottomClothesLocation = bottomClothes[i].getBoundingClientRect();
+                checks[j].style.top = window.scrollY + bottomClothesLocation.top + 'px';
+                checks[j].style.left = bottomClothesLocation.left + 'px';
+                checks[j].style.display = 'block';
+                checks[j].style.opacity = "0.5";
+            } else {
+                checks[j].style.display="none";
+            }
+        }
+    }
 }
 
 function deleteBottomClothesImage() {
@@ -133,33 +147,5 @@ function uploadBottomClothes() {
     bottomImageUrl = document.getElementById("bottomImageUrl").value;
 }
 
-function checkAllImage() {
-    var button = document.getElementById("composeBtn");
-    var isSample = document.querySelector("isSample").value;
-    if (personImageUrl == null) {
-        button.disabled=true;
-    } else {
-        button.disabled=false;
-    }
-    if (isSample == "true" || isSample == "") {
-        if (sampleTopImageUrl == null) {
-            if (sampleBottomImageUrl == null) {
-                button.disabled=true;
-            } else {
-                button.disabled=false;
-            }
-        } else {
-            button.disabled=false;
-        }
-    } else {
-        if (topImageUrl == null) {
-            if (bottomImageUrl == null) {
-                button.disabled=true;
-            } else {
-                button.disabled=false;
-            }
-        } else {
-            button.disabled=false;
-        }
-    }
-}
+
+

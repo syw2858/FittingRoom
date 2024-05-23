@@ -324,3 +324,9 @@ input[type=file] {
     border: none;
 }
 
+.resultBtn:disabled {
+    cursor: not-allowed;
+    background-color: #8d8d8d;
+    color: #ffffff;
+}
+

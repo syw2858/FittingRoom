@@ -12,14 +12,16 @@
         let personImageUrl = null;
         let topImageUrl = null;
         let bottomImageUrl = null;
+        let sampleTopImageIndex = null;
+        let sampleBottomImageIndex = null;
     </script>
 </head>
 <body>
 <div style="display:none">
     <input type="text" name="isSample" class="isSample" th:value="${isSample}">
-    <input type="text" name="personImageUrl" class="personImageUrl" id="personImageUrl" th:value="${personImageUrl}">
-    <input type="text" name="topImageUrl" class="topImageUrl" id="topImageUrl" th:value="${topImageUrl}">
-    <input type="text" name="bottomImageUrl" class="bottomImageUrl" id="bottomImageUrl" th:value="${bottomImageUrl}">
+    <input type="text" name="personImageUrl" id="personImageUrl" th:value="${personImageUrl}">
+    <input type="text" name="topImageUrl" id="topImageUrl" th:value="${topImageUrl}">
+    <input type="text" name="bottomImageUrl" id="bottomImageUrl" th:value="${bottomImageUrl}">
 </div>
 <div class="fittingLayout">
     <p th:text="${errorMessage}"></p>
@@ -237,13 +239,44 @@
                 <input type="hidden" name="personImageUrl" th:value="${personImageUrl}">
                 <input type="hidden" name="topImageUrl" th:if="${topImageUrl} != null" th:value="${topImageUrl}">
                 <input type="hidden" name="bottomImageUrl" th:if="${bottomImageUrl} != null" th:value="${bottomImageUrl}">
-                <input type="hidden" name="sampleTopImageUrl" id="composeSampleTopImageUrl" >
+                <input type="hidden" name="sampleTopImageUrl" id="composeSampleTopImageUrl">
                 <input type="hidden" name="sampleBottomImageUrl" id="composeSampleBottomImageUrl">
                 <input type="hidden" name="isSample" class="isSample" id="composeIsSample" th:value="${isSample}">
-                <button type="submit" class="resultBtn" id="composeBtn" onchange="checkAllImage()">합성하기</button>
+                <button type="submit" class="resultBtn" id="composeBtn" disabled>합성하기</button>
             </form>
         </div>
     </div>
 </div>
 </body>
+<script>
+    var button = document.getElementById("composeBtn");
+
+    button.addEventListener("mouseover", function() {
+        var personImage = document.getElementById("personImageUrl").value;
+        var sampleTopImage = document.getElementById("composeSampleTopImageUrl").value;
+        var sampleBottomImage = document.getElementById("composeSampleBottomImageUrl").value;
+        var topImage = document.getElementById("topImageUrl").value;
+        var bottomImage = document.getElementById("bottomImageUrl").value;
+        var isSampleCheck = document.getElementsByClassName("isSample")[0].value;
+
+        console.log(personImage === "");
+        if (personImage === "") {
+            button.disabled=true;
+        } else {
+            if (isSampleCheck === "true" || isSampleCheck === "") {
+                if (sampleTopImage === "" && sampleBottomImage === "") {
+                    button.disabled=true;
+                } else {
+                    button.disabled=false;
+                }
+            } else {
+                if (topImage === "" && bottomImage === "") {
+                    button.disabled=true;
+                } else {
+                    button.disabled=false;
+                }
+            }
+        }
+    });
+</script>
 </html>
