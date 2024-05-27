@@ -8,6 +8,7 @@ import net.nwrn.pf_contest.clothes.repository.BottomRepository;
 import net.nwrn.pf_contest.clothes.repository.TopRepository;
 import net.nwrn.pf_contest.compose.dto.res.ComposeBottomResponseDTO;
 import net.nwrn.pf_contest.compose.dto.res.ComposeTopResponseDTO;
+import net.nwrn.pf_contest.exception.ApiException;
 import net.nwrn.pf_contest.images.entity.ImageEntity;
 import net.nwrn.pf_contest.images.repository.ImageRepository;
 import net.nwrn.pf_contest.images.service.ImageService;
@@ -69,6 +70,24 @@ public class ComposeServiceImpl implements ComposeService {
         return bottomImageUrl;
     }
 
+    private String composeInner (String personImageUrl, String topImageUrl, String bottomImageUrl) {
+        if (personImageUrl == null)
+            throw new ApiException("사람 이미지가 없습니다.");
+        if (topImageUrl == null && bottomImageUrl == null)
+            throw new ApiException("옷 이미지가 아무것도 없습니다.");
+        return defaultImageUrl;
+    }
+
+    @Override
+    public String compose(Boolean isSample, String personImageUrl, String topImageUrl, String bottomImageUrl, String sampleTopImageUrl, String sampleBottomImageUrl) {
+
+        if (isSample) {
+            return composeInner(personImageUrl, sampleTopImageUrl, sampleBottomImageUrl);
+        } else {
+            return composeInner(personImageUrl, topImageUrl, bottomImageUrl);
+        }
+
+    }
 
 
     public List<ComposeTopResponseDTO> getTopList() {

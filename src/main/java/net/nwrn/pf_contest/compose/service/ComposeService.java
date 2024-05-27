@@ -17,6 +17,8 @@ public interface ComposeService {
     // 하의 이미지 파일 업로드
     String uploadBottom(MultipartFile bottomImage);
 
+    String compose(Boolean isSample, String personImageUrl, String topImageUrl, String bottomImageUrl, String sampleTopImageUrl, String sampleBottomImageUrl);
+
     // 상의 이미지 리스트 불러오기
     List<ComposeTopResponseDTO> getTopList();
 

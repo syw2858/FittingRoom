@@ -235,4 +235,37 @@ public class ComposeController {
         }
     }
 
+    @PostMapping("/fittingroom/compose")
+    public String compose(@RequestParam(defaultValue = "true", name="isSample") Boolean isSample,
+                          @RequestParam(required=false, name="personImageUrl") String personImageUrl,
+                          @RequestParam(required=false, name="topImageUrl") String topImageUrl,
+                          @RequestParam(required=false, name="bottomImageUrl") String bottomImageUrl,
+                          @RequestParam(required=false, name="sampleTopImageUrl") String sampleTopImageUrl,
+                          @RequestParam(required=false, name="sampleBottomImageUrl") String sampleBottomImageUrl,
+                          RedirectAttributes redirectAttributes) {
+        System.err.println(isSample);
+        System.err.println(personImageUrl);
+        System.err.println(topImageUrl);
+        System.err.println(bottomImageUrl);
+        System.err.println(sampleTopImageUrl);
+        System.err.println(sampleBottomImageUrl);
+        try {
+            String composedImageUrl = composeService.compose(isSample, personImageUrl, topImageUrl, bottomImageUrl, sampleTopImageUrl, sampleBottomImageUrl);
+            redirectAttributes.addAttribute("isSample", isSample);
+            if (personImageUrl != null)
+                redirectAttributes.addAttribute("personImageUrl", personImageUrl);
+            if (topImageUrl != null)
+                redirectAttributes.addAttribute("topImageUrl", topImageUrl);
+            if (bottomImageUrl != null)
+                redirectAttributes.addAttribute("bottomImageUrl", bottomImageUrl);
+            redirectAttributes.addAttribute("composedImageUrl", composedImageUrl);
+            return "redirect:/fittingroom";
+        } catch (ApiException e){
+            return exceptionService.redirect("/fittingroom", e.getMessage());
+        } catch (Exception e) {
+            log.error(exceptionService.generateMessage(), e);
+            return exceptionService.redirect("/fittingroom", "알 수 없는 오류");
+        }
+    }
+
 }
