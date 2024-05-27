@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import reactor.core.publisher.Mono;
 
 import java.util.List;
 
@@ -243,12 +244,11 @@ public class ComposeController {
                           @RequestParam(required=false, name="sampleTopImageUrl") String sampleTopImageUrl,
                           @RequestParam(required=false, name="sampleBottomImageUrl") String sampleBottomImageUrl,
                           RedirectAttributes redirectAttributes) {
-        System.err.println(isSample);
-        System.err.println(personImageUrl);
-        System.err.println(topImageUrl);
-        System.err.println(bottomImageUrl);
-        System.err.println(sampleTopImageUrl);
-        System.err.println(sampleBottomImageUrl);
+
+
+        composeService.getComposeImageUrl();
+
+
         try {
             String composedImageUrl = composeService.compose(isSample, personImageUrl, topImageUrl, bottomImageUrl, sampleTopImageUrl, sampleBottomImageUrl);
             redirectAttributes.addAttribute("isSample", isSample);

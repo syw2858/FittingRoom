@@ -13,15 +13,17 @@ import net.nwrn.pf_contest.images.entity.ImageEntity;
 import net.nwrn.pf_contest.images.repository.ImageRepository;
 import net.nwrn.pf_contest.images.service.ImageService;
 import net.nwrn.pf_contest.person.repository.PersonRepository;
+import org.apache.http.client.utils.URIBuilder;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 
 @Slf4j
@@ -34,6 +36,7 @@ public class ComposeServiceImpl implements ComposeService {
     private final PersonRepository personRepository;
     private final ImageRepository imageRepository;
     private final ImageService imageService;
+    private final WebClient webClient;
 
     @Value("${properties.awsBucketName}")
     private String awsBucketName;
@@ -87,6 +90,31 @@ public class ComposeServiceImpl implements ComposeService {
             return composeInner(personImageUrl, topImageUrl, bottomImageUrl);
         }
 
+    }
+
+    public void getComposeImageUrl() {
+        /*
+        https://simdaback.nwrn.net:443/api/banner/all/list
+         */
+
+        try {
+            URI uri = new URIBuilder()
+                    .setScheme("https")
+                    .setHost("simdaback.nwrn.net:443")
+                    .setPath("/api/banner/all/list")
+                    .build();
+
+            List<?> list = webClient.get().uri(uri).retrieve().bodyToMono(List.class).block();
+
+            Map<?, ?> map = (Map<?, ?>) list.get(0);
+
+            String bannerType = (String) map.get("bannerType");
+
+            System.out.println(bannerType);
+
+        } catch (URISyntaxException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 
