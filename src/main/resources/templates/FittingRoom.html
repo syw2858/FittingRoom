@@ -230,23 +230,25 @@
         <h3>결과 이미지</h3>
         <div th:if="${composedImageUrl} != null" class="resultImg">
             <div class="resultImageBig">
+                <button type="submit" class="deleteComposeImageUrl" onclick="deleteComposedImageUrl()"><i class="fa-regular fa-circle-xmark"></i></button>
                 <img th:src="@{${composedImageUrl}}" class="resultImage">
             </div>
         </div>
-        <div th:unless="${composedImageUrl} != null" class="resultImage">
+        <div th:unless="${composedImageUrl} != null" class="resultImg">
             <div class="resultImageBig"></div>
-            <form action="/fittingroom/compose" method="post">
-                <input type="hidden" name="personImageUrl" th:value="${personImageUrl}">
-                <input type="hidden" name="topImageUrl" th:if="${topImageUrl} != null" th:value="${topImageUrl}">
-                <input type="hidden" name="bottomImageUrl" th:if="${bottomImageUrl} != null" th:value="${bottomImageUrl}">
-                <input type="hidden" name="sampleTopImageUrl" id="composeSampleTopImageUrl">
-                <input type="hidden" name="sampleBottomImageUrl" id="composeSampleBottomImageUrl">
-                <input type="hidden" name="isSample" class="isSample" id="composeIsSample" th:value="${isSample}">
-                <button type="submit" class="resultBtn" id="composeBtn" disabled>합성하기</button>
-            </form>
+                <form action="/fittingroom/compose" method="post">
+                    <input type="hidden" name="personImageUrl" th:value="${personImageUrl}">
+                    <input type="hidden" name="topImageUrl" th:if="${topImageUrl} != null" th:value="${topImageUrl}">
+                    <input type="hidden" name="bottomImageUrl" th:if="${bottomImageUrl} != null" th:value="${bottomImageUrl}">
+                    <input type="hidden" name="sampleTopImageUrl" id="composeSampleTopImageUrl">
+                    <input type="hidden" name="sampleBottomImageUrl" id="composeSampleBottomImageUrl">
+                    <input type="hidden" name="isSample" class="isSample" id="composeIsSample" th:value="${isSample}">
+                    <button type="submit" class="resultBtn" onclick="document.getElementById('pending').style.display = 'block';" id="composeBtn" disabled>합성하기</button>
+                </form>
         </div>
     </div>
 </div>
+<img src="https://d1hds1xxjs6al7.cloudfront.net/person/314/aW1hZ2VzLnBuZw==" style="display:none" id="pending">
 </body>
 <script>
     var button = document.getElementById("composeBtn");

@@ -11,4 +11,5 @@ public interface ImageService {
     public String uploadBottomImageToS3AndGetUrl(MultipartFile Image);
 
     public String uploadPersonImageToS3AndGetUrl(MultipartFile Image, String repoName);
+    String uploadComposeImageToS3AndGetUrl(byte[] bytes);
 }

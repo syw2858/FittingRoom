@@ -245,10 +245,6 @@ public class ComposeController {
                           @RequestParam(required=false, name="sampleBottomImageUrl") String sampleBottomImageUrl,
                           RedirectAttributes redirectAttributes) {
 
-
-        composeService.getComposeImageUrl();
-
-
         try {
             String composedImageUrl = composeService.compose(isSample, personImageUrl, topImageUrl, bottomImageUrl, sampleTopImageUrl, sampleBottomImageUrl);
             redirectAttributes.addAttribute("isSample", isSample);

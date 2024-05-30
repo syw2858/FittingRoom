@@ -26,9 +26,10 @@ function deletePersonImage() {
     var url = new URL(window.location.href);
 
     url.searchParams.delete("personImageUrl");
-    window.history.replaceState(null, '', url.toString());
-    document.getElementsByClassName("personImage")[0].src="";
-    window.location.reload();
+    //window.history.replaceState(null, '', url.toString());
+    //document.getElementsByClassName("personImage")[0].src="";
+    //window.location.reload();
+    window.location.href=url;
 }
 
 function showClothes() {
@@ -79,7 +80,7 @@ function topClothesSelect(i) {
                 if (i === j) {
                     var topClothesLocation = topClothes[i].getBoundingClientRect();
                     checks[j].style.top = window.scrollY + topClothesLocation.top + 'px';
-                    checks[j].style.left = topClothesLocation.left + 'px';
+                    checks[j].style.left = window.scrollX + topClothesLocation.left + 'px';
                     checks[j].style.display = 'block';
                     checks[j].style.opacity = "0.5";
                 } else {
@@ -93,9 +94,7 @@ function deleteTopClothesImage() {
     var url = new URL(window.location.href);
 
     url.searchParams.delete("topImageUrl");
-    window.history.replaceState(null, '', url.toString());
-    document.getElementsByClassName("topClothesImage")[0].src="";
-    window.location.reload();
+    window.location.href=url;
 }
 
 function bottomClothesSelect(i) {
@@ -118,7 +117,7 @@ function bottomClothesSelect(i) {
             if (i === j) {
                 var bottomClothesLocation = bottomClothes[i].getBoundingClientRect();
                 checks[j].style.top = window.scrollY + bottomClothesLocation.top + 'px';
-                checks[j].style.left = bottomClothesLocation.left + 'px';
+                checks[j].style.left = window.scrollX + bottomClothesLocation.left + 'px';
                 checks[j].style.display = 'block';
                 checks[j].style.opacity = "0.5";
             } else {
@@ -132,9 +131,7 @@ function deleteBottomClothesImage() {
     var url = new URL(window.location.href);
 
     url.searchParams.delete("bottomImageUrl");
-    window.history.replaceState(null, '', url.toString());
-    document.getElementsByClassName("bottomClothesImage")[0].src="";
-    window.location.reload();
+    window.location.href = url;
 }
 
 function uploadTopClothes() {
@@ -145,6 +142,13 @@ function uploadTopClothes() {
 function uploadBottomClothes() {
     document.getElementById("uploadBottomClothes").submit();
     bottomImageUrl = document.getElementById("bottomImageUrl").value;
+}
+
+function deleteComposedImageUrl() {
+    var url = new URL(window.location.href);
+
+    url.searchParams.delete("composedImageUrl");
+    window.location.href = url;
 }
 
 

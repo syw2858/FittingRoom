@@ -195,4 +195,28 @@ public class ImageServiceImpl implements ImageService {
         return generateUrl(path, filename);
 
     }
+
+    @Override
+    public String uploadComposeImageToS3AndGetUrl(byte[] bytes) {
+        ImageEntity imageEntity = new ImageEntity();
+        imageEntity.setFileName("composed");
+        imageEntity.setRepoName("composed");
+        imageRepository.save(imageEntity);
+        Long objectId = imageEntity.getId();
+        imageEntity.setObjectId(objectId);
+        String path = new StringBuilder().append("composed").append("/").append(objectId).append("/").toString();
+
+        ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(bytes);
+        ObjectMetadata metadata = new ObjectMetadata();
+        metadata.setContentLength(bytes.length);
+
+        try {
+            amazonS3.putObject(new PutObjectRequest(awsBucketName, path + "composed", byteArrayInputStream, metadata).withCannedAcl(CannedAccessControlList.PublicRead));
+        } catch (Exception e) {
+            log.error(exceptionService.generateMessage(), e);
+            throw new ApiException("azaonS3에 putObject하는데 오류 발생");
+        }
+
+        return generateUrl(path, "composed");
+    }
 }

@@ -78,7 +78,26 @@ public class ComposeServiceImpl implements ComposeService {
             throw new ApiException("사람 이미지가 없습니다.");
         if (topImageUrl == null && bottomImageUrl == null)
             throw new ApiException("옷 이미지가 아무것도 없습니다.");
-        return defaultImageUrl;
+
+        try {
+            URI uri = new URIBuilder()
+                    .setScheme("http")
+                    .setHost("localhost:4000")
+                    .setPath("/fitting")
+                    .build();
+
+            String requestBody = "{\"my_image\": \"" + personImageUrl + "\", \"upper_clothes\": \"" + topImageUrl + "\", \"lower_clothes\": \"" + bottomImageUrl + "\"}";
+
+            byte[] response = webClient.post().uri(uri)
+                    .header("Content-Type", "application/json")
+                    .bodyValue(requestBody)
+                    .retrieve().bodyToMono(byte[].class).block();
+
+           return imageService.uploadComposeImageToS3AndGetUrl(response);
+
+        } catch (URISyntaxException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
@@ -110,7 +129,7 @@ public class ComposeServiceImpl implements ComposeService {
 
             String bannerType = (String) map.get("bannerType");
 
-            System.out.println(bannerType);
+            System.err.println("codingdochi1234" + bannerType);
 
         } catch (URISyntaxException e) {
             throw new RuntimeException(e);
