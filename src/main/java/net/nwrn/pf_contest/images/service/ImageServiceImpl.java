@@ -89,17 +89,17 @@ public class ImageServiceImpl implements ImageService {
 
     public String uploadTopImageToS3AndGetUrl(MultipartFile Image) {
 
-        String filename = Base64.getEncoder().encodeToString(Image.getOriginalFilename().getBytes());
-
         TopEntity topEntity = new TopEntity();
         topRepository.save(topEntity);
 
         ImageEntity imageEntity = new ImageEntity();
-        imageEntity.setFileName(filename);
         imageEntity.setRepoName("top");
         Long objectId = topEntity.getTopId();
         imageEntity.setObjectId(objectId);
         imageRepository.save(imageEntity);
+
+        String filename = String.valueOf(imageEntity.getId());
+        imageEntity.setFileName(filename);
 
         String path = new StringBuilder().append("top").append("/").append(objectId).append("/").toString();
 
@@ -127,17 +127,17 @@ public class ImageServiceImpl implements ImageService {
 
     public String uploadBottomImageToS3AndGetUrl(MultipartFile Image) {
 
-        String filename = Base64.getEncoder().encodeToString(Image.getOriginalFilename().getBytes());
-
         BottomEntity bottomEntity = new BottomEntity();
         bottomRepository.save(bottomEntity);
 
         ImageEntity imageEntity = new ImageEntity();
-        imageEntity.setFileName(filename);
         imageEntity.setRepoName("bottom");
         Long objectId = bottomEntity.getBottomId();
         imageEntity.setObjectId(objectId);
         imageRepository.save(imageEntity);
+
+        String filename = String.valueOf(imageEntity.getId());
+        imageEntity.setFileName(filename);
 
         String path = new StringBuilder().append("bottom").append("/").append(objectId).append("/").toString();
 
@@ -165,14 +165,14 @@ public class ImageServiceImpl implements ImageService {
 
     public String uploadPersonImageToS3AndGetUrl(MultipartFile Image, String repoName) {
 
-        String filename = Base64.getEncoder().encodeToString(Image.getOriginalFilename().getBytes());
-
         ImageEntity imageEntity = new ImageEntity();
-        imageEntity.setFileName(filename);
         imageEntity.setRepoName("person");
         imageRepository.save(imageEntity);
         Long objectId = imageEntity.getId();
         imageEntity.setObjectId(objectId);
+        String filename = String.valueOf(imageEntity.getId());
+        imageEntity.setFileName(filename);
+        
         String path = new StringBuilder().append(repoName).append("/").append(objectId).append("/").toString();
 
         byte[] bytes;
