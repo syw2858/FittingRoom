@@ -1,5 +1,5 @@
 <div align="center">
-<h1>Fitting Room</h1><br>
+<h1>Fitting Room</h1>
   <h3>생성AI 토이프로젝트</h3><br><br>
 </div>
 
